@@ -13,9 +13,8 @@ pub mod mrvbr; // 0x7C7
 // pub mod mcounterwen; // 0x7C9
 // pub mod mcounterinten; // 0x7CA
 // pub mod mcounterof; // 0x7CB
-pub mod mapbaddr; 
-// pub mod meicr; // 0x7D6
-// pub mod meicr2; // 0x7D7
+pub mod meicr; // 0x7D6
+pub mod meicr2; // 0x7D7
 
 // Extended supervisor state registers
 pub mod sxstatus; // 0x5C0
@@ -51,3 +50,4 @@ pub mod mcdata; // 0x7D4, 0x7D5
 
 // Processor identification registers
 pub mod mcpuid; // 0xFC0
+pub mod mapbaddr; // 0xFC1

@@ -24,6 +24,16 @@ macro_rules! read_csr_as {
     };
 }
 
+macro_rules! write_csr {
+    ($csr_number:expr) => {
+        /// Writes the CSR
+        #[inline]
+        unsafe fn _write(val: usize) {
+            asm!("csrw {}, {}", const $csr_number, in(reg) val)
+        }
+    };
+}
+
 macro_rules! set {
     ($csr_number:expr) => {
         /// Set the CSR
