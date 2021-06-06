@@ -1,10 +1,14 @@
 [package]
 name = "xuantie"
-version = "0.0.1"
-edition = "2018"
-categories = ["embedded", "hardware-support", "no-std"]
 description = "Low level access to Alibaba XuanTie RISC-V processors"
+version = "0.0.1"
+repository = "https://github.com/luojia65/xuantie"
+documentation = "https://docs.rs/xuantie"
+license = "MulanPSL-2.0"
+readme = "README.md"
+categories = ["embedded", "hardware-support", "no-std"]
 keywords = ["riscv", "register", "peripheral"]
+edition = "2018"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
