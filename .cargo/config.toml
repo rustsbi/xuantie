@@ -1,0 +1,3 @@
+[build]
+# Default target for rust analyzer to hint, not an actual Xuantie target
+target = "riscv64gc-unknown-linux-gnu"
