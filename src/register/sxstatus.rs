@@ -1,4 +1,4 @@
-//! sxstatus, supervisor extended status register
+//! sxstatus, supervisor extended state register
 
 use bit_field::BitField;
 pub use super::mxstatus::PM;

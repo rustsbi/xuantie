@@ -1,4 +1,4 @@
-//! mexstatus, machine exception status register 
+//! mexstatus, machine exception state register 
 
 use bit_field::BitField;
 

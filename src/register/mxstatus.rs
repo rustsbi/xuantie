@@ -1,4 +1,4 @@
-//! mxstatus, machine extended status register
+//! mxstatus, machine extended state register
 
 use bit_field::BitField;
 
