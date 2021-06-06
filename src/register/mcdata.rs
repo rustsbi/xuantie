@@ -70,15 +70,19 @@ pub fn get_dcache_data() -> DCacheData {
 #[inline]
 fn read_mcdata() -> (usize, usize) {
     let (mcdata0, mcdata1);
-    asm!("csrr {}, 0x7D4", out(reg) mcdata0);
-    asm!("csrr {}, 0x7D5", out(reg) mcdata1);
+    unsafe {
+        asm!("csrr {}, 0x7D4", out(reg) mcdata0);
+        asm!("csrr {}, 0x7D5", out(reg) mcdata1);
+    }
     (mcdata0, mcdata1)
 }
 
 #[inline]
 fn read_mcdata0() -> usize {
     let mcdata0;
-    asm!("csrr {}, 0x7D4", out(reg) mcdata0);
+    unsafe { 
+        asm!("csrr {}, 0x7D4", out(reg) mcdata0);
+    }
     mcdata0
 }
 
