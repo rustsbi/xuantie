@@ -5,3 +5,4 @@
 mod macros;
 pub mod asm;
 pub mod register;
+pub mod paging;
