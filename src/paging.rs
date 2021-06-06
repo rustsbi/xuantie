@@ -65,28 +65,28 @@ bitflags::bitflags! {
     /// Xuantie page table entry flags
     pub struct Flags: usize {
         /// Valid
-        const V = 1 << 0;
+        const VALID = 1 << 0;
         /// Read
-        const R = 1 << 1;
+        const READABLE = 1 << 1;
         /// Write
-        const W = 1 << 2;
+        const WRITABLE = 1 << 2;
         /// Execute
-        const X = 1 << 3;
+        const EXECUTABLE = 1 << 3;
         /// User mode
-        const U = 1 << 4;
+        const USER = 1 << 4;
         /// Global
-        const G = 1 << 5;
+        const GLOBAL = 1 << 5;
         /// Accessed
-        const A = 1 << 6;
+        const ACCESSED = 1 << 6;
         /// Dirty
-        const D = 1 << 7;
+        const DIRTY = 1 << 7;
         /// Secure world trustable
-        const T = 1 << 59;
+        const TRUSTABLE = 1 << 59;
         /// Buffer
-        const B = 1 << 61;
+        const BUFFER = 1 << 61;
         /// Cacheable
-        const C = 1 << 62;
+        const CACHEABLE = 1 << 62;
         /// Strong order
-        const SO = 1 << 63;
+        const STRONG_ORDER = 1 << 63;
     }
 }
