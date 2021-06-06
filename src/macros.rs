@@ -70,3 +70,12 @@ macro_rules! set_clear_csr {
         clear_csr!($(#[$attr])*, $clear_field, $e);
     }
 }
+macro_rules! get_csr_value {
+    ($csr_number:expr) => {
+        {
+            let r: usize;
+            asm!("csrr {}, {}", out(reg) r, const $csr_number);
+            r
+        }
+    };
+}

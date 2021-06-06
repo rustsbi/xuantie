@@ -12,6 +12,9 @@ pub mod mrvbr;
 // pub mod mcounterod;
 pub mod mapbaddr;
 
+// Performance counter
+pub mod mhpmevent;
+
 // Cache direct access registers
 pub mod mcins;
 pub mod mcindex;
