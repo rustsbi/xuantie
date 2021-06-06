@@ -128,3 +128,64 @@ pub unsafe fn icache_iva(va: usize) {
 pub unsafe fn icache_ipa(pa: usize) {
     asm!(".word 0x0385000B", in("a0") pa)
 }
+
+/// IPUSH, fast interrupt stack push instruction
+///
+/// Push interrupt switch registers into current stack. 
+/// It pushes `mcause`, `mepc`, `x1`, `x5` to `x7`, `x10` to `x17` and `x28` to `x31` into stack.
+/// Another word, the pushed `xi` integer registers are `ra`, `t0` to `t6`, and `a0` to `a7` (not in order)
+/// other than CSR registers `mcause` and `mepc`.
+///
+/// In pseudocode, it performs like:
+///
+/// ```no_run
+/// *sp.offset(-1) = mcause;
+/// *sp.offset(-2) = mepc;
+/// *sp.offset(-3) = ra;
+/// /* ... Mem[sp - 4] ..= Mem[sp - 72] ← mcause, mepc, {xi} */
+/// *sp.offset(-18) = t6;
+/// sp = sp.offset(-18);
+/// ```
+///
+/// # Permissions
+///
+/// Must run on M mode.
+///
+/// # Exceptions
+///
+/// Raises store unaligned exception, store access exception, or illegal instruction exception.
+#[inline]
+pub unsafe fn ipush() {
+    asm!(".word 0x0040000B")
+}
+
+/// IPOP, fast interrupt stack pop instruction
+///
+/// Pop interrupt switch registers from current stack, and return from interrupt environment. 
+/// It pops `mcause`, `mepc`, `x1`, `x5` to `x7`, `x10` to `x17` and `x28` to `x31` from stack.
+/// Another word, the poped `xi` integer registers are `ra`, `t0` to `t6`, and `a0` to `a7` (not in order)
+/// other than CSR registers `mcause` and `mepc`.
+///
+/// In pseudocode, it performs like:
+///
+/// ```no_run
+/// mcause = *sp.offset(17);
+/// mepc = *sp.offset(16);
+/// ra = *sp.offset(15);
+/// /* ... mcause, mepc, {xi} ← Mem[sp + 68] ..= Mem[sp] */
+/// t6 = *sp.offset(0);
+/// sp = sp.offset(18);
+/// riscv::asm::mret();
+/// ```
+///
+/// # Permissions
+///
+/// Must run on M mode.
+///
+/// # Exceptions
+///
+/// Raises store unaligned exception, store access exception, or illegal instruction exception.
+#[inline]
+pub unsafe fn ipop() {
+    asm!(".word 0x0050000B")
+}
