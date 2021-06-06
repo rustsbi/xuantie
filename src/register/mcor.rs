@@ -38,7 +38,7 @@ pub unsafe fn bht_inv() {
     _set(1 << 16)
 }
 
-/// Invalidate branch target predict table
+/// Invalidate branch target buffer table
 #[inline]
 pub unsafe fn btb_inv() {
     _set(1 << 17)

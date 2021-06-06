@@ -38,7 +38,7 @@ impl Mhcr {
     pub fn bpe(&self) -> bool {
         self.bits.get_bit(5)
     }
-    /// Branch target predict enable
+    /// Branch target buffer enable
     #[inline]
     pub fn btb(&self) -> bool {
         self.bits.get_bit(6)
@@ -79,7 +79,7 @@ set_clear_csr! {
     , set_bpe, clear_bpe, 1 << 5
 }
 set_clear_csr! {
-    /// Branch target predict enable
+    /// Branch target buffer enable
     , set_btb, clear_btb, 1 << 6
 }
 set_clear_csr! {
