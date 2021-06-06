@@ -2,9 +2,9 @@
 
 // Extended status registers
 pub mod mxstatus;
-// pub mod mhcr;
-// pub mod mcor;
-// pub mod mhint;
+pub mod mhcr;
+pub mod mcor;
+pub mod mhint;
 pub mod mrvbr;
 // pub mod mcer;
 // pub mod mcounterwen;
