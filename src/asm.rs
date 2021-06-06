@@ -1,4 +1,10 @@
 //! Assembly instructions
+//!
+//! This module allows you to use Xuantie instructions without using specialized assembler or compiler.
+//!
+//! Not all these instructions are supported on your Xuantie platform. 
+//! You may use `mcpuid` register to get your implementation model, or read the manual
+//! before using any of following assembly instructions.
 
 /// DCACHE.CALL, D-cache clean all dirty items instruction
 ///
