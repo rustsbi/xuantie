@@ -4,6 +4,6 @@ read_csr!(0xFC1);
 
 /// Get APB peripheral base address
 #[inline]
-pub fn get_apb_addr() -> usize {
+pub fn read() -> usize {
     unsafe { _read() }
 }

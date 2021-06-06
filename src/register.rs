@@ -32,8 +32,8 @@ pub mod shcr; // 0x5C1
 // pub mod smcir; // 0x9C3
 
 // Extended state registers for embedded cores
-// pub mod mraddr; // 0x7E0
-// pub mod mexstatus; // 0x7E1
+pub mod mraddr; // 0x7E0
+pub mod mexstatus; // 0x7E1
 // pub mod mnmicause; // 0x7E2
 // pub mod mnmipc; // 0x7E3
 
