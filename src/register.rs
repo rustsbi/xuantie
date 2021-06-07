@@ -37,7 +37,7 @@ pub mod mnmicause; // 0x7E2
 pub mod mnmipc; // 0x7E3
 
 // Extended float point registers
-// pub mod fxcr; // 0x800
+pub mod fxcr; // 0x800
 
 // Performance counter
 pub mod mhpmcounter;
