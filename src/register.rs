@@ -19,8 +19,8 @@ pub mod meicr2; // 0x7D7
 // Extended supervisor state registers
 pub mod sxstatus; // 0x5C0
 pub mod shcr; // 0x5C1
-// pub mod scer2; // 0x5C2
-// pub mod scer; // 0x5C3
+pub mod scer2; // 0x5C2
+pub mod scer; // 0x5C3
 // pub mod scounterinten; // 0x5C4
 // pub mod scounterof; // 0x5C5
 
