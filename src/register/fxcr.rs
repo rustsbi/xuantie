@@ -4,12 +4,12 @@ use bit_field::BitField;
 
 /// Floating-point control and status register
 #[derive(Clone, Copy, Debug)]
-pub struct FXCR {
+pub struct Fxcr {
     bits: usize,
 }
 
 bitflags::bitflags! {
-    /// FXCR flags
+    /// Fxcr flags
     pub struct Flags: usize {
         /// Inexact
         const NX = 1 << 0;
@@ -37,7 +37,7 @@ pub enum RoundingMode {
     Invalid = 0b111,
 }
 
-impl FXCR {
+impl Fxcr {
     /// Returns the contents of the register as raw bits
     pub fn bits(&self) -> usize {
         self.bits
@@ -47,6 +47,12 @@ impl FXCR {
     #[inline]
     pub fn flags(&self) -> Flags {
         Flags::from_bits_truncate(self.bits.get_bits(0..=5))
+    }
+
+    /// Output QNaN mode
+    #[inline]
+    pub fn dqnan(&self) -> bool {
+        self.bits.get_bit(23)
     }
 
     /// Rounding Mode
@@ -65,7 +71,12 @@ impl FXCR {
 
 set!(0x800);
 clear!(0x800);
-read_csr_as!(FXCR, 0x800);
+read_csr_as!(Fxcr, 0x800);
+
+set_clear_csr! {
+    /// Output QNaN mode
+    , set_dqnan, clear_dqnan, 1 << 23
+}
 
 /// Insert float point flags, setting corresponding bits to one.
 #[inline]
