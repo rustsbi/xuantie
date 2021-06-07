@@ -26,8 +26,8 @@ pub mod scer; // 0x5C3
 
 // Extended supervisor virtual memory registers
 // pub mod smir; // 0x9C0
-// pub mod smel; // 0x9C1
-// pub mod smeh; // 0x9C2
+pub mod smel; // 0x9C1
+pub mod smeh; // 0x9C2
 // pub mod smcir; // 0x9C3
 
 // Extended state registers for embedded cores
