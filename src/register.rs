@@ -4,12 +4,12 @@
 pub mod mxstatus; // 0x7C0
 pub mod mhcr; // 0x7C1
 pub mod mcor; // 0x7C2
-// pub mod mccr2; // 0x7C3
-// pub mod mcer2; // 0x7C4
+pub mod mccr2; // 0x7C3
+pub mod mcer2; // 0x7C4
 pub mod mhint; // 0x7C5
 pub mod mrmr; // 0x7C6
 pub mod mrvbr; // 0x7C7
-// pub mod mcer; // 0x7C8
+pub mod mcer; // 0x7C8
 // pub mod mcounterwen; // 0x7C9
 // pub mod mcounterinten; // 0x7CA
 // pub mod mcounterof; // 0x7CB
