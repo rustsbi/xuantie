@@ -6,3 +6,4 @@ mod macros;
 pub mod asm;
 pub mod register;
 pub mod paging;
+pub mod debug;

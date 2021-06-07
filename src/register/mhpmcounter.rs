@@ -1,4 +1,4 @@
-//! mhpmcounter, Xuantie performance counter
+//! mhpmcounter, XuanTie performance counter
 
 /// mhpmcounter3: L1 I-cache access counter
 pub fn l1_i_cache_access() -> usize {

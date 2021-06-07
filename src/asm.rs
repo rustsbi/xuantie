@@ -1,8 +1,8 @@
 //! Assembly instructions
 //!
-//! This module allows you to use Xuantie instructions without using specialized assembler or compiler.
+//! This module allows you to use XuanTie instructions without using specialized assembler or compiler.
 //!
-//! Not all these instructions are supported on your Xuantie platform. 
+//! Not all these instructions are supported on your XuanTie platform. 
 //! You may use `mcpuid` register to get your implementation model, or read the manual
 //! before using any of following assembly instructions.
 

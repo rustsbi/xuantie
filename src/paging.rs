@@ -2,7 +2,7 @@
 
 use bit_field::BitField;
 
-/// Xuantie extended page table entry
+/// XuanTie extended page table entry
 #[derive(Clone, Copy, Debug)]
 #[repr(transparent)]
 pub struct Entry {
@@ -62,7 +62,7 @@ impl Entry {
 }
 
 bitflags::bitflags! {
-    /// Xuantie page table entry flags
+    /// XuanTie page table entry flags
     pub struct Flags: usize {
         /// Valid
         const VALID = 1 << 0;

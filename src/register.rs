@@ -1,4 +1,4 @@
-//! Xuantie extended CSRs
+//! XuanTie extended CSRs
 
 // Extended state registers for performance cores
 pub mod mxstatus; // 0x7C0

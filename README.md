@@ -1,6 +1,6 @@
-# Xuantie
+# XuanTie
 
-Low level access to T-Head Xuantie RISC-V processors
+Low level access to T-Head XuanTie RISC-V processors
 
 ## License 
 
@@ -8,7 +8,7 @@ Mulan PSL v2
 
 ```
 Copyright (c) 2021 Luo Jia
-Rust-Xuantie-Support is licensed under Mulan PSL v2.
+Rust-XuanTie-Support is licensed under Mulan PSL v2.
 You can use this software according to the terms and conditions of the Mulan PSL v2.
 You may obtain a copy of Mulan PSL v2 at:
          http://license.coscl.org.cn/MulanPSL2
