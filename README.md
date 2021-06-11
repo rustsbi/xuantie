@@ -2,6 +2,14 @@
 
 Low level access to T-Head XuanTie RISC-V processors
 
+[![crates.io](https://img.shields.io/crates/v/xuantie.svg)](https://crates.io/crates/xuantie)
+[![Documentation](https://docs.rs/xuantie/badge.svg)](https://docs.rs/xuantie)
+![License](https://img.shields.io/crates/l/xuantie.svg)
+
+## Contributing
+
+We welcome contribution! Please send an issue or pull request if you are ready.
+
 ## License 
 
 Mulan PSL v2

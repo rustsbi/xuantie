@@ -1,6 +1,6 @@
 [package]
 name = "xuantie"
-description = "Low level access to Alibaba XuanTie RISC-V processors"
+description = "Low level access to T-Head XuanTie RISC-V processors"
 version = "0.0.1"
 repository = "https://github.com/luojia65/xuantie"
 documentation = "https://docs.rs/xuantie"
