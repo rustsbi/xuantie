@@ -1,7 +1,7 @@
 //! scer, supervisor L1-cache error control register
 
-use bit_field::BitField;
 pub use super::mcer::RAMID;
+use bit_field::BitField;
 
 /// scer register
 #[derive(Clone, Copy, Debug)]
@@ -30,7 +30,7 @@ impl Scer {
             3 => RAMID::DCacheData,
             4 => RAMID::JTlbTag,
             5 => RAMID::JTlbData,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// Count of errors that are already fixed

@@ -46,7 +46,7 @@ impl Mcer {
             3 => RAMID::DCacheData,
             4 => RAMID::JTlbTag,
             5 => RAMID::JTlbData,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// Count of errors that are already fixed

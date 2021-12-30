@@ -1,7 +1,7 @@
 //! sxstatus, supervisor extended state register
 
-use bit_field::BitField;
 pub use super::mxstatus::PM;
+use bit_field::BitField;
 
 /// sxstatus register
 #[derive(Clone, Copy, Debug)]

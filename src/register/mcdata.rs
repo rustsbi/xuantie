@@ -29,7 +29,7 @@ pub struct ICacheData {
 pub fn get_icache_data() -> ICacheData {
     let (mcdata0, mcdata1) = read_mcdata();
     ICacheData {
-        data: (mcdata0 as u128) | ((mcdata1 as u128) << 64)
+        data: (mcdata0 as u128) | ((mcdata1 as u128) << 64),
     }
 }
 
@@ -55,7 +55,7 @@ pub fn get_dcache_tag() -> DCacheTag {
 /// D-cache data RAM visit result
 #[derive(Clone, Copy, Debug)]
 pub struct DCacheData {
-    pub data: u128
+    pub data: u128,
 }
 
 /// Get D-cache data visit result
@@ -63,7 +63,7 @@ pub struct DCacheData {
 pub fn get_dcache_data() -> DCacheData {
     let (mcdata0, mcdata1) = read_mcdata();
     DCacheData {
-        data: (mcdata0 as u128) | ((mcdata1 as u128) << 64)
+        data: (mcdata0 as u128) | ((mcdata1 as u128) << 64),
     }
 }
 
@@ -80,9 +80,8 @@ fn read_mcdata() -> (usize, usize) {
 #[inline]
 fn read_mcdata0() -> usize {
     let mcdata0;
-    unsafe { 
+    unsafe {
         asm!("csrr {}, 0x7D4", out(reg) mcdata0);
     }
     mcdata0
 }
-

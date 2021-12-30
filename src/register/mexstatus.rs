@@ -1,4 +1,4 @@
-//! mexstatus, machine exception state register 
+//! mexstatus, machine exception state register
 
 use bit_field::BitField;
 
@@ -37,7 +37,7 @@ impl Mexstatus {
             0b00 => RSTMD::Nop,
             0b01 => RSTMD::ResetCore,
             0b10 => RSTMD::ResetSystem,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// Low power mode
@@ -46,7 +46,7 @@ impl Mexstatus {
         match self.bits.get_bits(2..=3) {
             0b00 => LPMD::DeepSleep,
             0b01 => LPMD::LightSleep,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// Wait for event mode enble

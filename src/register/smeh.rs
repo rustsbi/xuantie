@@ -29,7 +29,7 @@ impl Smeh {
             0 => PageSize::Page4K,
             1 => PageSize::Page2M,
             2 => PageSize::Page1G,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// Get virtual page number

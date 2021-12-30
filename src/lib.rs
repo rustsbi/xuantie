@@ -6,6 +6,6 @@
 #[macro_use]
 mod macros;
 pub mod asm;
-pub mod register;
-pub mod paging;
 pub mod debug;
+pub mod paging;
+pub mod register;

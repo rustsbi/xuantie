@@ -68,7 +68,7 @@ impl Mccr2 {
             5 => DLTNCY::Cycle6,
             6 => DLTNCY::Cycle7,
             7 => DLTNCY::Cycle8,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// L2-cache data ram setup latency enable
@@ -85,7 +85,7 @@ impl Mccr2 {
             2 => TLTNCY::Cycle3,
             3 => TLTNCY::Cycle4,
             4 => TLTNCY::Cycle5,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// L2-cache tag ram setup latency enable
@@ -101,7 +101,7 @@ impl Mccr2 {
             1 => IPRF::Prefetch1Line,
             2 => IPRF::Prefetch2Lines,
             3 => IPRF::Prefetch3Lines,
-            _ => unreachable!()
+            _ => unreachable!(),
         }
     }
     /// L2-cache TLB prefetch enable
