@@ -6,6 +6,10 @@ Low level access to T-Head XuanTie RISC-V processors
 [![Documentation](https://docs.rs/xuantie/badge.svg)](https://docs.rs/xuantie)
 ![License](https://img.shields.io/crates/l/xuantie.svg)
 
+## Minimum supported Rust version
+
+This crate should be built under Rust 1.59.0 or later, or nightly version newer than 2021-12-15.
+
 ## Contributing
 
 We welcome contribution! Please send an issue or pull request if you are ready.

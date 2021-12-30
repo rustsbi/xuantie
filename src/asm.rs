@@ -5,6 +5,9 @@
 //! Not all these instructions are supported on your XuanTie platform. 
 //! You may use `mcpuid` register to get your implementation model, or read the manual
 //! before using any of following assembly instructions.
+use core::arch::asm;
+
+// T-Head extended instructions are mostly encoded under custom-0 opcode space (opcode 0x0B).
 
 /// DCACHE.CALL, D-cache clean all dirty items instruction
 ///
@@ -20,7 +23,7 @@
 /// when `mxstatus.theadisaee = 1` but run on U mode.
 #[inline]
 pub unsafe fn dcache_call() {
-    asm!(".word 0x0010000B")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x001")
 }
 
 /// DCACHE.CVA, D-cache clean dirty item for virtual address instruction
@@ -42,91 +45,91 @@ pub unsafe fn dcache_call() {
 ///   this instruction will raise illegal instruction when being run U mode.
 #[inline]
 pub unsafe fn dcache_cva(va: usize) {
-    asm!(".word 0x0245000B", in("a0") va)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x025", in(reg) va)
 }
 
 /// DCACHE.CPA, D-cache clean dirty item for physical address instruction
 #[inline]
 pub unsafe fn dcache_cpa(pa: usize) {
-    asm!(".word 0x0285000B", in("a0") pa)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x029", in(reg) pa)
 }
 
 /// DCACHE.CSW, D-cache clean dirty item for way or set instruction
 #[inline]
 pub unsafe fn dcache_csw(set_or_way: usize) {
-    asm!(".word 0x0215000B", in("a0") set_or_way)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x021", in(reg) set_or_way)
 }
 
 /// DCACHE.IALL, D-cache invalid all items instruction
 #[inline]
 pub unsafe fn dcache_iall() {
-    asm!(".word 0x0200000B")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x002")
 }
 
 /// DCACHE.IVA, D-cache invalid item for virtual address instruction
 #[inline]
 pub unsafe fn dcache_iva(va: usize) {
-    asm!(".word 0x0265000B", in("a0") va)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x026", in(reg) va)
 }
 
 #[inline]
 /// DCACHE.IPA, D-cache invalid item for physical address instruction
 pub unsafe fn dcache_ipa(pa: usize) {
-    asm!(".word 0x02A5000B", in("a0") pa)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x02A", in(reg) pa)
 }
 
 /// DCACHE.ISW, D-cache invalid item for way or set instruction
 #[inline]
 pub unsafe fn dcache_isw(set_or_way: usize) {
-    asm!(".word 0x0225000B", in("a0") set_or_way)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x022", in(reg) set_or_way)
 }
 
 /// DCACHE.CIALL, D-cache clean all dirty and invalid item instruction
 #[inline]
 pub unsafe fn dcache_ciall() {
-    asm!(".word 0x0300000B")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x003")
 }
 
 /// DCACHE.CIVA, D-cache clean dirty and invalid for virtual address instruction
 #[inline]
 pub unsafe fn dcache_civa(va: usize) {
-    asm!(".word 0x0275000B", in("a0") va)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x027", in(reg) va)
 }
 
 /// DCACHE.CIPA, D-cache clean dirty and invalid for physical address instruction
 #[inline]
 pub unsafe fn dcache_cipa(pa: usize) {
-    asm!(".word 0x02B5000B", in("a0") pa)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x02B", in(reg) pa)
 }
 
 /// DCACHE.CISW, D-cache clean dirty and invalid for set or way instruction
 #[inline]
 pub unsafe fn dcache_cisw(set_or_way: usize) {
-    asm!(".word 0x0235000B", in("a0") set_or_way)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x023", in(reg) set_or_way)
 }
 
 /// ICACHE.IALL, I-cache invalid all items instruction
 #[inline]
 pub unsafe fn icache_iall() {
-    asm!(".word 0x0100000B")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x010")
 }
 
 /// ICACHE.IALLS, I-cache broadcast all cores to invalid all items instruction
 #[inline]
 pub unsafe fn icache_ialls() {
-    asm!(".word 0x0110000B")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x011")
 }
 
 /// ICACHE.IVA, I-cache invalid item for virtual address instruction
 #[inline]
 pub unsafe fn icache_iva(va: usize) {
-    asm!(".word 0x0305000B", in("a0") va)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x030", in(reg) va)
 }
 
 /// ICACHE.IPA, I-cache invalid item for physical address instruction
 #[inline]
 pub unsafe fn icache_ipa(pa: usize) {
-    asm!(".word 0x0385000B", in("a0") pa)
+    asm!(".insn i 0x0B, 0, x0, {}, 0x038", in(reg) pa)
 }
 
 /// IPUSH, fast interrupt stack push instruction
@@ -156,7 +159,7 @@ pub unsafe fn icache_ipa(pa: usize) {
 /// Raises store unaligned exception, store access exception, or illegal instruction exception.
 #[inline]
 pub unsafe fn ipush() {
-    asm!(".word 0x0040000B")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x004")
 }
 
 /// IPOP, fast interrupt stack pop instruction
@@ -187,5 +190,5 @@ pub unsafe fn ipush() {
 /// Raises store unaligned exception, store access exception, or illegal instruction exception.
 #[inline]
 pub unsafe fn ipop() {
-    asm!(".word 0x0050000B")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x005")
 }
