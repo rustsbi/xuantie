@@ -1,7 +1,6 @@
 //! mcor, machine cache operation register
-
-set!(0x7C2);
-clear!(0x7C2);
+use bit_field::BitField;
+use core::arch::asm;
 
 bitflags::bitflags! {
     /// Select cache to operate
@@ -29,17 +28,20 @@ bitflags::bitflags! {
 #[inline]
 pub unsafe fn cache(cache: Cache, op: Operation) {
     let bits = cache.bits() | op.bits();
-    _set(bits)
+    let mut value: usize;
+    asm!("csrr {}, 0x7C2", out(reg) value);
+    value.set_bits(0..=5, bits as usize);
+    asm!("csrw 0x7C2, {}", in(reg) value);
 }
 
 /// Invalidate branch history table
 #[inline]
 pub unsafe fn bht_inv() {
-    _set(1 << 16)
+    asm!("csrs 0x7C2, {}", in(reg) 1 << 16);
 }
 
 /// Invalidate branch target buffer table
 #[inline]
 pub unsafe fn btb_inv() {
-    _set(1 << 17)
+    asm!("csrs 0x7C2, {}", in(reg) 1 << 17);
 }

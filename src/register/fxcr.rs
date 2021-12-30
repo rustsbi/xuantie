@@ -1,6 +1,7 @@
 //! fxcr, user extended float pointer control register
 
 use bit_field::BitField;
+use core::arch::asm;
 
 /// Floating-point control and status register
 #[derive(Clone, Copy, Debug)]
@@ -69,25 +70,23 @@ impl Fxcr {
     }
 }
 
-set!(0x800);
-clear!(0x800);
 read_csr_as!(Fxcr, 0x800);
 
 set_clear_csr! {
     /// Output QNaN mode
-    , set_dqnan, clear_dqnan, 1 << 23
+    , 0x800, set_dqnan, clear_dqnan, 1 << 23
 }
 
 /// Insert float point flags, setting corresponding bits to one.
 #[inline]
 pub unsafe fn insert_flags(other: Flags) {
-    _set(other.bits())
+    asm!("csrs 0x800, {}", in(reg) other.bits())
 }
 
 /// Remove float point flags, setting corresponding bits to zero
 #[inline]
 pub unsafe fn remove_flags(other: Flags) {
-    _clear(other.bits())
+    asm!("csrc 0x800, {}", in(reg) other.bits())
 }
 
 /// Inserts or removes float point flags depending on the passed value

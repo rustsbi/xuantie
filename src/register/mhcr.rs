@@ -1,5 +1,6 @@
 //! mhcr, machine hardware configuration register
 use bit_field::BitField;
+use core::arch::asm;
 
 /// mhcr register
 #[derive(Clone, Copy, Debug)]
@@ -50,39 +51,37 @@ impl Mhcr {
     }
 }
 
-set!(0x7C1);
-clear!(0x7C1);
 read_csr_as!(Mhcr, 0x7C1);
 
 set_clear_csr! {
     /// I-cache enable
-    , set_ie, clear_ie, 1 << 0
+    , 0x7C1, set_ie, clear_ie, 1 << 0
 }
 set_clear_csr! {
     /// D-cache enable
-    , set_de, clear_de, 1 << 1
+    , 0x7C1, set_de, clear_de, 1 << 1
 }
 set_clear_csr! {
     /// Cache write allocate configuration enable
-    , set_wa, clear_wa, 1 << 2
+    , 0x7C1, set_wa, clear_wa, 1 << 2
 }
 set_clear_csr! {
     /// Write back enable; clear this bit to be write through
-    , set_wb, clear_wb, 1 << 3
+    , 0x7C1, set_wb, clear_wb, 1 << 3
 }
 set_clear_csr! {
     /// Return stack enable
-    , set_rs, clear_rs, 1 << 4
+    , 0x7C1, set_rs, clear_rs, 1 << 4
 }
 set_clear_csr! {
     /// Branch predict enable
-    , set_bpe, clear_bpe, 1 << 5
+    , 0x7C1, set_bpe, clear_bpe, 1 << 5
 }
 set_clear_csr! {
     /// Branch target buffer enable
-    , set_btb, clear_btb, 1 << 6
+    , 0x7C1, set_btb, clear_btb, 1 << 6
 }
 set_clear_csr! {
     /// Write bulk transfer enable
-    , set_wbr, clear_wbr, 1 << 8
+    , 0x7C1, set_wbr, clear_wbr, 1 << 8
 }

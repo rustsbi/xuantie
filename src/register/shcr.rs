@@ -1,5 +1,6 @@
 //! shcr, supervisor hardware configuration register
 use bit_field::BitField;
+use core::arch::asm;
 
 /// shcr register
 #[derive(Clone, Copy, Debug)]
@@ -50,6 +51,4 @@ impl Shcr {
     }
 }
 
-set!(0x5C1);
-clear!(0x5C1);
 read_csr_as!(Shcr, 0x5C1);

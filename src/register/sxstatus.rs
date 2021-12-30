@@ -1,7 +1,7 @@
 //! sxstatus, supervisor extended state register
-
 pub use super::mxstatus::PM;
 use bit_field::BitField;
+use core::arch::asm;
 
 /// sxstatus register
 #[derive(Clone, Copy, Debug)]
@@ -72,11 +72,9 @@ impl Sxstatus {
     }
 }
 
-set!(0x5C0);
-clear!(0x5C0);
 read_csr_as!(Sxstatus, 0x5C0);
 
 set_clear_csr! {
     /// Unaligned access enable
-    , set_mm, clear_mm, 1 << 15
+    , 0x5C0, set_mm, clear_mm, 1 << 15
 }

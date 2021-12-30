@@ -1,8 +1,5 @@
 //! meicr2, L2-cache hardware fault inject register
-
-set!(0x7D7);
-clear!(0x7D7);
-write_csr!(0x7D7);
+use core::arch::asm;
 
 /// L2 error controllable RAM index
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
@@ -17,11 +14,11 @@ pub enum L2RAMID {
 
 set_clear_csr! {
     /// L2-cache error control error inject enable
-    , set_inj_en, clear_inj_en, 1 << 0
+    , 0x7D7, set_inj_en, clear_inj_en, 1 << 0
 }
 set_clear_csr! {
     /// Error control error fatal inject enable
-    , set_fatal_inj, clear_fatal_inj, 1 << 1
+    , 0x7D7, set_fatal_inj, clear_fatal_inj, 1 << 1
 }
 
 /// Inject hardware fault
@@ -31,5 +28,5 @@ set_clear_csr! {
 #[inline]
 pub unsafe fn write(inj_en: bool, fatal_inj: bool, ramid: L2RAMID) {
     let bits = inj_en as usize | ((fatal_inj as usize) << 1) | ((ramid as usize) << 29);
-    _write(bits)
+    asm!("csrw 0x7D7, {}", in(reg) bits)
 }

@@ -1,6 +1,6 @@
 //! mccr2, machine L2-cache control register
-
 use bit_field::BitField;
+use core::arch::asm;
 
 /// mccr2 register
 #[derive(Clone, Copy, Debug)]
@@ -111,52 +111,52 @@ impl Mccr2 {
     }
 }
 
-set!(0x7C3);
-clear!(0x7C3);
 read_csr_as!(Mccr2, 0x7C3);
-write_csr!(0x7C3);
 
 set_clear_csr! {
     /// Refill enable
-    , set_rfe, clear_rfe, 1 << 0
+    , 0x7C3, set_rfe, clear_rfe, 1 << 0
 }
 set_clear_csr! {
     /// Error correction enable
-    , set_eccen, clear_eccen, 1 << 1
+    , 0x7C3, set_eccen, clear_eccen, 1 << 1
 }
 set_clear_csr! {
     /// L2-cache data ram setup latency enable
-    , set_dsetup, clear_dsetup, 1 << 19
+    , 0x7C3, set_dsetup, clear_dsetup, 1 << 19
 }
 set_clear_csr! {
     /// L2-cache tag ram setup latency enable
-    , set_tsetup, clear_tsetup, 1 << 25
+    , 0x7C3, set_tsetup, clear_tsetup, 1 << 25
 }
 set_clear_csr! {
     /// L2-cache TLB prefetch enable
-    , set_tprf, clear_tprf, 1 << 31
+    , 0x7C3, set_tprf, clear_tprf, 1 << 31
 }
 
 /// L2-cache data ram visit latency configuration
 #[inline]
 pub unsafe fn set_dltncy(dltncy: DLTNCY) {
-    let mut value = _read();
+    let mut value: usize;
+    asm!("csrr {}, 0x7C3", out(reg) value);
     value.set_bits(16..=18, dltncy as usize);
-    _write(value);
+    asm!("csrw 0x7C3, {}", in(reg) value);
 }
 
 /// L2-cache tag ram visit latency configuration
 #[inline]
 pub unsafe fn set_tltncy(tltncy: TLTNCY) {
-    let mut value = _read();
+    let mut value: usize;
+    asm!("csrr {}, 0x7C3", out(reg) value);
     value.set_bits(22..=24, tltncy as usize);
-    _write(value);
+    asm!("csrw 0x7C3, {}", in(reg) value);
 }
 
 /// L2-cache instruction prefetch enable
 #[inline]
 pub unsafe fn set_iprf(iprf: IPRF) {
-    let mut value = _read();
+    let mut value: usize;
+    asm!("csrr {}, 0x7C3", out(reg) value);
     value.set_bits(29..=30, iprf as usize);
-    _write(value);
+    asm!("csrw 0x7C3, {}", in(reg) value);
 }

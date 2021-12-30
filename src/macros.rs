@@ -1,90 +1,46 @@
-macro_rules! read_csr {
-    ($csr_number:expr) => {
-        /// Reads the CSR
-        #[inline]
-        unsafe fn _read() -> usize {
-            let r: usize;
-            asm!("csrr {}, {}", out(reg) r, const $csr_number);
-            r
-        }
-    };
-}
-
 macro_rules! read_csr_as {
     ($register:ident, $csr_number:expr) => {
-        read_csr!($csr_number);
-
         /// Reads the CSR
         #[inline]
         pub fn read() -> $register {
-            $register {
-                bits: unsafe { _read() },
-            }
-        }
-    };
-}
-
-macro_rules! write_csr {
-    ($csr_number:expr) => {
-        /// Writes the CSR
-        #[inline]
-        unsafe fn _write(val: usize) {
-            asm!("csrw {}, {}", const $csr_number, in(reg) val)
-        }
-    };
-}
-
-macro_rules! set {
-    ($csr_number:expr) => {
-        /// Set the CSR
-        #[inline]
-        unsafe fn _set(bits: usize) {
-            asm!("csrs {1}, {0}", in(reg) bits, const $csr_number)
-        }
-    };
-}
-
-macro_rules! clear {
-    ($csr_number:expr) => {
-        /// Clear the CSR
-        #[inline]
-        unsafe fn _clear(bits: usize) {
-            asm!("csrc {1}, {0}", in(reg) bits, const $csr_number)
+            let bits: usize;
+            unsafe { asm!(concat!("csrr {}, ",$csr_number), out(reg) bits) };
+            $register { bits }
         }
     };
 }
 
 macro_rules! set_csr {
-    ($(#[$attr:meta])*, $set_field:ident, $e:expr) => {
+    ($(#[$attr:meta])*, $csr_number:expr, $set_field:ident, $e:expr) => {
         $(#[$attr])*
         #[inline]
         pub unsafe fn $set_field() {
-            _set($e);
+            asm!(concat!("csrs ",$csr_number,", {0}"), in(reg) $e)
         }
     }
 }
 
 macro_rules! clear_csr {
-    ($(#[$attr:meta])*, $clear_field:ident, $e:expr) => {
+    ($(#[$attr:meta])*, $csr_number:expr, $clear_field:ident, $e:expr) => {
         $(#[$attr])*
         #[inline]
         pub unsafe fn $clear_field() {
-            _clear($e);
+            asm!(concat!("csrc ",$csr_number,", {0}"), in(reg) $e)
         }
     }
 }
 
 macro_rules! set_clear_csr {
-    ($(#[$attr:meta])*, $set_field:ident, $clear_field:ident, $e:expr) => {
-        set_csr!($(#[$attr])*, $set_field, $e);
-        clear_csr!($(#[$attr])*, $clear_field, $e);
+    ($(#[$attr:meta])*, $csr_number:expr, $set_field:ident, $clear_field:ident, $e:expr) => {
+        set_csr!($(#[$attr])*, $csr_number, $set_field, $e);
+        clear_csr!($(#[$attr])*, $csr_number, $clear_field, $e);
     }
 }
 macro_rules! get_csr_value {
     ($csr_number:expr) => {
         {
             let r: usize;
-            asm!("csrr {}, {}", out(reg) r, const $csr_number);
+            asm!(concat!("csrr {}, ",$csr_number), out(reg) r);
             r
         }
     };

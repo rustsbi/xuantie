@@ -1,6 +1,6 @@
 //! mcer, machine L1-cache error control register
-
 use bit_field::BitField;
+use core::arch::asm;
 
 /// mcer register
 #[derive(Clone, Copy, Debug)]
@@ -66,15 +66,13 @@ impl Mcer {
     }
 }
 
-set!(0x7C8);
-clear!(0x7C8);
 read_csr_as!(Mcer, 0x7C8);
 
 clear_csr! {
     /// Clear error correction fatal error bit
-    , clear_err_fatal, 1 << 30
+    , 0x7C8, clear_err_fatal, 1 << 30
 }
 clear_csr! {
     /// Clear error correction information valid bit
-    , clear_err_vld, 1 << 31
+    , 0x7C8, clear_err_vld, 1 << 31
 }

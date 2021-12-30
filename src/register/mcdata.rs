@@ -1,5 +1,6 @@
 //! mcdata{0,1}, machine cache data registers
 use bit_field::BitField;
+use core::arch::asm;
 
 /// I-cache tag RAM visit result
 #[derive(Clone, Copy, Debug)]
@@ -71,8 +72,12 @@ pub fn get_dcache_data() -> DCacheData {
 fn read_mcdata() -> (usize, usize) {
     let (mcdata0, mcdata1);
     unsafe {
-        asm!("csrr {}, 0x7D4", out(reg) mcdata0);
-        asm!("csrr {}, 0x7D5", out(reg) mcdata1);
+        asm!(
+            "csrr {0}, 0x7D4",
+            "csrr {1}, 0x7D5",
+            out(reg) mcdata0,
+            out(reg) mcdata1,
+        );
     }
     (mcdata0, mcdata1)
 }

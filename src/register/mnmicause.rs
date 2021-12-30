@@ -1,6 +1,6 @@
 //! mnmicause, machine NMI state register
-
 use bit_field::BitField;
+use core::arch::asm;
 
 /// mnmicause register
 #[derive(Clone, Copy, Debug)]
@@ -44,6 +44,4 @@ impl Mnmicause {
     }
 }
 
-set!(0x7E2);
-clear!(0x7E2);
 read_csr_as!(Mnmicause, 0x7E2);

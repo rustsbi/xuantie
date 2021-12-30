@@ -1,6 +1,4 @@
 //! Low level access to T-Head XuanTie RISC-V processors
-
-#![feature(asm)]
 #![no_std]
 
 #[macro_use]

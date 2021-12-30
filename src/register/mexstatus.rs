@@ -1,6 +1,6 @@
 //! mexstatus, machine exception state register
-
 use bit_field::BitField;
+use core::arch::asm;
 
 /// mxstatus register
 #[derive(Clone, Copy, Debug)]
@@ -86,31 +86,32 @@ impl Mexstatus {
     }
 }
 
-set!(0x7E1);
-clear!(0x7E1);
 read_csr_as!(Mexstatus, 0x7E1);
 
 set_clear_csr! {
     /// Wait for event mode enble
-    , set_wfeen, clear_wfeen, 1 << 4
+    , 0x7E1, set_wfeen, clear_wfeen, 1 << 4
 }
 set_clear_csr! {
     /// Interrupt auto push stack enable
-    , set_spushen, clear_spushen, 1 << 16
+    , 0x7E1, set_spushen, clear_spushen, 1 << 16
 }
 set_clear_csr! {
     /// Interrupt auto swap stack enable
-    , set_spswapen, clear_spswapen, 1 << 17
+    , 0x7E1, set_spswapen, clear_spswapen, 1 << 17
 }
 
 /// Set software reset mode
 #[inline]
-pub unsafe fn set_rstmd(value: RSTMD) {
-    _set(value as usize)
+pub unsafe fn set_rstmd(rstmd: RSTMD) {
+    asm!("csrs 0x7E1, {}", in(reg) rstmd as usize)
 }
 
 /// Set low power mode
 #[inline]
-pub unsafe fn set_lpmd(value: LPMD) {
-    _set((value as usize) << 2)
+pub unsafe fn set_lpmd(lpmd: LPMD) {
+    let mut value: usize;
+    asm!("csrr {}, 0x7E1", out(reg) value);
+    value.set_bits(2..=3, lpmd as usize);
+    asm!("csrw 0x7E1, {}", in(reg) value);
 }

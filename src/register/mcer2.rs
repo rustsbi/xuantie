@@ -1,6 +1,6 @@
 //! mcer2, machine L2-cache error control register
-
 use bit_field::BitField;
+use core::arch::asm;
 
 /// mcer2 register
 #[derive(Clone, Copy, Debug)]
@@ -31,11 +31,9 @@ impl Mcer2 {
     }
 }
 
-set!(0x7C4);
-clear!(0x7C4);
 read_csr_as!(Mcer2, 0x7C4);
 
 clear_csr! {
     /// Clear error correction information valid bit
-    , clear_ecc_err, 1 << 31
+    , 0x7C4, clear_ecc_err, 1 << 31
 }

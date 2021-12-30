@@ -1,7 +1,6 @@
 //! mhint, machine hint register
-
-set!(0x7C5);
-clear!(0x7C5);
+use bit_field::BitField;
+use core::arch::asm;
 
 /// L1 D-cache write allocation strategy
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
@@ -18,7 +17,7 @@ pub enum AMR {
 
 /// D-cache prefetch lines
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
-pub enum DDIS {
+pub enum PrefN {
     /// Prefetch 2 lines
     TwoLines = 0,
     /// Prefetch 4 lines
@@ -31,21 +30,27 @@ pub enum DDIS {
 
 set_clear_csr! {
     /// D-cache prefetch enable
-    , set_dpld, clear_dpld, 1 << 2
+    , 0x7C5, set_dpld, clear_dpld, 1 << 2
 }
 set_clear_csr! {
     /// I-cache prefetch enable
-    , set_ipld, clear_ipld, 1 << 8
+    , 0x7C5, set_ipld, clear_ipld, 1 << 8
 }
 
 /// Set D-cache write allocation strategy
 #[inline]
-pub unsafe fn set_amr(value: AMR) {
-    _set((value as usize) << 3)
+pub unsafe fn set_amr(amr: AMR) {
+    let mut value: usize;
+    asm!("csrr {}, 0x7C5", out(reg) value);
+    value.set_bits(3..=4, amr as usize);
+    asm!("csrw 0x7C5, {}", in(reg) value);
 }
 
 /// Set D-cache prefetch lines configuration
 #[inline]
-pub unsafe fn set_ddis(value: DDIS) {
-    _set((value as usize) << 13)
+pub unsafe fn set_prefn(prefn: PrefN) {
+    let mut value: usize;
+    asm!("csrr {}, 0x7C5", out(reg) value);
+    value.set_bits(13..=14, prefn as usize);
+    asm!("csrw 0x7C5, {}", in(reg) value);
 }

@@ -1,18 +1,15 @@
 //! meicr, L1-cache hardware fault inject register
+use core::arch::asm;
 
 pub use super::mcer::RAMID;
 
-set!(0x7D6);
-clear!(0x7D6);
-write_csr!(0x7D6);
-
 set_clear_csr! {
     /// L1-cache error control error inject enable
-    , set_inj_en, clear_inj_en, 1 << 0
+    , 0x7D6, set_inj_en, clear_inj_en, 1 << 0
 }
 set_clear_csr! {
     /// Error control error fatal inject enable
-    , set_fatal_inj, clear_fatal_inj, 1 << 1
+    , 0x7D6, set_fatal_inj, clear_fatal_inj, 1 << 1
 }
 
 /// Inject hardware fault
@@ -22,5 +19,5 @@ set_clear_csr! {
 #[inline]
 pub unsafe fn write(inj_en: bool, fatal_inj: bool, ramid: RAMID) {
     let bits = inj_en as usize | ((fatal_inj as usize) << 1) | ((ramid as usize) << 29);
-    _write(bits)
+    asm!("csrw 0x7D6, {}", in(reg) bits)
 }

@@ -1,6 +1,6 @@
 //! mxstatus, machine extended state register
-
 use bit_field::BitField;
+use core::arch::asm;
 
 /// mxstatus register
 #[derive(Clone, Copy, Debug)]
@@ -79,43 +79,41 @@ impl Mxstatus {
     }
 }
 
-set!(0x7C0);
-clear!(0x7C0);
 read_csr_as!(Mxstatus, 0x7C0);
 
 set_clear_csr! {
     /// User mode performance monitor enable
-    , set_pmdu, clear_pmdu, 1 << 10
+    , 0x7C0, set_pmdu, clear_pmdu, 1 << 10
 }
 set_clear_csr! {
     /// Supervisor mode performance monitor enable
-    , set_pmds, clear_pmds, 1 << 11
+    , 0x7C0, set_pmds, clear_pmds, 1 << 11
 }
 set_clear_csr! {
     /// Machine mode performance monitor enable
-    , set_pmdm, clear_pmdm, 1 << 13
+    , 0x7C0, set_pmdm, clear_pmdm, 1 << 13
 }
 set_clear_csr! {
     /// Unaligned access enable
-    , set_mm, clear_mm, 1 << 15
+    , 0x7C0, set_mm, clear_mm, 1 << 15
 }
 set_clear_csr! {
     /// User mode allow extended cache instruction
-    , set_ucme, clear_ucme, 1 << 16
+    , 0x7C0, set_ucme, clear_ucme, 1 << 16
 }
 set_clear_csr! {
     /// CLINT supervisor extension enable
-    , set_clintee, clear_clintee, 1 << 17
+    , 0x7C0, set_clintee, clear_clintee, 1 << 17
 }
 set_clear_csr! {
     /// Hardware refill when TLB item absent enable
-    , set_mhrd, clear_mhrd, 1 << 18
+    , 0x7C0, set_mhrd, clear_mhrd, 1 << 18
 }
 set_clear_csr! {
     /// Extend MMU page table entry address attributes enable
-    , set_maee, clear_maee, 1 << 21
+    , 0x7C0, set_maee, clear_maee, 1 << 21
 }
 set_clear_csr! {
     /// T-Head extended instruction set architecture enable
-    , set_theadisaee, clear_theadisaee, 1 << 22
+    , 0x7C0, set_theadisaee, clear_theadisaee, 1 << 22
 }
