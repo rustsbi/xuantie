@@ -2,7 +2,7 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie E906 and E902 cores.
+//! This register is supported on Xuantie E907, E906 and E902 cores.
 use core::arch::asm;
 
 /// Get NMI exception program counter

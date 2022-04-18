@@ -17,7 +17,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906, E906 and E902 cores.
+    /// This bit is supported on Xuantie C910, C906, E907, E906 and E902 cores.
     #[inline]
     pub fn ie(&self) -> bool {
         self.bits.get_bit(0)
@@ -26,7 +26,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn de(&self) -> bool {
         self.bits.get_bit(1)
@@ -35,7 +35,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn wa(&self) -> bool {
         self.bits.get_bit(2)
@@ -44,12 +44,16 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn wb(&self) -> bool {
         self.bits.get_bit(3)
     }
     /// Return stack enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn rs(&self) -> bool {
         self.bits.get_bit(4)
@@ -58,7 +62,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn bpe(&self) -> bool {
         self.bits.get_bit(5)
@@ -67,7 +71,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn btb(&self) -> bool {
         self.bits.get_bit(6)

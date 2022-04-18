@@ -2,7 +2,7 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie C910, C906, E906 and E902 cores.
+//! This register is supported on Xuantie C910, C906, E907, E906 and E902 cores.
 use bit_field::BitField;
 use core::arch::asm;
 
@@ -25,7 +25,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn pmdu(&self) -> bool {
         self.bits.get_bit(10)
@@ -39,7 +39,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn pmdm(&self) -> bool {
         self.bits.get_bit(12)
@@ -53,7 +53,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E906 cores.
+    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn mm(&self) -> bool {
         self.bits.get_bit(15)
@@ -82,7 +82,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906, E906 and E902 cores.
+    /// This bit is supported on Xuantie C910, C906, E907, E906 and E902 cores.
     #[inline]
     pub fn theadisaee(&self) -> bool {
         self.bits.get_bit(22)
@@ -91,7 +91,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, E906, C906 and E902 cores.
+    /// This bit is supported on Xuantie C910, C906, E907, E906 and E902 cores.
     #[inline]
     pub fn pm(&self) -> PM {
         match self.bits.get_bits(30..=31) {
