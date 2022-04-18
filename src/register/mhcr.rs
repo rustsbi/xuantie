@@ -2,7 +2,7 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie C910, C906 and E902 cores.
+//! This register is supported on Xuantie C910, C906, E906 and E902 cores.
 use bit_field::BitField;
 use core::arch::asm;
 
@@ -17,22 +17,34 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906 and E902 cores.
+    /// This bit is supported on Xuantie C910, C906, E906 and E902 cores.
     #[inline]
     pub fn ie(&self) -> bool {
         self.bits.get_bit(0)
     }
     /// D-cache enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E906 cores.
     #[inline]
     pub fn de(&self) -> bool {
         self.bits.get_bit(1)
     }
     /// Cache write allocate configuration enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E906 cores.
     #[inline]
     pub fn wa(&self) -> bool {
         self.bits.get_bit(2)
     }
     /// Write back enable; true for write back, false for write through
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E906 cores.
     #[inline]
     pub fn wb(&self) -> bool {
         self.bits.get_bit(3)
@@ -43,11 +55,19 @@ impl Mhcr {
         self.bits.get_bit(4)
     }
     /// Branch predict enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E906 cores.
     #[inline]
     pub fn bpe(&self) -> bool {
         self.bits.get_bit(5)
     }
     /// Branch target buffer enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E906 cores.
     #[inline]
     pub fn btb(&self) -> bool {
         self.bits.get_bit(6)

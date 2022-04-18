@@ -15,7 +15,7 @@ use core::arch::asm;
 ///
 /// # Permissions
 ///
-/// Must run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -24,7 +24,7 @@ use core::arch::asm;
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 #[inline]
 pub unsafe fn dcache_call() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x001")
@@ -36,7 +36,7 @@ pub unsafe fn dcache_call() {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -45,7 +45,7 @@ pub unsafe fn dcache_call() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 #[inline]
 pub unsafe fn dcache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x002")
@@ -57,7 +57,7 @@ pub unsafe fn dcache_iall() {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -66,7 +66,7 @@ pub unsafe fn dcache_iall() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 #[inline]
 pub unsafe fn dcache_ciall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x003")
@@ -148,7 +148,7 @@ pub unsafe fn ipop() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906 and E902 cores.
+/// This instruction is supported on Xuantie C910, C906, E906 and E902 cores.
 #[inline]
 pub unsafe fn icache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x010")
@@ -246,7 +246,7 @@ pub unsafe fn l2cache_ciall() {
 ///
 /// # Permissions
 ///
-/// Can run on M, S or U mode.
+/// Can run on M, U mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -255,7 +255,7 @@ pub unsafe fn l2cache_ciall() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 #[inline]
 pub unsafe fn sync() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x018")
@@ -292,7 +292,7 @@ pub unsafe fn sync_s() {
 ///
 /// # Permissions
 ///
-/// Can run on M, S or U mode.
+/// Can run on M, U mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -301,7 +301,7 @@ pub unsafe fn sync_s() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 #[inline]
 pub unsafe fn sync_i() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x01A")
@@ -337,7 +337,7 @@ pub unsafe fn sync_is() {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -346,7 +346,7 @@ pub unsafe fn sync_is() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
@@ -355,6 +355,10 @@ pub unsafe fn sync_is() {
 /// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
 /// when configurated 64 Kibibytes, `w` equals 14.
+///
+/// The E906 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
+/// when configurated 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_csw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x021", in(reg) way_and_set)
@@ -366,7 +370,7 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -375,7 +379,7 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
@@ -384,6 +388,10 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
 /// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
 /// when configurated 64 Kibibytes, `w` equals 14.
+///
+/// The E906 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
+/// when configurated 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_isw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x022", in(reg) way_and_set)
@@ -397,7 +405,7 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -406,7 +414,7 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
@@ -415,6 +423,10 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
 /// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
 /// when configurated 64 Kibibytes, `w` equals 14.
+///
+/// The E906 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
+/// when configurated 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_cisw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x023", in(reg) way_and_set)
@@ -540,7 +552,7 @@ pub unsafe fn dcache_civa(va: usize) {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -549,8 +561,8 @@ pub unsafe fn dcache_civa(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
-/// On Xuantie C906 User Manual, this instruction is named `DCACHE.CPA`.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
+/// On Xuantie C906 User Manual and Xuantie E906, this instruction is named `DCACHE.CPA`.
 #[inline]
 pub unsafe fn dcache_cpal1(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x028", in(reg) pa)
@@ -588,7 +600,7 @@ pub unsafe fn dcache_cpa(pa: usize) {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -597,7 +609,7 @@ pub unsafe fn dcache_cpa(pa: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 pub unsafe fn dcache_ipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x02A", in(reg) pa)
 }
@@ -610,7 +622,7 @@ pub unsafe fn dcache_ipa(pa: usize) {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -619,7 +631,7 @@ pub unsafe fn dcache_ipa(pa: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E906 cores.
 #[inline]
 pub unsafe fn dcache_cipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x02B", in(reg) pa)
@@ -670,7 +682,7 @@ pub unsafe fn icache_iva(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906 and E902 cores.
+/// This instruction is supported on Xuantie C910, C906, E906 and E902 cores.
 #[inline]
 pub unsafe fn icache_ipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x038", in(reg) pa)

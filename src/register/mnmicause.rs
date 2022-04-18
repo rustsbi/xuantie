@@ -2,7 +2,7 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie E902 core.
+//! This register as well as all its bits are supported on Xuantie E906 and E902 cores.
 use bit_field::BitField;
 use core::arch::asm;
 
@@ -22,28 +22,16 @@ pub enum MPP {
 
 impl Mnmicause {
     /// NMI vector exception code in mcause
-    ///
-    /// # Platform support
-    ///
-    /// This bit is supported on Xuantie E902 core.
     #[inline]
     pub fn nmi_vector(&self) -> usize {
         self.bits.get_bits(0..=11)
     }
     /// NMI mstatus previous interrupt enable
-    ///
-    /// # Platform support
-    ///
-    /// This bit is supported on Xuantie E902 core.
     #[inline]
     pub fn nmi_mpie(&self) -> bool {
         self.bits.get_bit(27)
     }
     /// NMI mstatus previous privilege mode
-    ///
-    /// # Platform support
-    ///
-    /// This bit is supported on Xuantie E902 core.
     #[inline]
     pub fn nmi_mpp(&self) -> MPP {
         match self.bits.get_bits(28..=29) {
@@ -54,10 +42,6 @@ impl Mnmicause {
         }
     }
     /// NMI INTR (is interrupt) value bit in mcause
-    ///
-    /// # Platform support
-    ///
-    /// This bit is supported on Xuantie E902 core.
     #[inline]
     pub fn nmi_intr(&self) -> bool {
         self.bits.get_bit(31)

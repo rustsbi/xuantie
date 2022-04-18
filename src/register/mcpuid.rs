@@ -2,4 +2,4 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie E902 core.
+//! This register is supported on Xuantie E906 and E902 cores.
