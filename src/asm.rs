@@ -599,8 +599,9 @@ pub unsafe fn dcache_cpal1(pa: usize) {
 ///
 /// This instruction is supported on Xuantie C910 core.
 ///
-/// The Xuantie C906 User Manual names `DCACHE.CPAL1` as `DCACHE.CPA`; to clean dirty item on
-/// C906 you may need to use function [`dcache_cpal1`] on this library.
+/// The Xuantie C906 User Manual, Xuantie E907 User Manual and Xuantie E906 User Manual
+/// names `DCACHE.CPAL1` as `DCACHE.CPA`; to clean dirty item on
+/// these cores you may need to use function [`dcache_cpal1`] on this library.
 #[inline]
 pub unsafe fn dcache_cpa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x029", in(reg) pa)
