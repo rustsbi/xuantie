@@ -11,7 +11,7 @@ use core::arch::asm;
 
 /// DCACHE.CALL, D-cache clean all dirty items instruction
 ///
-/// Clears all L1 D-cache table elements, write all dirty items to next level storage.
+/// Clears all L1 D-cache table items, write all dirty items to next level storage.
 ///
 /// # Permissions
 ///
@@ -21,18 +21,56 @@ use core::arch::asm;
 ///
 /// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
 /// when `mxstatus.theadisaee = 1` but run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_call() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x001")
 }
 
 /// DCACHE.IALL, D-cache invalid all items instruction
+///
+/// Invalidates all L1 D-cache table items.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x002")
 }
 
 /// DCACHE.CIALL, D-cache clean all dirty and invalid item instruction
+///
+/// Writes all L1 D-cache dirty items to next level storage, and invalidate all L1 D-cache table items.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// Raises illegal instruction exception, or load page fault exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_ciall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x003")
@@ -129,22 +167,86 @@ pub unsafe fn l2cache_ciall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x017")
 }
 
-/// DCACHE.CSW, D-cache clean dirty item for way or set instruction
+/// DCACHE.CSW, D-cache clean dirty item on way and set instruction
+///
+/// Writes D-cache dirty table item corresponding to given way and set to next level storage.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
+///
+/// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
+/// when configurated 64 Kibibytes, `w` equals 14.
 #[inline]
-pub unsafe fn dcache_csw(set_or_way: usize) {
-    asm!(".insn i 0x0B, 0, x0, {}, 0x021", in(reg) set_or_way)
+pub unsafe fn dcache_csw(way_and_set: usize) {
+    asm!(".insn i 0x0B, 0, x0, {}, 0x021", in(reg) way_and_set)
 }
 
-/// DCACHE.ISW, D-cache invalid item for way or set instruction
+/// DCACHE.ISW, D-cache invalid item for way and set instruction
+///
+/// Invalidate D-cache dirty table item corresponding to given way and set.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
+///
+/// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
+/// when configurated 64 Kibibytes, `w` equals 14.
 #[inline]
-pub unsafe fn dcache_isw(set_or_way: usize) {
-    asm!(".insn i 0x0B, 0, x0, {}, 0x022", in(reg) set_or_way)
+pub unsafe fn dcache_isw(way_and_set: usize) {
+    asm!(".insn i 0x0B, 0, x0, {}, 0x022", in(reg) way_and_set)
 }
 
-/// DCACHE.CISW, D-cache clean dirty and invalid for set or way instruction
+/// DCACHE.CISW, D-cache clean dirty and invalid for way and set instruction
+///
+/// Writes L1 D-cache dirty item corresponding to given way and set to next level storage,
+/// and invalidate this table item.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
+///
+/// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
+/// when configurated 64 Kibibytes, `w` equals 14.
 #[inline]
-pub unsafe fn dcache_cisw(set_or_way: usize) {
-    asm!(".insn i 0x0B, 0, x0, {}, 0x023", in(reg) set_or_way)
+pub unsafe fn dcache_cisw(way_and_set: usize) {
+    asm!(".insn i 0x0B, 0, x0, {}, 0x023", in(reg) way_and_set)
 }
 
 /// DCACHE.CVAL1, L1 D-cache clean dirty item for virtual address instruction
@@ -169,19 +271,60 @@ pub unsafe fn dcache_cval1(va: usize) {
 /// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
 /// - When `mxstatus.theadisaee = 1`, and `mxstatus.ucme = 1`, this instruction can be run on U mode.
 /// - When `mxstatus.theadisaee = 1`, and `mxstatus.ucme = 0`,
-///   this instruction will raise illegal instruction when being run U mode.
+///   this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_cva(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x025", in(reg) va)
 }
 
 /// DCACHE.IVA, D-cache invalid item for virtual address instruction
+///
+/// Invalidates D-cache table item corresponding to virtual address `va`.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// Raises illegal instruction exception, or load page fault exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_iva(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x026", in(reg) va)
 }
 
 /// DCACHE.CIVA, D-cache clean dirty and invalid for virtual address instruction
+///
+/// Write D-cache table item corresponding to virtual address `va` to next level storage,
+/// and invalidate this table item.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// Raises illegal instruction exception, or load page fault exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, and `mxstatus.ucme = 1`, this instruction can be run on U mode.
+/// - When `mxstatus.theadisaee = 1`, and `mxstatus.ucme = 0`,
+///   this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_civa(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x027", in(reg) va)
@@ -194,6 +337,24 @@ pub unsafe fn dcache_cpal1(pa: usize) {
 }
 
 /// DCACHE.CPA, D-cache clean dirty item for physical address instruction
+///
+/// Writes D-cache table item corresponding to physical address `pa` to next level storage.
+/// This operation effects on L1 cache on all cores.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_cpa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x029", in(reg) pa)
@@ -201,11 +362,46 @@ pub unsafe fn dcache_cpa(pa: usize) {
 
 #[inline]
 /// DCACHE.IPA, D-cache invalid item for physical address instruction
+///
+/// Invalidates D-cache table item corresponding to physical address `pa`.
+///
+/// # Permissions
+///
+/// Can run on M, S or U mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 pub unsafe fn dcache_ipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x02A", in(reg) pa)
 }
 
 /// DCACHE.CIPA, D-cache clean dirty and invalid for physical address instruction
+///
+/// Writes D-cache table item corresponding to physical address `pa` to next level storage,
+/// and invalidate this table item.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn dcache_cipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x02B", in(reg) pa)
