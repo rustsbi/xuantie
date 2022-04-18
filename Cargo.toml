@@ -1,7 +1,7 @@
 [package]
 name = "xuantie"
 description = "Low level access to T-Head XuanTie RISC-V processors"
-version = "0.0.2"
+version = "0.0.3"
 repository = "https://github.com/luojia65/xuantie"
 documentation = "https://docs.rs/xuantie"
 license = "MulanPSL-2.0"
