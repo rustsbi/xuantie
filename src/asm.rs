@@ -202,6 +202,55 @@ pub unsafe fn l2cache_ciall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x017")
 }
 
+/// SYNC, Synchronize instruction
+///
+/// Ensures that all instructions before retire earlier than this instruction,
+/// and all instructions after retire later than this instruction.
+///
+/// # Permissions
+///
+/// Can run on M, S or U mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
+#[inline]
+pub unsafe fn sync() {
+    asm!(".insn i 0x0B, 0, x0, x0, 0x018")
+}
+
+/// SYNC.I, Synchronize and clean instruction
+///
+/// Ensures that all instructions before retire earlier than this instruction,
+/// and all instructions after retire later than this instruction.
+/// The pipeline is emptied when this instruction retires.
+///
+/// # Permissions
+///
+/// Can run on M, S or U mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
+#[inline]
+pub unsafe fn sync_i() {
+    asm!(".insn i 0x0B, 0, x0, x0, 0x1A")
+}
+
 /// DCACHE.CSW, D-cache clean dirty item on way and set instruction
 ///
 /// Writes D-cache dirty table item corresponding to given way and set to next level storage.
@@ -285,12 +334,6 @@ pub unsafe fn dcache_cisw(way_and_set: usize) {
 }
 
 /// DCACHE.CVAL1, L1 D-cache clean dirty item for virtual address instruction
-#[inline]
-pub unsafe fn dcache_cval1(va: usize) {
-    asm!(".insn i 0x0B, 0, x0, {}, 0x024", in(reg) va)
-}
-
-/// DCACHE.CVA, D-cache clean dirty item for virtual address instruction
 ///
 /// Writes D-cache table item corresponding to virtual address `va` to next level storage.
 /// This operation effects on L1 cache on all cores.
@@ -310,7 +353,14 @@ pub unsafe fn dcache_cval1(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on C906 core.
+/// This instruction is supported on C906 core. On official C906 document, this instruction is
+/// named `DCACHE.CVA`.
+#[inline]
+pub unsafe fn dcache_cval1(va: usize) {
+    asm!(".insn i 0x0B, 0, x0, {}, 0x024", in(reg) va)
+}
+
+/// DCACHE.CVA, D-cache clean dirty item for virtual address instruction
 #[inline]
 pub unsafe fn dcache_cva(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x025", in(reg) va)
@@ -366,12 +416,6 @@ pub unsafe fn dcache_civa(va: usize) {
 }
 
 /// DCACHE.CPAL1, L1 D-cache clean dirty item for physical address instruction
-#[inline]
-pub unsafe fn dcache_cpal1(pa: usize) {
-    asm!(".insn i 0x0B, 0, x0, {}, 0x028", in(reg) pa)
-}
-
-/// DCACHE.CPA, D-cache clean dirty item for physical address instruction
 ///
 /// Writes D-cache table item corresponding to physical address `pa` to next level storage.
 /// This operation effects on L1 cache on all cores.
@@ -389,7 +433,14 @@ pub unsafe fn dcache_cpal1(pa: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on C906 core.
+/// This instruction is supported on C906 core. On official C906 document, this instruction is
+/// named `DCACHE.CPA`.
+#[inline]
+pub unsafe fn dcache_cpal1(pa: usize) {
+    asm!(".insn i 0x0B, 0, x0, {}, 0x028", in(reg) pa)
+}
+
+/// DCACHE.CPA, D-cache clean dirty item for physical address instruction
 #[inline]
 pub unsafe fn dcache_cpa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x029", in(reg) pa)
