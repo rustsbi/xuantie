@@ -138,12 +138,47 @@ pub unsafe fn ipop() {
 }
 
 /// ICACHE.IALL, I-cache invalid all items instruction
+///
+/// Invalidates all I-cache table items.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn icache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x010")
 }
 
 /// ICACHE.IALLS, I-cache broadcast all cores to invalid all items instruction
+///
+/// Invalidates all I-cache table items, broadcast other cores to invalid all I-cache items.
+/// This operation effects on I-cache on all cores.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn icache_ialls() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x011")
@@ -367,7 +402,7 @@ pub unsafe fn dcache_cpa(pa: usize) {
 ///
 /// # Permissions
 ///
-/// Can run on M, S or U mode.
+/// Can run on M or S mode.
 ///
 /// # Exceptions
 ///
@@ -408,12 +443,48 @@ pub unsafe fn dcache_cipa(pa: usize) {
 }
 
 /// ICACHE.IVA, I-cache invalid item for virtual address instruction
+///
+/// Invalidates the I-cache table item corresponding to virtual address `va`.
+///
+/// # Permissions
+///
+/// Can run on M, S or U mode.
+///
+/// # Exceptions
+///
+/// Raises illegal instruction exception, or load page fault exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, and `mxstatus.ucme = 1`, this instruction can be run on U mode.
+/// - When `mxstatus.theadisaee = 1`, and `mxstatus.ucme = 0`,
+///   this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn icache_iva(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x030", in(reg) va)
 }
 
 /// ICACHE.IPA, I-cache invalid item for physical address instruction
+///
+/// Invalidates I-cache table item corresponding to physical address `pa`.
+///
+/// # Permissions
+///
+/// Can run on M or S mode.
+///
+/// # Exceptions
+///
+/// May raise illegal instruction exception.
+///
+/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
+/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on C906 core.
 #[inline]
 pub unsafe fn icache_ipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x038", in(reg) pa)
