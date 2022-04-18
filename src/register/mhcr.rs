@@ -1,4 +1,8 @@
 //! mhcr, machine hardware configuration register
+//!
+//! # Platform support
+//!
+//! This register is supported on Xuantie C910, C906 and E902 cores.
 use bit_field::BitField;
 use core::arch::asm;
 
@@ -10,6 +14,10 @@ pub struct Mhcr {
 
 impl Mhcr {
     /// I-cache enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E902 cores.
     #[inline]
     pub fn ie(&self) -> bool {
         self.bits.get_bit(0)

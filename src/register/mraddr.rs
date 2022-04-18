@@ -1,4 +1,8 @@
 //! mraddr, machine reset address register
+//!
+//! # Platform support
+//!
+//! This register is supported on Xuantie E902 core.
 use core::arch::asm;
 
 /// Get machine reset address

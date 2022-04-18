@@ -1,4 +1,8 @@
 //! mexstatus, machine exception state register
+//!
+//! # Platform support
+//!
+//! This register is supported on Xuantie E902 core.
 use bit_field::BitField;
 use core::arch::asm;
 

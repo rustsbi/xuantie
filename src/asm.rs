@@ -139,7 +139,7 @@ pub unsafe fn ipop() {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -148,7 +148,7 @@ pub unsafe fn ipop() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E902 cores.
 #[inline]
 pub unsafe fn icache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x010")
@@ -661,7 +661,7 @@ pub unsafe fn icache_iva(va: usize) {
 ///
 /// # Permissions
 ///
-/// Can run on M or S mode.
+/// Can run on M mode, or S mode if applicable.
 ///
 /// # Exceptions
 ///
@@ -670,7 +670,7 @@ pub unsafe fn icache_iva(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C906 cores.
+/// This instruction is supported on Xuantie C910, C906 and E902 cores.
 #[inline]
 pub unsafe fn icache_ipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x038", in(reg) pa)

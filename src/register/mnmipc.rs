@@ -1,4 +1,8 @@
 //! mnmipc, machine NMI exception program counter
+//!
+//! # Platform support
+//!
+//! This register is supported on Xuantie E902 core.
 use core::arch::asm;
 
 /// Get NMI exception program counter

@@ -1,4 +1,8 @@
 //! mxstatus, machine extended state register
+//!
+//! # Platform support
+//!
+//! This register is supported on Xuantie C910, C906 and E902 cores.
 use bit_field::BitField;
 use core::arch::asm;
 
@@ -63,11 +67,19 @@ impl Mxstatus {
         self.bits.get_bit(21)
     }
     /// T-Head extended instruction set architecture enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E902 cores.
     #[inline]
     pub fn theadisaee(&self) -> bool {
         self.bits.get_bit(22)
     }
     /// Current privileged mode
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C910, C906 and E902 cores.
     #[inline]
     pub fn pm(&self) -> PM {
         match self.bits.get_bits(30..=31) {
