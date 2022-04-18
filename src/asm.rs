@@ -156,7 +156,7 @@ pub unsafe fn icache_iall() {
 
 /// ICACHE.IALLS, I-cache broadcast all harts to invalid all items instruction
 ///
-/// Invalidates all I-cache table items, and broadcast other cores to invalid all I-cache items.
+/// Invalidates all I-cache table items, and broadcast other harts to invalid all I-cache items.
 /// This operation operates on I-cache on all harts.
 ///
 /// # Permissions
@@ -250,17 +250,38 @@ pub unsafe fn l2cache_ciall() {
 ///
 /// # Exceptions
 ///
-/// May raise illegal instruction exception.
-///
-/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
-/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
+/// when `mxstatus.theadisaee = 1` but run on U mode.
 ///
 /// # Platform support
 ///
-/// This instruction is supported on C906 core.
+/// This instruction is supported on Xuantie C910 and C906 cores.
 #[inline]
 pub unsafe fn sync() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x018")
+}
+
+/// SYNC.S, Synchronize and broadcast instruction
+///
+/// Ensures that all instructions before retire earlier than this instruction,
+/// and all instructions after retire later than this instruction.
+/// This request will be broadcasted to all other harts.
+///
+/// # Permissions
+///
+/// Can run on M, S or U mode.
+///
+/// # Exceptions
+///
+/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
+/// when `mxstatus.theadisaee = 1` but run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on Xuantie C910 core.
+#[inline]
+pub unsafe fn sync_s() {
+    asm!(".insn i 0x0B, 0, x0, x0, 0x019")
 }
 
 /// SYNC.I, Synchronize and clean instruction
@@ -275,17 +296,39 @@ pub unsafe fn sync() {
 ///
 /// # Exceptions
 ///
-/// May raise illegal instruction exception.
-///
-/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
-/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
+/// when `mxstatus.theadisaee = 1` but run on U mode.
 ///
 /// # Platform support
 ///
-/// This instruction is supported on C906 core.
+/// This instruction is supported on Xuantie C910 and C906 cores.
 #[inline]
 pub unsafe fn sync_i() {
-    asm!(".insn i 0x0B, 0, x0, x0, 0x1A")
+    asm!(".insn i 0x0B, 0, x0, x0, 0x01A")
+}
+
+/// SYNC.IS, Synchronize, clean and broadcast instruction
+///
+/// Ensures that all instructions before retire earlier than this instruction,
+/// and all instructions after retire later than this instruction.
+/// The pipeline is emptied when this instruction retires.
+/// This request will be broadcasted to all other harts.
+///
+/// # Permissions
+///
+/// Can run on M, S or U mode.
+///
+/// # Exceptions
+///
+/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
+/// when `mxstatus.theadisaee = 1` but run on U mode.
+///
+/// # Platform support
+///
+/// This instruction is supported on Xuantie C910 core.
+#[inline]
+pub unsafe fn sync_is() {
+    asm!(".insn i 0x0B, 0, x0, x0, 0x01B")
 }
 
 /// DCACHE.CSW, D-cache clean dirty item on way and set instruction
@@ -298,14 +341,16 @@ pub unsafe fn sync_i() {
 ///
 /// # Exceptions
 ///
-/// May raise illegal instruction exception.
-///
-/// - When `mxstatus.theadisaee = 0`, this instruction always raise illegal instruction exception.
-/// - When `mxstatus.theadisaee = 1`, this instruction will raise illegal instruction when being run on U mode.
+/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
+/// when `mxstatus.theadisaee = 1` but run on U mode.
 ///
 /// # Platform support
 ///
-/// This instruction is supported on C906 core.
+/// This instruction is supported on Xuantie C910 and C906 cores.
+///
+/// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
+/// when configurated 64 Kibibytes, `w` equals 14.
 ///
 /// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
@@ -396,7 +441,7 @@ pub unsafe fn dcache_cisw(way_and_set: usize) {
 /// # Platform support
 ///
 /// This instruction is supported on Xuantie C910 and C906 cores.
-/// On official C906 document, this instruction is named `DCACHE.CVA`.
+/// On Xuantie C906 User Manual, this instruction is named `DCACHE.CVA`.
 #[inline]
 pub unsafe fn dcache_cval1(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x024", in(reg) va)
@@ -436,7 +481,7 @@ pub unsafe fn dcache_cva(va: usize) {
 /// Invalidates D-cache or L2-cache (if applicable) table item corresponding to virtual address `va`.
 ///
 /// This instruction operates on the current hart. If applicable, this instruction will
-/// operates on L2-cache, and decide whether to broadcast to other cores according to
+/// operates on L2-cache, and decide whether to broadcast to other harts according to
 /// the share attribute of the virtual address.
 ///
 /// # Permissions
@@ -464,8 +509,8 @@ pub unsafe fn dcache_iva(va: usize) {
 /// to next level storage, and invalidate this table item.
 ///
 /// This instruction operates on the current hart. If applicable, this instruction will
-/// operates on L2-cache, and decide whether to broadcast to other cores according to
-/// the share attribute of the virtual address. 
+/// operates on L2-cache, and decide whether to broadcast to other harts according to
+/// the share attribute of the virtual address.
 ///
 /// # Permissions
 ///
@@ -504,8 +549,8 @@ pub unsafe fn dcache_civa(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C906 and C910 cores.
-/// On official C906 document, this instruction is named `DCACHE.CPA`.
+/// This instruction is supported on Xuantie C910 and C906 cores.
+/// On Xuantie C906 User Manual, this instruction is named `DCACHE.CPA`.
 #[inline]
 pub unsafe fn dcache_cpal1(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x028", in(reg) pa)
@@ -585,7 +630,7 @@ pub unsafe fn dcache_cipa(pa: usize) {
 /// Invalidates the I-cache table item corresponding to virtual address `va`.
 ///
 /// This instruction operates on the current hart. If applicable, this instruction will
-/// operates on L2-cache, and decide whether to broadcast to other cores according to
+/// operates on L2-cache, and decide whether to broadcast to other harts according to
 /// the share attribute of the virtual address.
 ///
 /// # Permissions
