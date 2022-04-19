@@ -24,7 +24,7 @@ impl Cpuid {
 
 /// Fetch the processor information
 #[inline]
-pub fn cpuid() -> Cpuid {
+pub fn read() -> Cpuid {
     let mut data = [0; 7];
     for _ in 0..7 {
         let val: u32;
