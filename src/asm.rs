@@ -82,12 +82,12 @@ pub unsafe fn dcache_ciall() {
 /// In pseudocode, it performs like:
 ///
 /// ```no_run
-/// *sp.offset(-1) = mcause;
-/// *sp.offset(-2) = mepc;
-/// *sp.offset(-3) = ra;
+/// *sp.sub(1) = mcause;
+/// *sp.sub(2) = mepc;
+/// *sp.sub(3) = ra;
 /// /* ... Mem[sp - 4] ..= Mem[sp - 72] ← mcause, mepc, {xi} */
-/// *sp.offset(-18) = t6;
-/// sp = sp.offset(-18);
+/// *sp.sub(18) = t6;
+/// sp = sp.sub(18);
 /// ```
 ///
 /// # Permissions
@@ -106,18 +106,18 @@ pub unsafe fn ipush() {
 ///
 /// Pop interrupt switch registers from current stack, and return from interrupt environment.
 /// It pops `mcause`, `mepc`, `x1`, `x5` to `x7`, `x10` to `x17` and `x28` to `x31` from stack.
-/// Another word, the poped `xi` integer registers are `ra`, `t0` to `t6`, and `a0` to `a7` (not in order)
+/// Another word, the popped `xi` integer registers are `ra`, `t0` to `t6`, and `a0` to `a7` (not in order)
 /// other than CSR registers `mcause` and `mepc`.
 ///
 /// In pseudocode, it performs like:
 ///
 /// ```no_run
-/// mcause = *sp.offset(17);
-/// mepc = *sp.offset(16);
-/// ra = *sp.offset(15);
+/// mcause = *sp.add(17);
+/// mepc = *sp.add(16);
+/// ra = *sp.add(15);
 /// /* ... mcause, mepc, {xi} ← Mem[sp + 68] ..= Mem[sp] */
-/// t6 = *sp.offset(0);
-/// sp = sp.offset(18);
+/// t6 = *sp.add(0);
+/// sp = sp.add(18);
 /// riscv::asm::mret();
 /// ```
 ///
@@ -265,7 +265,7 @@ pub unsafe fn sync() {
 ///
 /// Ensures that all instructions before retire earlier than this instruction,
 /// and all instructions after retire later than this instruction.
-/// This request will be broadcasted to all other harts.
+/// This request will be broadcast to all other harts.
 ///
 /// # Permissions
 ///
@@ -312,7 +312,7 @@ pub unsafe fn sync_i() {
 /// Ensures that all instructions before retire earlier than this instruction,
 /// and all instructions after retire later than this instruction.
 /// The pipeline is emptied when this instruction retires.
-/// This request will be broadcasted to all other harts.
+/// This request will be broadcast to all other harts.
 ///
 /// # Permissions
 ///
@@ -349,20 +349,20 @@ pub unsafe fn sync_is() {
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 64 Kibibytes, `w` equals 14.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 64 Kibibytes, `w` equals 14.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The E907 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 16 Kibibytes, `w` equals 12, and so on.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 16 Kibibytes, `w` equals 12, and so on.
 ///
 /// The E906 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 16 Kibibytes, `w` equals 12, and so on.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_csw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x021", in(reg) way_and_set)
@@ -386,20 +386,20 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 64 Kibibytes, `w` equals 14.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 64 Kibibytes, `w` equals 14.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The E907 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 16 Kibibytes, `w` equals 12, and so on.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 16 Kibibytes, `w` equals 12, and so on.
 ///
 /// The E906 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 16 Kibibytes, `w` equals 12, and so on.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_isw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x022", in(reg) way_and_set)
@@ -425,20 +425,20 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 64 Kibibytes, `w` equals 14.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The C906 core has a 4-way set-associative D-cache. Input variable `rs1[31:30]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 64 Kibibytes, `w` equals 14.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The E907 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 16 Kibibytes, `w` equals 12, and so on.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 16 Kibibytes, `w` equals 12, and so on.
 ///
 /// The E906 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
-/// while `rs1[w:6]` represents number of set. When D-cache is configurated 32 Kibibytes, `w` equals 13;
-/// when configurated 16 Kibibytes, `w` equals 12, and so on.
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_cisw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x023", in(reg) way_and_set)
@@ -473,7 +473,7 @@ pub unsafe fn dcache_cval1(va: usize) {
 
 /// DCACHE.CVA, D-cache clean dirty item for virtual address instruction
 ///
-/// Writes D-cache anhd L2-cache table item corresponding to virtual address `va` to next level storage.
+/// Writes D-cache and L2-cache table item corresponding to virtual address `va` to next level storage.
 /// This operation effects on all harts and the L2-cache.
 ///
 /// # Permissions
@@ -583,7 +583,7 @@ pub unsafe fn dcache_cpal1(pa: usize) {
 
 /// DCACHE.CPA, D-cache clean dirty item for physical address instruction
 ///
-/// Writes D-cache anhd L2-cache table item corresponding to physical address `pa` to next level storage.
+/// Writes D-cache and L2-cache table item corresponding to physical address `pa` to next level storage.
 /// This operation effects on all harts and the L2-cache.
 ///
 /// # Permissions
