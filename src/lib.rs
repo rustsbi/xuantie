@@ -4,34 +4,6 @@
 //!
 //! Here's a list of example code of how to using this library under different scenarios.
 //!
-//! ## Synchronize instruction cache and data cache
-//!
-//! The following code is useful when we need to change memory data and try to execute it as code.
-//!
-//! ```no_run
-//! # let insn_ptr: *const u32 = 0 as *const _;
-//! # let new_insn: u32 = 0;
-//! use xuantie::asm::{dcache_cval1, sync, icache_iva};
-//! use core::arch::riscv64::fence_i;
-//! // a new instruction is defined in `new_insn`, is store to
-//! // program virtual memory address defined in `insn_ptr`.
-//! unsafe { core::ptr::write_volatile(insn_ptr, new_insn) };
-//! // synchronize I-cache and D-cache
-//! unsafe {
-//!     // clean the L1 D-cache for new instruction
-//!     dcache_cval1(insn_ptr);
-//!     // ensure completion of clean operation on target hart
-//!     sync(); // or sync_s() for all harts
-//!     // invalidate I-cache according to shareable configuration
-//!     icache_iva(insn_ptr);
-//!     // ensure completion of clean operation on target hart
-//!     fence_i();
-//! }
-//! // now we may execute the target instruction
-//! # use core::mem::transmute;
-//! unsafe { transmute::<_, fn()>(insn_ptr)() };
-//! ```
-//!
 //! ## Enable and invalidate caches
 //!
 //! C906 will invalid both I-cache and D-cache automatically when reset.
