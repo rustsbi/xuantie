@@ -51,6 +51,7 @@ impl Entry {
         }
     }
     /// Toggles the entry flags
+    #[inline]
     pub fn toggle_flags(&mut self, other: Flags) {
         self.bits ^= other.bits()
     }
