@@ -2,7 +2,7 @@
 name = "xuantie"
 description = "Low level access to T-Head XuanTie RISC-V processors"
 version = "0.0.5"
-repository = "https://github.com/luojia65/xuantie"
+repository = "https://github.com/rustsbi/xuantie"
 documentation = "https://docs.rs/xuantie"
 license = "MulanPSL-2.0"
 readme = "README.md"
