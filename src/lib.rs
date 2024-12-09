@@ -70,3 +70,4 @@ pub mod asm;
 pub mod debug;
 pub mod paging;
 pub mod register;
+pub mod peripheral;
