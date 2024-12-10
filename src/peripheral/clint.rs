@@ -107,7 +107,5 @@ impl THeadClint {
         unsafe { self.stimecmp[hart_idx].stimecmpl.write(stimecmpl) }
         unsafe { self.stimecmp[hart_idx].stimecmph.write(stimecmph) }
     }
-
 }
-
 
