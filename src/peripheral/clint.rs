@@ -1,34 +1,34 @@
-//! XuanTie Clint
+//! XuanTie Core Local Interrupt (CLINT) peripheral.
 
 use volatile_register::RW;
 
-/// MSIP Register
+/// Machine-mode Software Interrupt Pending (MSIP) register.
 #[repr(transparent)]
 pub struct MSIP(RW<u32>);
 
-/// MTIMECMP Register
+/// Machine-mode Timer Compare (MTIMECMP) register group.
 #[repr(C)]
 pub struct MTIMECMP {
-    /// MTIMECMP Low Register
+    /// Low 32-bit word of MTIMECMP register.
     mtimecmpl: RW<u32>,
-    /// MTIMECMP High Register
+    /// High 32-bit word of MTIMECMP register.
     mtimecmph: RW<u32>,
 }
 
-/// SSIP Register
+/// Supervisor-mode Software Interrupt Pending (SSIP) register.
 #[repr(transparent)]
 pub struct SSIP(RW<u32>);
 
-/// STIMECMP Register
+/// Supervisor-mode Timer Compare (STIMECMP) register group.
 #[repr(C)]
 pub struct STIMECMP {
-    /// STIMECMP Low Register
+    /// Low 32-bit word of STIMECMP register.
     stimecmpl: RW<u32>,
-    /// STIMECMP High Register
+    /// High 32-bit word of STIMECMP register.
     stimecmph: RW<u32>,
 }
 
-/// Register block for T-Head Clint
+/// Register block for XuanTie Core Local Interrupt (CLINT) peripheral.
 #[repr(C)]
 pub struct THeadClint {
     msip: [MSIP; 4096],
@@ -38,25 +38,25 @@ pub struct THeadClint {
 }
 
 impl THeadClint {
-    /// Determine whether hart_idx has a valid machine mode software interrupt.
+    /// Determine whether `hart_idx` has a valid machine mode software interrupt.
     #[inline]
     pub fn read_msip(&self, hart_idx: usize) -> bool {
         self.msip[hart_idx].0.read() != 0
     }
 
-    /// Set the machine mode software interrupt of hart_idx.
+    /// Set the machine mode software interrupt of `hart_idx`.
     #[inline]
     pub fn set_msip(&self, hart_idx: usize) {
         unsafe { self.msip[hart_idx].0.write(1) }
     }
 
-    /// Clear the machine mode software interrupt of hart_idx.
+    /// Clear the machine mode software interrupt of `hart_idx`.
     #[inline]
     pub fn clear_msip(&self, hart_idx: usize) {
         unsafe { self.msip[hart_idx].0.write(0) }
     }
 
-    /// Read the mtimecmp register of hart_idx.
+    /// Read the mtimecmp register of `hart_idx`.
     #[inline]
     pub fn read_mtimecmp(&self, hart_idx: usize) -> u64 {
         let mtimecmpl = self.mtimecmp[hart_idx].mtimecmpl.read();
@@ -64,7 +64,7 @@ impl THeadClint {
         ((mtimecmph as u64) << 32) | mtimecmpl as u64
     }
 
-    /// Write the mtimecmp register of hart_idx.
+    /// Write the mtimecmp register of `hart_idx`.
     #[inline]
     pub fn write_mtimecmp(&self, hart_idx: usize, val: u64) {
         let mtimecmpl: u32 = (val & 0xffffffff) as u32;
@@ -73,25 +73,25 @@ impl THeadClint {
         unsafe { self.mtimecmp[hart_idx].mtimecmph.write(mtimecmph) }
     }
 
-    /// Determine whether hart_idx has a valid supervisor mode software interrupt.
+    /// Determine whether `hart_idx` has a valid supervisor mode software interrupt.
     #[inline]
     pub fn read_ssip(&self, hart_idx: usize) -> bool {
         self.ssip[hart_idx].0.read() != 0
     }
 
-    /// Set the supervisor mode software interrupt of hart_idx.
+    /// Set the supervisor mode software interrupt of `hart_idx`.
     #[inline]
     pub fn set_ssip(&self, hart_idx: usize) {
         unsafe { self.ssip[hart_idx].0.write(1) }
     }
 
-    /// Clear the supervisor mode software interrupt of hart_idx.
+    /// Clear the supervisor mode software interrupt of `hart_idx`.
     #[inline]
     pub fn clear_ssip(&self, hart_idx: usize) {
         unsafe { self.ssip[hart_idx].0.write(0) }
     }
 
-    /// Read the stimecmp register of hart_idx.
+    /// Read the `stimecmp` register of `hart_idx`.
     #[inline]
     pub fn read_stimecmp(&self, hart_idx: usize) -> u64 {
         let stimecmpl = self.stimecmp[hart_idx].stimecmpl.read();
@@ -99,7 +99,7 @@ impl THeadClint {
         ((stimecmph as u64) << 32) | stimecmpl as u64
     }
 
-    /// Write the stimecmp register of hart_idx.
+    /// Write the `stimecmp` register of `hart_idx`.
     #[inline]
     pub fn write_stimecmp(&self, hart_idx: usize, val: u64) {
         let stimecmpl: u32 = (val & 0xffffffff) as u32;
@@ -108,4 +108,3 @@ impl THeadClint {
         unsafe { self.stimecmp[hart_idx].stimecmph.write(stimecmph) }
     }
 }
-

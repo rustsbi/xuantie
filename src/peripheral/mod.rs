@@ -1,3 +1,3 @@
-//! XuanTie peripherals
+//! XuanTie core peripherals.
 
 pub mod clint;

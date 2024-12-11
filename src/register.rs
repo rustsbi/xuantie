@@ -1,4 +1,4 @@
-//! XuanTie extended CSRs
+//! XuanTie extended CSRs.
 
 // Extended state registers for performance cores
 pub mod mccr2; // 0x7C3

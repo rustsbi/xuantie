@@ -1,4 +1,4 @@
-//! Debug module of XuanTie
+//! Debug module of XuanTie.
 
 // pub mod itr; // 0x1F
 // pub mod customcs; // 0x70

@@ -1,7 +1,7 @@
 //! RISC-V "P" Extension Proposal Version 0.9
 use core::arch::asm;
 
-/// Adds packed 16-bit signed numbers, discarding overflow bits
+/// Adds packed 16-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn add16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -11,7 +11,7 @@ pub fn add16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the sum of packed 16-bit signed numbers, dropping least bits
+/// Halves the sum of packed 16-bit signed numbers, dropping least bits.
 #[inline]
 pub fn radd16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -21,7 +21,7 @@ pub fn radd16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the sum of packed 16-bit unsigned numbers, dropping least bits
+/// Halves the sum of packed 16-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn uradd16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -31,7 +31,7 @@ pub fn uradd16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Adds packed 16-bit signed numbers, saturating at the numeric bounds
+/// Adds packed 16-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn kadd16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -41,7 +41,7 @@ pub fn kadd16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Adds packed 16-bit unsigned numbers, saturating at the numeric bounds
+/// Adds packed 16-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ukadd16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -51,7 +51,7 @@ pub fn ukadd16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts packed 16-bit signed numbers, discarding overflow bits
+/// Subtracts packed 16-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn sub16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -61,7 +61,7 @@ pub fn sub16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the subtraction result of packed 16-bit signed numbers, dropping least bits
+/// Halves the subtraction result of packed 16-bit signed numbers, dropping least bits.
 #[inline]
 pub fn rsub16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -71,7 +71,7 @@ pub fn rsub16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the subtraction result of packed 16-bit unsigned numbers, dropping least bits
+/// Halves the subtraction result of packed 16-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn ursub16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -81,7 +81,7 @@ pub fn ursub16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts packed 16-bit signed numbers, saturating at the numeric bounds
+/// Subtracts packed 16-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ksub16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -91,7 +91,7 @@ pub fn ksub16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts packed 16-bit unsigned numbers, saturating at the numeric bounds
+/// Subtracts packed 16-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn uksub16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -101,7 +101,7 @@ pub fn uksub16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross adds and subtracts packed 16-bit signed numbers, discarding overflow bits
+/// Cross adds and subtracts packed 16-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn cras16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -111,7 +111,7 @@ pub fn cras16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross halves of adds and subtracts packed 16-bit signed numbers, dropping least bits
+/// Cross halves of adds and subtracts packed 16-bit signed numbers, dropping least bits.
 #[inline]
 pub fn rcras16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -121,7 +121,7 @@ pub fn rcras16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross halves of adds and subtracts packed 16-bit unsigned numbers, dropping least bits
+/// Cross halves of adds and subtracts packed 16-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn urcras16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -131,7 +131,7 @@ pub fn urcras16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross adds and subtracts packed 16-bit signed numbers, saturating at the numeric bounds
+/// Cross adds and subtracts packed 16-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn kcras16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -141,7 +141,7 @@ pub fn kcras16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross adds and subtracts packed 16-bit unsigned numbers, saturating at the numeric bounds
+/// Cross adds and subtracts packed 16-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ukcras16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -151,7 +151,7 @@ pub fn ukcras16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross subtracts and adds packed 16-bit signed numbers, discarding overflow bits
+/// Cross subtracts and adds packed 16-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn crsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -161,7 +161,7 @@ pub fn crsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross halves of subtracts and adds packed 16-bit signed numbers, dropping least bits
+/// Cross halves of subtracts and adds packed 16-bit signed numbers, dropping least bits.
 #[inline]
 pub fn rcrsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -171,7 +171,7 @@ pub fn rcrsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross halves of subtracts and adds packed 16-bit unsigned numbers, dropping least bits
+/// Cross halves of subtracts and adds packed 16-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn urcrsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -181,7 +181,7 @@ pub fn urcrsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross subtracts and adds packed 16-bit signed numbers, saturating at the numeric bounds
+/// Cross subtracts and adds packed 16-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn kcrsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -191,7 +191,7 @@ pub fn kcrsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Cross subtracts and adds packed 16-bit unsigned numbers, saturating at the numeric bounds
+/// Cross subtracts and adds packed 16-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ukcrsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -201,7 +201,7 @@ pub fn ukcrsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight adds and subtracts packed 16-bit signed numbers, discarding overflow bits
+/// Straight adds and subtracts packed 16-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn stas16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -211,7 +211,7 @@ pub fn stas16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight halves of adds and subtracts packed 16-bit signed numbers, dropping least bits
+/// Straight halves of adds and subtracts packed 16-bit signed numbers, dropping least bits.
 #[inline]
 pub fn rstas16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -221,7 +221,7 @@ pub fn rstas16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight halves of adds and subtracts packed 16-bit unsigned numbers, dropping least bits
+/// Straight halves of adds and subtracts packed 16-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn urstas16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -231,7 +231,7 @@ pub fn urstas16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight adds and subtracts packed 16-bit signed numbers, saturating at the numeric bounds
+/// Straight adds and subtracts packed 16-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn kstas16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -241,7 +241,7 @@ pub fn kstas16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight adds and subtracts packed 16-bit unsigned numbers, saturating at the numeric bounds
+/// Straight adds and subtracts packed 16-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ukstas16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -251,7 +251,7 @@ pub fn ukstas16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight subtracts and adds packed 16-bit signed numbers, discarding overflow bits
+/// Straight subtracts and adds packed 16-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn stsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -261,7 +261,7 @@ pub fn stsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight halves of subtracts and adds packed 16-bit signed numbers, dropping least bits
+/// Straight halves of subtracts and adds packed 16-bit signed numbers, dropping least bits.
 #[inline]
 pub fn rstsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -271,7 +271,7 @@ pub fn rstsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight halves of subtracts and adds packed 16-bit unsigned numbers, dropping least bits
+/// Straight halves of subtracts and adds packed 16-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn urstsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -281,7 +281,7 @@ pub fn urstsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight subtracts and adds packed 16-bit signed numbers, saturating at the numeric bounds
+/// Straight subtracts and adds packed 16-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn kstsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -291,7 +291,7 @@ pub fn kstsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Straight subtracts and adds packed 16-bit unsigned numbers, saturating at the numeric bounds
+/// Straight subtracts and adds packed 16-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ukstsa16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -301,7 +301,7 @@ pub fn ukstsa16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Adds packed 8-bit signed numbers, discarding overflow bits
+/// Adds packed 8-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn add8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -311,7 +311,7 @@ pub fn add8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the sum of packed 8-bit signed numbers, dropping least bits
+/// Halves the sum of packed 8-bit signed numbers, dropping least bits.
 #[inline]
 pub fn radd8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -321,7 +321,7 @@ pub fn radd8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the sum of packed 8-bit unsigned numbers, dropping least bits
+/// Halves the sum of packed 8-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn uradd8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -331,7 +331,7 @@ pub fn uradd8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Adds packed 8-bit signed numbers, saturating at the numeric bounds
+/// Adds packed 8-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn kadd8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -341,7 +341,7 @@ pub fn kadd8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Adds packed 8-bit unsigned numbers, saturating at the numeric bounds
+/// Adds packed 8-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ukadd8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -351,7 +351,7 @@ pub fn ukadd8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts packed 8-bit signed numbers, discarding overflow bits
+/// Subtracts packed 8-bit signed numbers, discarding overflow bits.
 #[inline]
 pub fn sub8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -361,7 +361,7 @@ pub fn sub8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the subtraction result of packed 8-bit signed numbers, dropping least bits
+/// Halves the subtraction result of packed 8-bit signed numbers, dropping least bits.
 #[inline]
 pub fn rsub8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -371,7 +371,7 @@ pub fn rsub8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Halves the subtraction result of packed 8-bit unsigned numbers, dropping least bits
+/// Halves the subtraction result of packed 8-bit unsigned numbers, dropping least bits.
 #[inline]
 pub fn ursub8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -381,7 +381,7 @@ pub fn ursub8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts packed 8-bit signed numbers, saturating at the numeric bounds
+/// Subtracts packed 8-bit signed numbers, saturating at the numeric bounds.
 #[inline]
 pub fn ksub8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -391,7 +391,7 @@ pub fn ksub8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts packed 8-bit unsigned numbers, saturating at the numeric bounds
+/// Subtracts packed 8-bit unsigned numbers, saturating at the numeric bounds.
 #[inline]
 pub fn uksub8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -401,7 +401,7 @@ pub fn uksub8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Arithmetic right shift packed 16-bit elements without rounding up
+/// Arithmetic right shift packed 16-bit elements without rounding up.
 #[inline]
 pub fn sra16(a: usize, b: u32) -> usize {
     let value: usize;
@@ -411,7 +411,7 @@ pub fn sra16(a: usize, b: u32) -> usize {
     value
 }
 
-/// Arithmetic right shift packed 16-bit elements with rounding up
+/// Arithmetic right shift packed 16-bit elements with rounding up.
 #[inline]
 pub fn sra16u(a: usize, b: u32) -> usize {
     let value: usize;
@@ -421,7 +421,7 @@ pub fn sra16u(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical right shift packed 16-bit elements without rounding up
+/// Logical right shift packed 16-bit elements without rounding up.
 #[inline]
 pub fn srl16(a: usize, b: u32) -> usize {
     let value: usize;
@@ -431,7 +431,7 @@ pub fn srl16(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical right shift packed 16-bit elements with rounding up
+/// Logical right shift packed 16-bit elements with rounding up.
 #[inline]
 pub fn srl16u(a: usize, b: u32) -> usize {
     let value: usize;
@@ -441,7 +441,7 @@ pub fn srl16u(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical left shift packed 16-bit elements, discarding overflow bits
+/// Logical left shift packed 16-bit elements, discarding overflow bits.
 #[inline]
 pub fn sll16(a: usize, b: u32) -> usize {
     let value: usize;
@@ -451,7 +451,7 @@ pub fn sll16(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical left shift packed 16-bit elements, saturating at the numeric bounds
+/// Logical left shift packed 16-bit elements, saturating at the numeric bounds.
 #[inline]
 pub fn ksll16(a: usize, b: u32) -> usize {
     let value: usize;
@@ -461,7 +461,7 @@ pub fn ksll16(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical saturating left then arithmetic right shift packed 16-bit elements
+/// Logical saturating left then arithmetic right shift packed 16-bit elements.
 #[inline]
 pub fn kslra16(a: usize, b: i32) -> usize {
     let value: usize;
@@ -471,7 +471,7 @@ pub fn kslra16(a: usize, b: i32) -> usize {
     value
 }
 
-/// Logical saturating left then arithmetic right shift packed 16-bit elements
+/// Logical saturating left then arithmetic right shift packed 16-bit elements.
 #[inline]
 pub fn kslra16u(a: usize, b: i32) -> usize {
     let value: usize;
@@ -481,7 +481,7 @@ pub fn kslra16u(a: usize, b: i32) -> usize {
     value
 }
 
-/// Arithmetic right shift packed 8-bit elements without rounding up
+/// Arithmetic right shift packed 8-bit elements without rounding up.
 #[inline]
 pub fn sra8(a: usize, b: u32) -> usize {
     let value: usize;
@@ -491,7 +491,7 @@ pub fn sra8(a: usize, b: u32) -> usize {
     value
 }
 
-/// Arithmetic right shift packed 8-bit elements with rounding up
+/// Arithmetic right shift packed 8-bit elements with rounding up.
 #[inline]
 pub fn sra8u(a: usize, b: u32) -> usize {
     let value: usize;
@@ -501,7 +501,7 @@ pub fn sra8u(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical right shift packed 8-bit elements without rounding up
+/// Logical right shift packed 8-bit elements without rounding up.
 #[inline]
 pub fn srl8(a: usize, b: u32) -> usize {
     let value: usize;
@@ -511,7 +511,7 @@ pub fn srl8(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical right shift packed 8-bit elements with rounding up
+/// Logical right shift packed 8-bit elements with rounding up.
 #[inline]
 pub fn srl8u(a: usize, b: u32) -> usize {
     let value: usize;
@@ -521,7 +521,7 @@ pub fn srl8u(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical left shift packed 8-bit elements, discarding overflow bits
+/// Logical left shift packed 8-bit elements, discarding overflow bits.
 #[inline]
 pub fn sll8(a: usize, b: u32) -> usize {
     let value: usize;
@@ -531,7 +531,7 @@ pub fn sll8(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical left shift packed 8-bit elements, saturating at the numeric bounds
+/// Logical left shift packed 8-bit elements, saturating at the numeric bounds.
 #[inline]
 pub fn ksll8(a: usize, b: u32) -> usize {
     let value: usize;
@@ -541,7 +541,7 @@ pub fn ksll8(a: usize, b: u32) -> usize {
     value
 }
 
-/// Logical saturating left then arithmetic right shift packed 8-bit elements
+/// Logical saturating left then arithmetic right shift packed 8-bit elements.
 #[inline]
 pub fn kslra8(a: usize, b: i32) -> usize {
     let value: usize;
@@ -551,7 +551,7 @@ pub fn kslra8(a: usize, b: i32) -> usize {
     value
 }
 
-/// Logical saturating left then arithmetic right shift packed 8-bit elements
+/// Logical saturating left then arithmetic right shift packed 8-bit elements.
 #[inline]
 pub fn kslra8u(a: usize, b: i32) -> usize {
     let value: usize;
@@ -561,7 +561,7 @@ pub fn kslra8u(a: usize, b: i32) -> usize {
     value
 }
 
-/// Compare equality for packed 16-bit elements
+/// Compare equality for packed 16-bit elements.
 #[inline]
 pub fn cmpeq16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -571,7 +571,7 @@ pub fn cmpeq16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 16-bit packed signed integers are less than the others
+/// Compare whether 16-bit packed signed integers are less than the others.
 #[inline]
 pub fn scmplt16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -581,7 +581,7 @@ pub fn scmplt16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 16-bit packed signed integers are less than or equal to the others
+/// Compare whether 16-bit packed signed integers are less than or equal to the others.
 #[inline]
 pub fn scmple16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -591,7 +591,7 @@ pub fn scmple16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 16-bit packed unsigned integers are less than the others
+/// Compare whether 16-bit packed unsigned integers are less than the others.
 #[inline]
 pub fn ucmplt16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -601,7 +601,7 @@ pub fn ucmplt16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 16-bit packed unsigned integers are less than or equal to the others
+/// Compare whether 16-bit packed unsigned integers are less than or equal to the others.
 #[inline]
 pub fn ucmple16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -611,7 +611,7 @@ pub fn ucmple16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare equality for packed 8-bit elements
+/// Compare equality for packed 8-bit elements.
 #[inline]
 pub fn cmpeq8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -621,7 +621,7 @@ pub fn cmpeq8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 8-bit packed signed integers are less than the others
+/// Compare whether 8-bit packed signed integers are less than the others.
 #[inline]
 pub fn scmplt8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -631,7 +631,7 @@ pub fn scmplt8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 8-bit packed signed integers are less than or equal to the others
+/// Compare whether 8-bit packed signed integers are less than or equal to the others.
 #[inline]
 pub fn scmple8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -641,7 +641,7 @@ pub fn scmple8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 8-bit packed unsigned integers are less than the others
+/// Compare whether 8-bit packed unsigned integers are less than the others.
 #[inline]
 pub fn ucmplt8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -651,7 +651,7 @@ pub fn ucmplt8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Compare whether 8-bit packed unsigned integers are less than or equal to the others
+/// Compare whether 8-bit packed unsigned integers are less than or equal to the others.
 #[inline]
 pub fn ucmple8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -661,7 +661,7 @@ pub fn ucmple8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Get minimum values from 16-bit packed signed integers
+/// Get minimum values from 16-bit packed signed integers.
 #[inline]
 pub fn smin16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -671,7 +671,7 @@ pub fn smin16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Get minimum values from 16-bit packed unsigned integers
+/// Get minimum values from 16-bit packed unsigned integers.
 #[inline]
 pub fn umin16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -681,7 +681,7 @@ pub fn umin16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Get maximum values from 16-bit packed signed integers
+/// Get maximum values from 16-bit packed signed integers.
 #[inline]
 pub fn smax16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -691,7 +691,7 @@ pub fn smax16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Get maximum values from 16-bit packed unsigned integers
+/// Get maximum values from 16-bit packed unsigned integers.
 #[inline]
 pub fn umax16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -703,7 +703,7 @@ pub fn umax16(a: usize, b: usize) -> usize {
 
 /* todo: sclip16, uclip16 */
 
-/// Compute the absolute value of packed 16-bit signed integers
+/// Compute the absolute value of packed 16-bit signed integers.
 #[inline]
 pub fn kabs16(a: usize) -> usize {
     let value: usize;
@@ -713,7 +713,7 @@ pub fn kabs16(a: usize) -> usize {
     value
 }
 
-/// Count the number of redundant sign bits of the packed 16-bit elements
+/// Count the number of redundant sign bits of the packed 16-bit elements.
 #[inline]
 pub fn clrs16(a: usize) -> usize {
     let value: usize;
@@ -723,7 +723,7 @@ pub fn clrs16(a: usize) -> usize {
     value
 }
 
-/// Count the number of leading zero bits of the packed 16-bit elements
+/// Count the number of leading zero bits of the packed 16-bit elements.
 #[inline]
 pub fn clz16(a: usize) -> usize {
     let value: usize;
@@ -733,7 +733,7 @@ pub fn clz16(a: usize) -> usize {
     value
 }
 
-/// Swap the 16-bit halfwords within each 32-bit word of a register
+/// Swap the 16-bit halfwords within each 32-bit word of a register.
 #[inline]
 pub fn swap16(a: usize) -> usize {
     let value: usize;
@@ -744,7 +744,7 @@ pub fn swap16(a: usize) -> usize {
     value
 }
 
-/// Get minimum values from 8-bit packed signed integers
+/// Get minimum values from 8-bit packed signed integers.
 #[inline]
 pub fn smin8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -754,7 +754,7 @@ pub fn smin8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Get minimum values from 8-bit packed unsigned integers
+/// Get minimum values from 8-bit packed unsigned integers.
 #[inline]
 pub fn umin8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -764,7 +764,7 @@ pub fn umin8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Get maximum values from 8-bit packed signed integers
+/// Get maximum values from 8-bit packed signed integers.
 #[inline]
 pub fn smax8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -774,7 +774,7 @@ pub fn smax8(a: usize, b: usize) -> usize {
     value
 }
 
-/// Get maximum values from 8-bit packed unsigned integers
+/// Get maximum values from 8-bit packed unsigned integers.
 #[inline]
 pub fn umax8(a: usize, b: usize) -> usize {
     let value: usize;
@@ -786,7 +786,7 @@ pub fn umax8(a: usize, b: usize) -> usize {
 
 /* todo: sclip8, uclip8 */
 
-/// Compute the absolute value of packed 8-bit signed integers
+/// Compute the absolute value of packed 8-bit signed integers.
 #[inline]
 pub fn kabs8(a: usize) -> usize {
     let value: usize;
@@ -796,7 +796,7 @@ pub fn kabs8(a: usize) -> usize {
     value
 }
 
-/// Count the number of redundant sign bits of the packed 8-bit elements
+/// Count the number of redundant sign bits of the packed 8-bit elements.
 #[inline]
 pub fn clrs8(a: usize) -> usize {
     let value: usize;
@@ -806,7 +806,7 @@ pub fn clrs8(a: usize) -> usize {
     value
 }
 
-/// Count the number of leading zero bits of the packed 8-bit elements
+/// Count the number of leading zero bits of the packed 8-bit elements.
 #[inline]
 pub fn clz8(a: usize) -> usize {
     let value: usize;
@@ -816,7 +816,7 @@ pub fn clz8(a: usize) -> usize {
     value
 }
 
-/// Swap the 8-bit bytes within each 16-bit halfword of a register.
+/// Swap the 8-bit bytes within each 16-bit halfword of a register..
 #[inline]
 pub fn swap8(a: usize) -> usize {
     let value: usize;
@@ -826,7 +826,7 @@ pub fn swap8(a: usize) -> usize {
     value
 }
 
-/// Unpack first and zeroth into two 16-bit signed halfwords in each 32-bit chunk
+/// Unpack first and zeroth into two 16-bit signed halfwords in each 32-bit chunk.
 #[inline]
 pub fn sunpkd810(a: usize) -> usize {
     let value: usize;
@@ -836,7 +836,7 @@ pub fn sunpkd810(a: usize) -> usize {
     value
 }
 
-/// Unpack second and zeroth into two 16-bit signed halfwords in each 32-bit chunk
+/// Unpack second and zeroth into two 16-bit signed halfwords in each 32-bit chunk.
 #[inline]
 pub fn sunpkd820(a: usize) -> usize {
     let value: usize;
@@ -846,7 +846,7 @@ pub fn sunpkd820(a: usize) -> usize {
     value
 }
 
-/// Unpack third and zeroth into two 16-bit signed halfwords in each 32-bit chunk
+/// Unpack third and zeroth into two 16-bit signed halfwords in each 32-bit chunk.
 #[inline]
 pub fn sunpkd830(a: usize) -> usize {
     let value: usize;
@@ -856,7 +856,7 @@ pub fn sunpkd830(a: usize) -> usize {
     value
 }
 
-/// Unpack third and first into two 16-bit signed halfwords in each 32-bit chunk
+/// Unpack third and first into two 16-bit signed halfwords in each 32-bit chunk.
 #[inline]
 pub fn sunpkd831(a: usize) -> usize {
     let value: usize;
@@ -866,7 +866,7 @@ pub fn sunpkd831(a: usize) -> usize {
     value
 }
 
-/// Unpack third and second into two 16-bit signed halfwords in each 32-bit chunk
+/// Unpack third and second into two 16-bit signed halfwords in each 32-bit chunk.
 #[inline]
 pub fn sunpkd832(a: usize) -> usize {
     let value: usize;
@@ -876,7 +876,7 @@ pub fn sunpkd832(a: usize) -> usize {
     value
 }
 
-/// Unpack first and zeroth into two 16-bit unsigned halfwords in each 32-bit chunk
+/// Unpack first and zeroth into two 16-bit unsigned halfwords in each 32-bit chunk.
 #[inline]
 pub fn zunpkd810(a: usize) -> usize {
     let value: usize;
@@ -886,7 +886,7 @@ pub fn zunpkd810(a: usize) -> usize {
     value
 }
 
-/// Unpack second and zeroth into two 16-bit unsigned halfwords in each 32-bit chunk
+/// Unpack second and zeroth into two 16-bit unsigned halfwords in each 32-bit chunk.
 #[inline]
 pub fn zunpkd820(a: usize) -> usize {
     let value: usize;
@@ -896,7 +896,7 @@ pub fn zunpkd820(a: usize) -> usize {
     value
 }
 
-/// Unpack third and zeroth into two 16-bit unsigned halfwords in each 32-bit chunk
+/// Unpack third and zeroth into two 16-bit unsigned halfwords in each 32-bit chunk.
 #[inline]
 pub fn zunpkd830(a: usize) -> usize {
     let value: usize;
@@ -906,7 +906,7 @@ pub fn zunpkd830(a: usize) -> usize {
     value
 }
 
-/// Unpack third and first into two 16-bit unsigned halfwords in each 32-bit chunk
+/// Unpack third and first into two 16-bit unsigned halfwords in each 32-bit chunk.
 #[inline]
 pub fn zunpkd831(a: usize) -> usize {
     let value: usize;
@@ -916,7 +916,7 @@ pub fn zunpkd831(a: usize) -> usize {
     value
 }
 
-/// Unpack third and second into two 16-bit unsigned halfwords in each 32-bit chunk
+/// Unpack third and second into two 16-bit unsigned halfwords in each 32-bit chunk.
 #[inline]
 pub fn zunpkd832(a: usize) -> usize {
     let value: usize;
@@ -928,7 +928,7 @@ pub fn zunpkd832(a: usize) -> usize {
 
 // todo: pkbb16, pktt16
 
-/// Pack two 16-bit data from bottom and top half from 32-bit chunks
+/// Pack two 16-bit data from bottom and top half from 32-bit chunks.
 #[inline]
 pub fn pkbt16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -938,7 +938,7 @@ pub fn pkbt16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Pack two 16-bit data from top and bottom half from 32-bit chunks
+/// Pack two 16-bit data from top and bottom half from 32-bit chunks.
 #[inline]
 pub fn pktb16(a: usize, b: usize) -> usize {
     let value: usize;
@@ -948,7 +948,7 @@ pub fn pktb16(a: usize, b: usize) -> usize {
     value
 }
 
-/// Count the number of redundant sign bits of the packed 32-bit elements
+/// Count the number of redundant sign bits of the packed 32-bit elements.
 #[inline]
 pub fn clrs32(a: usize) -> usize {
     let value: usize;
@@ -958,7 +958,7 @@ pub fn clrs32(a: usize) -> usize {
     value
 }
 
-/// Count the number of leading zero bits of the packed 32-bit elements
+/// Count the number of leading zero bits of the packed 32-bit elements.
 #[inline]
 pub fn clz32(a: usize) -> usize {
     let value: usize;
@@ -968,7 +968,7 @@ pub fn clz32(a: usize) -> usize {
     value
 }
 
-/// Calculate the sum of absolute difference of unsigned 8-bit data elements
+/// Calculate the sum of absolute difference of unsigned 8-bit data elements.
 #[inline]
 pub fn pbsad(a: usize, b: usize) -> usize {
     let value: usize;
@@ -978,7 +978,7 @@ pub fn pbsad(a: usize, b: usize) -> usize {
     value
 }
 
-/// Calculate and accumulate the sum of absolute difference of unsigned 8-bit data elements
+/// Calculate and accumulate the sum of absolute difference of unsigned 8-bit data elements.
 #[inline]
 pub fn pbsada(t: usize, a: usize, b: usize) -> usize {
     let mut value: usize;
@@ -988,7 +988,7 @@ pub fn pbsada(t: usize, a: usize, b: usize) -> usize {
     value
 }
 
-/// Multiply signed 8-bit elements and add 16-bit elements on results for packed 32-bit chunks
+/// Multiply signed 8-bit elements and add 16-bit elements on results for packed 32-bit chunks.
 #[inline]
 pub fn smaqa(t: usize, a: usize, b: usize) -> usize {
     let mut value: usize;
@@ -998,7 +998,7 @@ pub fn smaqa(t: usize, a: usize, b: usize) -> usize {
     value
 }
 
-/// Multiply unsigned 8-bit elements and add 16-bit elements on results for packed 32-bit chunks
+/// Multiply unsigned 8-bit elements and add 16-bit elements on results for packed 32-bit chunks.
 #[inline]
 pub fn umaqa(t: usize, a: usize, b: usize) -> usize {
     let mut value: usize;
@@ -1008,7 +1008,7 @@ pub fn umaqa(t: usize, a: usize, b: usize) -> usize {
     value
 }
 
-/// Multiply signed to unsigned 8-bit and add 16-bit elements on results for packed 32-bit chunks
+/// Multiply signed to unsigned 8-bit and add 16-bit elements on results for packed 32-bit chunks.
 #[inline]
 pub fn smaqasu(t: usize, a: usize, b: usize) -> usize {
     let mut value: usize;
@@ -1018,7 +1018,7 @@ pub fn smaqasu(t: usize, a: usize, b: usize) -> usize {
     value
 }
 
-/// Adds signed lower 16-bit content of two registers with Q15 saturation
+/// Adds signed lower 16-bit content of two registers with Q15 saturation.
 #[inline]
 pub fn kaddh(a: usize, b: usize) -> usize {
     let value: usize;
@@ -1028,7 +1028,7 @@ pub fn kaddh(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts signed lower 16-bit content of two registers with Q15 saturation
+/// Subtracts signed lower 16-bit content of two registers with Q15 saturation.
 #[inline]
 pub fn ksubh(a: usize, b: usize) -> usize {
     let value: usize;
@@ -1038,7 +1038,7 @@ pub fn ksubh(a: usize, b: usize) -> usize {
     value
 }
 
-/// Adds signed lower 16-bit content of two registers with U16 saturation
+/// Adds signed lower 16-bit content of two registers with U16 saturation.
 #[inline]
 pub fn ukaddh(a: usize, b: usize) -> usize {
     let value: usize;
@@ -1048,7 +1048,7 @@ pub fn ukaddh(a: usize, b: usize) -> usize {
     value
 }
 
-/// Subtracts signed lower 16-bit content of two registers with U16 saturation
+/// Subtracts signed lower 16-bit content of two registers with U16 saturation.
 #[inline]
 pub fn uksubh(a: usize, b: usize) -> usize {
     let value: usize;

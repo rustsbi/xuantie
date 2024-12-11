@@ -1,4 +1,4 @@
-//! Assembly instructions
+//! Assembly instructions.
 //!
 //! This module allows you to use XuanTie instructions without using specialized assembler or compiler.
 //!

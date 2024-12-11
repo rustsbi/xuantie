@@ -1,8 +1,8 @@
-//! Paging support
+//! Paging support.
 
 use bit_field::BitField;
 
-/// XuanTie extended page table entry
+/// XuanTie extended page table entry.
 #[derive(Clone, Copy, Debug)]
 #[repr(transparent)]
 pub struct Entry {
@@ -10,38 +10,38 @@ pub struct Entry {
 }
 
 impl Entry {
-    /// Convert bit representation into page entry, keeping all the bits
+    /// Convert bit representation into page entry, keeping all the bits.
     #[inline]
     pub const fn from_bits(bits: usize) -> Entry {
         Entry { bits }
     }
-    /// Returns the raw value of the entry
+    /// Returns the raw value of the entry.
     #[inline]
     pub const fn bits(&self) -> usize {
         self.bits
     }
-    /// Set physical page number
+    /// Set physical page number.
     #[inline]
     pub fn set_ppn(&mut self, ppn: usize) {
         assert!(ppn <= (1 << (28 + 1)));
         self.bits |= ppn << 10;
     }
-    /// Get physical page number
+    /// Get physical page number.
     #[inline]
     pub fn ppn(&self) -> usize {
         self.bits.get_bits(10..38)
     }
-    /// Insert entry flags, setting corresponding bits to one
+    /// Insert entry flags, setting corresponding bits to one.
     #[inline]
     pub fn insert_flags(&mut self, other: Flags) {
         self.bits |= other.bits()
     }
-    /// Remove entry flags, setting corresponding bits to zero
+    /// Remove entry flags, setting corresponding bits to zero.
     #[inline]
     pub fn remove_flags(&mut self, other: Flags) {
         self.bits &= !other.bits()
     }
-    /// Inserts or removes entry flags depending on the passed value
+    /// Inserts or removes entry flags depending on the passed value.
     #[inline]
     pub fn set_flags(&mut self, other: Flags, value: bool) {
         if value {
@@ -50,12 +50,12 @@ impl Entry {
             self.remove_flags(other);
         }
     }
-    /// Toggles the entry flags
+    /// Toggles the entry flags.
     #[inline]
     pub fn toggle_flags(&mut self, other: Flags) {
         self.bits ^= other.bits()
     }
-    /// Get entry flags
+    /// Get entry flags.
     #[inline]
     pub const fn get_flags(&self) -> Flags {
         Flags::from_bits_truncate(self.bits)
@@ -63,31 +63,31 @@ impl Entry {
 }
 
 bitflags::bitflags! {
-    /// XuanTie page table entry flags
+    /// XuanTie page table entry flags.
     pub struct Flags: usize {
-        /// Valid
+        /// Valid.
         const VALID = 1 << 0;
-        /// Read
+        /// Read.
         const READABLE = 1 << 1;
-        /// Write
+        /// Write.
         const WRITABLE = 1 << 2;
-        /// Execute
+        /// Execute.
         const EXECUTABLE = 1 << 3;
-        /// User mode
+        /// User mode.
         const USER = 1 << 4;
-        /// Global
+        /// Global.
         const GLOBAL = 1 << 5;
-        /// Accessed
+        /// Accessed.
         const ACCESSED = 1 << 6;
-        /// Dirty
+        /// Dirty.
         const DIRTY = 1 << 7;
-        /// Secure world trustable
+        /// Secure world trustable.
         const TRUSTABLE = 1 << 59;
-        /// Buffer
+        /// Buffer.
         const BUFFER = 1 << 61;
-        /// Cacheable
+        /// Cacheable.
         const CACHEABLE = 1 << 62;
-        /// Strong order
+        /// Strong order.
         const STRONG_ORDER = 1 << 63;
     }
 }

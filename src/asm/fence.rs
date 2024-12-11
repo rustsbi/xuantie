@@ -2,7 +2,7 @@ use core::arch::asm;
 
 // T-Head extended instructions are mostly encoded under custom-0 opcode space (opcode 0x0B).
 
-/// DCACHE.CALL, D-cache clean all dirty items instruction
+/// DCACHE.CALL, D-cache clean all dirty items instruction.
 ///
 /// Clears all L1 D-cache table items, write all dirty items to next level storage.
 ///
@@ -23,7 +23,7 @@ pub unsafe fn dcache_call() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x001")
 }
 
-/// DCACHE.IALL, D-cache invalid all items instruction
+/// DCACHE.IALL, D-cache invalid all items instruction.
 ///
 /// Invalidates all L1 D-cache table items. This instruction only operates on the current hart.
 ///
@@ -44,7 +44,7 @@ pub unsafe fn dcache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x002")
 }
 
-/// DCACHE.CIALL, D-cache clean all dirty and invalid item instruction
+/// DCACHE.CIALL, D-cache clean all dirty and invalid item instruction.
 ///
 /// Writes all L1 D-cache dirty items to next level storage, and invalidate all L1 D-cache table items.
 ///
@@ -65,7 +65,7 @@ pub unsafe fn dcache_ciall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x003")
 }
 
-/// IPUSH, fast interrupt stack push instruction
+/// IPUSH, fast interrupt stack push instruction.
 ///
 /// Push interrupt switch registers into current stack.
 /// It pushes `mcause`, `mepc`, `x1`, `x5` to `x7`, `x10` to `x17` and `x28` to `x31` into stack.
@@ -95,7 +95,7 @@ pub unsafe fn ipush() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x004")
 }
 
-/// IPOP, fast interrupt stack pop instruction
+/// IPOP, fast interrupt stack pop instruction.
 ///
 /// Pop interrupt switch registers from current stack, and return from interrupt environment.
 /// It pops `mcause`, `mepc`, `x1`, `x5` to `x7`, `x10` to `x17` and `x28` to `x31` from stack.
@@ -126,7 +126,7 @@ pub unsafe fn ipop() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x005")
 }
 
-/// ICACHE.IALL, I-cache invalid all items instruction
+/// ICACHE.IALL, I-cache invalid all items instruction.
 ///
 /// Invalidates all I-cache table items. This instruction only operates on the current hart.
 ///
@@ -147,7 +147,7 @@ pub unsafe fn icache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x010")
 }
 
-/// ICACHE.IALLS, I-cache broadcast all harts to invalid all items instruction
+/// ICACHE.IALLS, I-cache broadcast all harts to invalid all items instruction.
 ///
 /// Invalidates all I-cache table items, and broadcast other harts to invalid all I-cache items.
 /// This operation operates on I-cache on all harts.
@@ -169,7 +169,7 @@ pub unsafe fn icache_ialls() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x011")
 }
 
-/// L2CACHE.CALL, L2-cache clean all dirty items instruction
+/// L2CACHE.CALL, L2-cache clean all dirty items instruction.
 ///
 /// Clears all L2-cache table items, write all dirty items to next level storage.
 ///
@@ -190,7 +190,7 @@ pub unsafe fn l2cache_call() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x015")
 }
 
-/// L2CACHE.IALL, L2-cache invalid all items instruction
+/// L2CACHE.IALL, L2-cache invalid all items instruction.
 ///
 /// Invalidates all L2-cache table items.
 ///
@@ -211,7 +211,7 @@ pub unsafe fn l2cache_iall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x016")
 }
 
-/// L2CACHE.CIALL, L2-cache clean all dirty and invalid item instruction
+/// L2CACHE.CIALL, L2-cache clean all dirty and invalid item instruction.
 ///
 /// Writes all L2-cache dirty items to next level storage, and invalidate all L2-cache table items.
 ///
@@ -232,7 +232,7 @@ pub unsafe fn l2cache_ciall() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x017")
 }
 
-/// SYNC, Synchronize instruction
+/// SYNC, Synchronize instruction.
 ///
 /// Ensures that all instructions before retire earlier than this instruction,
 /// and all instructions after retire later than this instruction.
@@ -254,7 +254,7 @@ pub unsafe fn sync() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x018")
 }
 
-/// SYNC.S, Synchronize and broadcast instruction
+/// SYNC.S, Synchronize and broadcast instruction.
 ///
 /// Ensures that all instructions before retire earlier than this instruction,
 /// and all instructions after retire later than this instruction.
@@ -277,7 +277,7 @@ pub unsafe fn sync_s() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x019")
 }
 
-/// SYNC.I, Synchronize and clean instruction
+/// SYNC.I, Synchronize and clean instruction.
 ///
 /// Ensures that all instructions before retire earlier than this instruction,
 /// and all instructions after retire later than this instruction.
@@ -300,7 +300,7 @@ pub unsafe fn sync_i() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x01A")
 }
 
-/// SYNC.IS, Synchronize, clean and broadcast instruction
+/// SYNC.IS, Synchronize, clean and broadcast instruction.
 ///
 /// Ensures that all instructions before retire earlier than this instruction,
 /// and all instructions after retire later than this instruction.
@@ -324,7 +324,7 @@ pub unsafe fn sync_is() {
     asm!(".insn i 0x0B, 0, x0, x0, 0x01B")
 }
 
-/// DCACHE.CSW, D-cache clean dirty item on way and set instruction
+/// DCACHE.CSW, D-cache clean dirty item on way and set instruction.
 ///
 /// Writes D-cache dirty table item corresponding to given way and set to next level storage.
 ///
@@ -361,7 +361,7 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x021", in(reg) way_and_set)
 }
 
-/// DCACHE.ISW, D-cache invalid item for way and set instruction
+/// DCACHE.ISW, D-cache invalid item for way and set instruction.
 ///
 /// Invalidate D-cache dirty table item corresponding to given way and set.
 ///
@@ -398,7 +398,7 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x022", in(reg) way_and_set)
 }
 
-/// DCACHE.CISW, D-cache clean dirty and invalid for way and set instruction
+/// DCACHE.CISW, D-cache clean dirty and invalid for way and set instruction.
 ///
 /// Writes L1 D-cache dirty item corresponding to given way and set to next level storage,
 /// and invalidate this table item.
@@ -437,7 +437,7 @@ pub unsafe fn dcache_cisw(way_and_set: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x023", in(reg) way_and_set)
 }
 
-/// DCACHE.CVAL1, L1 D-cache clean dirty item for virtual address instruction
+/// DCACHE.CVAL1, L1 D-cache clean dirty item for virtual address instruction.
 ///
 /// Writes D-cache table item corresponding to virtual address `va` to next level storage.
 /// This operation effects on L1-cache on all harts.
@@ -464,7 +464,7 @@ pub unsafe fn dcache_cval1(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x024", in(reg) va)
 }
 
-/// DCACHE.CVA, D-cache clean dirty item for virtual address instruction
+/// DCACHE.CVA, D-cache clean dirty item for virtual address instruction.
 ///
 /// Writes D-cache and L2-cache table item corresponding to virtual address `va` to next level storage.
 /// This operation effects on all harts and the L2-cache.
@@ -493,7 +493,7 @@ pub unsafe fn dcache_cva(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x025", in(reg) va)
 }
 
-/// DCACHE.IVA, D-cache invalid item for virtual address instruction
+/// DCACHE.IVA, D-cache invalid item for virtual address instruction.
 ///
 /// Invalidates D-cache or L2-cache (if applicable) table item corresponding to virtual address `va`.
 ///
@@ -520,7 +520,7 @@ pub unsafe fn dcache_iva(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x026", in(reg) va)
 }
 
-/// DCACHE.CIVA, D-cache clean dirty and invalid for virtual address instruction
+/// DCACHE.CIVA, D-cache clean dirty and invalid for virtual address instruction.
 ///
 /// Write D-cache or L2-cache (if applicable) table item corresponding to virtual address `va`
 /// to next level storage, and invalidate this table item.
@@ -550,7 +550,7 @@ pub unsafe fn dcache_civa(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x027", in(reg) va)
 }
 
-/// DCACHE.CPAL1, L1 D-cache clean dirty item for physical address instruction
+/// DCACHE.CPAL1, L1 D-cache clean dirty item for physical address instruction.
 ///
 /// Writes D-cache table item corresponding to physical address `pa` to next level storage.
 /// This operation effects on L1-cache for all harts.
@@ -574,7 +574,7 @@ pub unsafe fn dcache_cpal1(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x028", in(reg) pa)
 }
 
-/// DCACHE.CPA, D-cache clean dirty item for physical address instruction
+/// DCACHE.CPA, D-cache clean dirty item for physical address instruction.
 ///
 /// Writes D-cache and L2-cache table item corresponding to physical address `pa` to next level storage.
 /// This operation effects on all harts and the L2-cache.
@@ -601,7 +601,7 @@ pub unsafe fn dcache_cpa(pa: usize) {
 }
 
 #[inline]
-/// DCACHE.IPA, D-cache invalid item for physical address instruction
+/// DCACHE.IPA, D-cache invalid item for physical address instruction.
 ///
 /// Invalidates D-cache table item corresponding to physical address `pa`.
 ///
@@ -621,7 +621,7 @@ pub unsafe fn dcache_ipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x02A", in(reg) pa)
 }
 
-/// DCACHE.CIPA, D-cache clean dirty and invalid for physical address instruction
+/// DCACHE.CIPA, D-cache clean dirty and invalid for physical address instruction.
 ///
 /// Writes D-cache or L2-cache (if applicable) table item corresponding to physical address `pa`
 /// to next level storage, and invalidate this table item.
@@ -644,7 +644,7 @@ pub unsafe fn dcache_cipa(pa: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x02B", in(reg) pa)
 }
 
-/// ICACHE.IVA, I-cache invalid item for virtual address instruction
+/// ICACHE.IVA, I-cache invalid item for virtual address instruction.
 ///
 /// Invalidates the I-cache table item corresponding to virtual address `va`.
 ///
@@ -673,7 +673,7 @@ pub unsafe fn icache_iva(va: usize) {
     asm!(".insn i 0x0B, 0, x0, {}, 0x030", in(reg) va)
 }
 
-/// ICACHE.IPA, I-cache invalid item for physical address instruction
+/// ICACHE.IPA, I-cache invalid item for physical address instruction.
 ///
 /// Invalidates I-cache table item corresponding to physical address `pa`.
 /// If applicable, this instruction operates on all harts.
