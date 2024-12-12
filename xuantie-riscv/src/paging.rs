@@ -3,12 +3,14 @@
 use bit_field::BitField;
 
 /// XuanTie extended page table entry.
+#[cfg(target_pointer_width = "64")]
 #[derive(Clone, Copy, Debug)]
 #[repr(transparent)]
 pub struct Entry {
     bits: usize,
 }
 
+#[cfg(target_pointer_width = "64")]
 impl Entry {
     /// Convert bit representation into page entry, keeping all the bits.
     #[inline]
@@ -62,6 +64,7 @@ impl Entry {
     }
 }
 
+#[cfg(target_pointer_width = "64")]
 bitflags::bitflags! {
     /// XuanTie page table entry flags.
     pub struct Flags: usize {
