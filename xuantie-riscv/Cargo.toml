@@ -1,0 +1,30 @@
+[package]
+name = "xuantie-riscv"
+description = "Low level access to T-Head XuanTie RISC-V processors"
+version = "0.0.0"
+repository = "https://github.com/rustsbi/xuantie"
+documentation = "https://docs.rs/xuantie"
+license = "MulanPSL-2.0"
+readme = "README.md"
+categories = ["embedded", "hardware-support", "no-std"]
+keywords = ["riscv", "register", "peripheral"]
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[package.metadata.docs.rs]
+default-target = "riscv64imac-unknown-none-elf"
+targets = [
+    "riscv32i-unknown-none-elf", "riscv32imc-unknown-none-elf", "riscv32imac-unknown-none-elf",
+    "riscv64imac-unknown-none-elf", "riscv64gc-unknown-none-elf",
+]
+
+[dependencies]
+bit_field = "0.10"
+bitflags = "1.3"
+volatile-register = "0.2.2"
+
+[lib]
+name = "xuantie_riscv"
+test = false
+bench = false
