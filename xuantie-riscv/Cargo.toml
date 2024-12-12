@@ -2,13 +2,13 @@
 name = "xuantie-riscv"
 description = "Low level access to T-Head XuanTie RISC-V processors"
 version = "0.0.0"
-repository = "https://github.com/rustsbi/xuantie"
-documentation = "https://docs.rs/xuantie"
-license = "MulanPSL-2.0"
+documentation = "https://docs.rs/xuantie-riscv"
+license.workspace = true
+repository.workspace = true
+edition.workspace = true
 readme = "README.md"
 categories = ["embedded", "hardware-support", "no-std"]
 keywords = ["riscv", "register", "peripheral"]
-edition = "2021"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

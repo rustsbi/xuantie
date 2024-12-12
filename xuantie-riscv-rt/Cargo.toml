@@ -1,0 +1,21 @@
+[package]
+name = "xuantie-riscv-rt"
+description = "Minimal runtime / startup for T-Head Xuantie RISC-V CPU's"
+version = "0.0.0"
+documentation = "https://docs.rs/xuantie"
+license.workspace = true
+repository.workspace = true
+edition.workspace = true
+readme = "README.md"
+categories = ["embedded", "no-std"]
+keywords = ["riscv", "runtime", "startup"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+cfg-if = "1.0.0"
+
+[lib]
+name = "xuantie_riscv_rt"
+test = false
+bench = false

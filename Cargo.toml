@@ -1,4 +1,11 @@
 [workspace]
 members = [
-    "xuantie-riscv"
+    "xuantie-riscv",
+    "xuantie-riscv-rt",
 ]
+resolver = "3"
+
+[workspace.package]
+edition = "2024"
+license = "MulanPSL-2.0"
+repository = "https://github.com/rustsbi/xuantie"
