@@ -8,7 +8,7 @@ Low level access to T-Head XuanTie RISC-V processors
 
 ## Minimum supported Rust version
 
-This crate should be built under Rust 1.59.0 or later, or nightly version newer than 2021-12-15.
+This crate should be built under Rust rustc 1.85.0-nightly (21fe748be 2024-12-11) or later.
 
 ## Contributing
 
