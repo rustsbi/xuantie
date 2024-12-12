@@ -1,8 +1,6 @@
 use core::arch::asm;
 
-// T-Head extended instructions are mostly encoded under custom-0 opcode space (opcode 0x0B).
-
-/// DCACHE.CALL, D-cache clean all dirty items instruction.
+/// D-cache clean all dirty items instruction.
 ///
 /// Clears all L1 D-cache table items, write all dirty items to next level storage.
 ///
@@ -20,10 +18,11 @@ use core::arch::asm;
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_call() {
+    // th.dcache.call
     asm!(".insn i 0x0B, 0, x0, x0, 0x001")
 }
 
-/// DCACHE.IALL, D-cache invalid all items instruction.
+/// D-cache invalid all items instruction.
 ///
 /// Invalidates all L1 D-cache table items. This instruction only operates on the current hart.
 ///
@@ -41,10 +40,11 @@ pub unsafe fn dcache_call() {
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_iall() {
+    // th.dcache.iall
     asm!(".insn i 0x0B, 0, x0, x0, 0x002")
 }
 
-/// DCACHE.CIALL, D-cache clean all dirty and invalid item instruction.
+/// D-cache clean all dirty and invalid item instruction.
 ///
 /// Writes all L1 D-cache dirty items to next level storage, and invalidate all L1 D-cache table items.
 ///
@@ -62,71 +62,11 @@ pub unsafe fn dcache_iall() {
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_ciall() {
+    // th.dcache.ciall
     asm!(".insn i 0x0B, 0, x0, x0, 0x003")
 }
 
-/// IPUSH, fast interrupt stack push instruction.
-///
-/// Push interrupt switch registers into current stack.
-/// It pushes `mcause`, `mepc`, `x1`, `x5` to `x7`, `x10` to `x17` and `x28` to `x31` into stack.
-/// Another word, the pushed `xi` integer registers are `ra`, `t0` to `t6`, and `a0` to `a7` (not in order)
-/// other than CSR registers `mcause` and `mepc`.
-///
-/// In pseudocode, it performs like:
-///
-/// ```no_run
-/// *sp.sub(1) = mcause;
-/// *sp.sub(2) = mepc;
-/// *sp.sub(3) = ra;
-/// /* ... Mem[sp - 4] ..= Mem[sp - 72] ← mcause, mepc, {xi} */
-/// *sp.sub(18) = t6;
-/// sp = sp.sub(18);
-/// ```
-///
-/// # Permissions
-///
-/// Must run on M mode.
-///
-/// # Exceptions
-///
-/// Raises store unaligned exception, store access exception, or illegal instruction exception.
-#[inline]
-pub unsafe fn ipush() {
-    asm!(".insn i 0x0B, 0, x0, x0, 0x004")
-}
-
-/// IPOP, fast interrupt stack pop instruction.
-///
-/// Pop interrupt switch registers from current stack, and return from interrupt environment.
-/// It pops `mcause`, `mepc`, `x1`, `x5` to `x7`, `x10` to `x17` and `x28` to `x31` from stack.
-/// Another word, the popped `xi` integer registers are `ra`, `t0` to `t6`, and `a0` to `a7` (not in order)
-/// other than CSR registers `mcause` and `mepc`.
-///
-/// In pseudocode, it performs like:
-///
-/// ```no_run
-/// mcause = *sp.add(17);
-/// mepc = *sp.add(16);
-/// ra = *sp.add(15);
-/// /* ... mcause, mepc, {xi} ← Mem[sp + 68] ..= Mem[sp] */
-/// t6 = *sp.add(0);
-/// sp = sp.add(18);
-/// riscv::asm::mret();
-/// ```
-///
-/// # Permissions
-///
-/// Must run on M mode.
-///
-/// # Exceptions
-///
-/// Raises store unaligned exception, store access exception, or illegal instruction exception.
-#[inline]
-pub unsafe fn ipop() {
-    asm!(".insn i 0x0B, 0, x0, x0, 0x005")
-}
-
-/// ICACHE.IALL, I-cache invalid all items instruction.
+/// I-cache invalid all items instruction.
 ///
 /// Invalidates all I-cache table items. This instruction only operates on the current hart.
 ///
@@ -144,10 +84,11 @@ pub unsafe fn ipop() {
 /// This instruction is supported on Xuantie C910, C906, E907, E906 and E902 cores.
 #[inline]
 pub unsafe fn icache_iall() {
+    // th.icache.iall
     asm!(".insn i 0x0B, 0, x0, x0, 0x010")
 }
 
-/// ICACHE.IALLS, I-cache broadcast all harts to invalid all items instruction.
+/// I-cache broadcast all harts to invalid all items instruction.
 ///
 /// Invalidates all I-cache table items, and broadcast other harts to invalid all I-cache items.
 /// This operation operates on I-cache on all harts.
@@ -166,10 +107,11 @@ pub unsafe fn icache_iall() {
 /// This instruction is supported on Xuantie C910 and C906 cores.
 #[inline]
 pub unsafe fn icache_ialls() {
+    // th.icache.ialls
     asm!(".insn i 0x0B, 0, x0, x0, 0x011")
 }
 
-/// L2CACHE.CALL, L2-cache clean all dirty items instruction.
+/// L2-cache clean all dirty items instruction.
 ///
 /// Clears all L2-cache table items, write all dirty items to next level storage.
 ///
@@ -187,10 +129,11 @@ pub unsafe fn icache_ialls() {
 /// This instruction is supported on Xuantie C910 core.
 #[inline]
 pub unsafe fn l2cache_call() {
+    // th.l2cache.call
     asm!(".insn i 0x0B, 0, x0, x0, 0x015")
 }
 
-/// L2CACHE.IALL, L2-cache invalid all items instruction.
+/// L2-cache invalid all items instruction.
 ///
 /// Invalidates all L2-cache table items.
 ///
@@ -208,10 +151,11 @@ pub unsafe fn l2cache_call() {
 /// This instruction is supported on Xuantie C910 and C906 cores.
 #[inline]
 pub unsafe fn l2cache_iall() {
+    // th.l2cache.iall
     asm!(".insn i 0x0B, 0, x0, x0, 0x016")
 }
 
-/// L2CACHE.CIALL, L2-cache clean all dirty and invalid item instruction.
+/// L2-cache clean all dirty and invalid item instruction.
 ///
 /// Writes all L2-cache dirty items to next level storage, and invalidate all L2-cache table items.
 ///
@@ -229,102 +173,11 @@ pub unsafe fn l2cache_iall() {
 /// This instruction is supported on Xuantie C910 core.
 #[inline]
 pub unsafe fn l2cache_ciall() {
+    // th.l2cache.ciall
     asm!(".insn i 0x0B, 0, x0, x0, 0x017")
 }
 
-/// SYNC, Synchronize instruction.
-///
-/// Ensures that all instructions before retire earlier than this instruction,
-/// and all instructions after retire later than this instruction.
-///
-/// # Permissions
-///
-/// Can run on M, U mode, or S mode if applicable.
-///
-/// # Exceptions
-///
-/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
-/// when `mxstatus.theadisaee = 1` but run on U mode.
-///
-/// # Platform support
-///
-/// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
-#[inline]
-pub unsafe fn sync() {
-    asm!(".insn i 0x0B, 0, x0, x0, 0x018")
-}
-
-/// SYNC.S, Synchronize and broadcast instruction.
-///
-/// Ensures that all instructions before retire earlier than this instruction,
-/// and all instructions after retire later than this instruction.
-/// This request will be broadcast to all other harts.
-///
-/// # Permissions
-///
-/// Can run on M, S or U mode.
-///
-/// # Exceptions
-///
-/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
-/// when `mxstatus.theadisaee = 1` but run on U mode.
-///
-/// # Platform support
-///
-/// This instruction is supported on Xuantie C910 core.
-#[inline]
-pub unsafe fn sync_s() {
-    asm!(".insn i 0x0B, 0, x0, x0, 0x019")
-}
-
-/// SYNC.I, Synchronize and clean instruction.
-///
-/// Ensures that all instructions before retire earlier than this instruction,
-/// and all instructions after retire later than this instruction.
-/// The pipeline is emptied when this instruction retires.
-///
-/// # Permissions
-///
-/// Can run on M, U mode, or S mode if applicable.
-///
-/// # Exceptions
-///
-/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
-/// when `mxstatus.theadisaee = 1` but run on U mode.
-///
-/// # Platform support
-///
-/// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
-#[inline]
-pub unsafe fn sync_i() {
-    asm!(".insn i 0x0B, 0, x0, x0, 0x01A")
-}
-
-/// SYNC.IS, Synchronize, clean and broadcast instruction.
-///
-/// Ensures that all instructions before retire earlier than this instruction,
-/// and all instructions after retire later than this instruction.
-/// The pipeline is emptied when this instruction retires.
-/// This request will be broadcast to all other harts.
-///
-/// # Permissions
-///
-/// Can run on M, S or U mode.
-///
-/// # Exceptions
-///
-/// Raises illegal instruction exception when `mxstatus.theadisaee = 0`, or
-/// when `mxstatus.theadisaee = 1` but run on U mode.
-///
-/// # Platform support
-///
-/// This instruction is supported on Xuantie C910 core.
-#[inline]
-pub unsafe fn sync_is() {
-    asm!(".insn i 0x0B, 0, x0, x0, 0x01B")
-}
-
-/// DCACHE.CSW, D-cache clean dirty item on way and set instruction.
+/// D-cache clean dirty item on way and set instruction.
 ///
 /// Writes D-cache dirty table item corresponding to given way and set to next level storage.
 ///
@@ -358,10 +211,11 @@ pub unsafe fn sync_is() {
 /// when configured 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_csw(way_and_set: usize) {
+    // th.dcache.csw {}
     asm!(".insn i 0x0B, 0, x0, {}, 0x021", in(reg) way_and_set)
 }
 
-/// DCACHE.ISW, D-cache invalid item for way and set instruction.
+/// D-cache invalid item for way and set instruction.
 ///
 /// Invalidate D-cache dirty table item corresponding to given way and set.
 ///
@@ -395,10 +249,11 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
 /// when configured 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_isw(way_and_set: usize) {
+    // th.dcache.isw
     asm!(".insn i 0x0B, 0, x0, {}, 0x022", in(reg) way_and_set)
 }
 
-/// DCACHE.CISW, D-cache clean dirty and invalid for way and set instruction.
+/// D-cache clean dirty and invalid for way and set instruction.
 ///
 /// Writes L1 D-cache dirty item corresponding to given way and set to next level storage,
 /// and invalidate this table item.
@@ -434,10 +289,11 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
 /// when configured 16 Kibibytes, `w` equals 12, and so on.
 #[inline]
 pub unsafe fn dcache_cisw(way_and_set: usize) {
+    // th.dcache.cisw
     asm!(".insn i 0x0B, 0, x0, {}, 0x023", in(reg) way_and_set)
 }
 
-/// DCACHE.CVAL1, L1 D-cache clean dirty item for virtual address instruction.
+/// L1 D-cache clean dirty item for virtual address instruction.
 ///
 /// Writes D-cache table item corresponding to virtual address `va` to next level storage.
 /// This operation effects on L1-cache on all harts.
@@ -461,10 +317,11 @@ pub unsafe fn dcache_cisw(way_and_set: usize) {
 /// On Xuantie C906 User Manual, this instruction is named `DCACHE.CVA`.
 #[inline]
 pub unsafe fn dcache_cval1(va: usize) {
+    // th.dcache.cval1
     asm!(".insn i 0x0B, 0, x0, {}, 0x024", in(reg) va)
 }
 
-/// DCACHE.CVA, D-cache clean dirty item for virtual address instruction.
+/// D-cache clean dirty item for virtual address instruction.
 ///
 /// Writes D-cache and L2-cache table item corresponding to virtual address `va` to next level storage.
 /// This operation effects on all harts and the L2-cache.
@@ -490,10 +347,11 @@ pub unsafe fn dcache_cval1(va: usize) {
 /// C906 you may need to use function [`dcache_cval1`] on this library.
 #[inline]
 pub unsafe fn dcache_cva(va: usize) {
+    // th.dcache.cva
     asm!(".insn i 0x0B, 0, x0, {}, 0x025", in(reg) va)
 }
 
-/// DCACHE.IVA, D-cache invalid item for virtual address instruction.
+/// D-cache invalid item for virtual address instruction.
 ///
 /// Invalidates D-cache or L2-cache (if applicable) table item corresponding to virtual address `va`.
 ///
@@ -517,10 +375,11 @@ pub unsafe fn dcache_cva(va: usize) {
 /// This instruction is supported on Xuantie C910 and C906 cores.
 #[inline]
 pub unsafe fn dcache_iva(va: usize) {
+    // th.dcache.iva
     asm!(".insn i 0x0B, 0, x0, {}, 0x026", in(reg) va)
 }
 
-/// DCACHE.CIVA, D-cache clean dirty and invalid for virtual address instruction.
+/// D-cache clean dirty and invalid for virtual address instruction.
 ///
 /// Write D-cache or L2-cache (if applicable) table item corresponding to virtual address `va`
 /// to next level storage, and invalidate this table item.
@@ -547,10 +406,11 @@ pub unsafe fn dcache_iva(va: usize) {
 /// This instruction is supported on Xuantie C910 and C906 cores.
 #[inline]
 pub unsafe fn dcache_civa(va: usize) {
+    // th.dcache.civa
     asm!(".insn i 0x0B, 0, x0, {}, 0x027", in(reg) va)
 }
 
-/// DCACHE.CPAL1, L1 D-cache clean dirty item for physical address instruction.
+/// L1 D-cache clean dirty item for physical address instruction.
 ///
 /// Writes D-cache table item corresponding to physical address `pa` to next level storage.
 /// This operation effects on L1-cache for all harts.
@@ -571,10 +431,11 @@ pub unsafe fn dcache_civa(va: usize) {
 /// this instruction is named `DCACHE.CPA`.
 #[inline]
 pub unsafe fn dcache_cpal1(pa: usize) {
+    // th.dcache.cpal1
     asm!(".insn i 0x0B, 0, x0, {}, 0x028", in(reg) pa)
 }
 
-/// DCACHE.CPA, D-cache clean dirty item for physical address instruction.
+/// D-cache clean dirty item for physical address instruction.
 ///
 /// Writes D-cache and L2-cache table item corresponding to physical address `pa` to next level storage.
 /// This operation effects on all harts and the L2-cache.
@@ -597,11 +458,12 @@ pub unsafe fn dcache_cpal1(pa: usize) {
 /// these cores you may need to use function [`dcache_cpal1`] on this library.
 #[inline]
 pub unsafe fn dcache_cpa(pa: usize) {
+    // th.dcache.cpa
     asm!(".insn i 0x0B, 0, x0, {}, 0x029", in(reg) pa)
 }
 
 #[inline]
-/// DCACHE.IPA, D-cache invalid item for physical address instruction.
+/// D-cache invalid item for physical address instruction.
 ///
 /// Invalidates D-cache table item corresponding to physical address `pa`.
 ///
@@ -618,10 +480,11 @@ pub unsafe fn dcache_cpa(pa: usize) {
 ///
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 pub unsafe fn dcache_ipa(pa: usize) {
+    // th.dcache.ipa
     asm!(".insn i 0x0B, 0, x0, {}, 0x02A", in(reg) pa)
 }
 
-/// DCACHE.CIPA, D-cache clean dirty and invalid for physical address instruction.
+/// D-cache clean dirty and invalid for physical address instruction.
 ///
 /// Writes D-cache or L2-cache (if applicable) table item corresponding to physical address `pa`
 /// to next level storage, and invalidate this table item.
@@ -641,10 +504,11 @@ pub unsafe fn dcache_ipa(pa: usize) {
 /// This instruction is supported on Xuantie C910, C906, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_cipa(pa: usize) {
+    // th.dcache.cipa
     asm!(".insn i 0x0B, 0, x0, {}, 0x02B", in(reg) pa)
 }
 
-/// ICACHE.IVA, I-cache invalid item for virtual address instruction.
+/// I-cache invalid item for virtual address instruction.
 ///
 /// Invalidates the I-cache table item corresponding to virtual address `va`.
 ///
@@ -670,10 +534,11 @@ pub unsafe fn dcache_cipa(pa: usize) {
 /// This instruction is supported on Xuantie C910 and C906 cores.
 #[inline]
 pub unsafe fn icache_iva(va: usize) {
+    // th.icache.iva
     asm!(".insn i 0x0B, 0, x0, {}, 0x030", in(reg) va)
 }
 
-/// ICACHE.IPA, I-cache invalid item for physical address instruction.
+/// I-cache invalid item for physical address instruction.
 ///
 /// Invalidates I-cache table item corresponding to physical address `pa`.
 /// If applicable, this instruction operates on all harts.
@@ -692,5 +557,6 @@ pub unsafe fn icache_iva(va: usize) {
 /// This instruction is supported on Xuantie C910, C906, E907, E906 and E902 cores.
 #[inline]
 pub unsafe fn icache_ipa(pa: usize) {
+    // th.icache.ipa
     asm!(".insn i 0x0B, 0, x0, {}, 0x038", in(reg) pa)
 }
