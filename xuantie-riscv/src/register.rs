@@ -27,6 +27,8 @@ pub mod sxstatus; // 0x5C0 // 0x5C3
 // Extended supervisor virtual memory registers
 // pub mod smir; // 0x9C0
 pub mod smeh;
+// Only enable smel when 64-bit, as it would contain a page table entry
+#[cfg(target_pointer_width = "64")]
 pub mod smel; // 0x9C1 // 0x9C2
 // pub mod smcir; // 0x9C3
 

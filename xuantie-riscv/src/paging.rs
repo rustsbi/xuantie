@@ -1,5 +1,6 @@
 //! Paging support.
 
+#[cfg(target_pointer_width = "64")]
 use bit_field::BitField;
 
 /// XuanTie extended page table entry.
