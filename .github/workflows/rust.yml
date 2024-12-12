@@ -1,0 +1,55 @@
+name: Xuantie RISC-V CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  format:
+    name: Check Formatting
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.59.0
+          override: true
+          components: rustfmt
+      - name: Run cargo fmt to check formatting
+        run: cargo fmt --all -- --check
+
+  check:
+    name: Run cargo check on RISC-V targets
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        target:
+          - riscv32imac-unknown-none-elf
+          - riscv64imac-unknown-none-elf
+          - riscv32imc-unknown-none-elf
+          - riscv64gc-unknown-linux-gnu
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Install Rust toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: 1.59.0
+          target: ${{ matrix.target }}
+          override: true
+
+      - name: Install RISC-V target support
+        run: |
+          rustup target add ${{ matrix.target }}
+
+      - name: Run cargo check for xuantie-riscv
+        run: |
+          cd xuantie-riscv
+          cargo check --target ${{ matrix.target }}
