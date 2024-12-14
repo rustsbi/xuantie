@@ -10,7 +10,6 @@ const PLIC_CTRL_OFFSET: usize = 0x01F_FFFC;
 const PLIC_CTRL_S_PER_ENABLED: u32 = 0x1;
 const PLIC_CTRL_S_PER_DISABLED: u32 = 0x0;
 const PLIC_CTRL_S_PER_BIT: u32 = 0x1;
-const THEAD_PLIC_PRIORITY_BITS: u32 = 5;
 
 /// Register block for XuanTie Platform Local Interrupt Controller (PLIC).
 #[repr(C, align(4096))]
@@ -65,12 +64,15 @@ impl Plic {
     }
 
     /// Probe maximum level of priority for interrupt `source`.
+    // Note: we detect them in any situation even when we already know how many bits
+    // are there in the T-Head Xuantie core, in case this structure is misused onto
+    // other non-Xuantie cores.
     #[inline]
-    pub fn probe_priority_bits<S>(&self, _source: S) -> u32
+    pub fn probe_priority_bits<S>(&self, source: S) -> u32
     where
         S: InterruptSource,
     {
-        THEAD_PLIC_PRIORITY_BITS
+        self.inner.probe_priority_bits(source)
     }
 
     /// Check if interrupt `source` is pending.
@@ -131,12 +133,15 @@ impl Plic {
     }
 
     /// Probe maximum supported threshold value the `context` supports.
+    // Note: we detect them in any situation even when we already know how many bits
+    // are there in the T-Head Xuantie core, in case this structure is misused onto
+    // other non-Xuantie cores.
     #[inline]
-    pub fn probe_threshold_bits<C>(&self, _context: C) -> u32
+    pub fn probe_threshold_bits<C>(&self, context: C) -> u32
     where
         C: HartContext,
     {
-        THEAD_PLIC_PRIORITY_BITS
+        self.inner.probe_threshold_bits(context)
     }
 
     /// Claim an interrupt in `context`, returning its source.
