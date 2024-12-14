@@ -3,9 +3,9 @@ members = [
     "xuantie-riscv",
     "xuantie-riscv-rt",
 ]
-resolver = "3"
+resolver = "2"
 
 [workspace.package]
-edition = "2024"
+edition = "2021"
 license = "MulanPSL-2.0"
 repository = "https://github.com/rustsbi/xuantie"
