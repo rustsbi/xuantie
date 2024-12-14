@@ -22,6 +22,7 @@ targets = [
 [dependencies]
 bit_field = "0.10"
 bitflags = "2"
+plic = "0.0.2"
 volatile-register = "0.2.2"
 
 [lib]
