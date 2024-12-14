@@ -70,4 +70,6 @@ pub mod asm;
 pub mod debug;
 pub mod paging;
 pub mod peripheral;
+
+#[rustfmt::skip]
 pub mod register;
