@@ -4,7 +4,6 @@
 //!
 //! This register is supported on Xuantie C910, C906, E906 and E902 cores.
 use bit_field::BitField;
-use core::arch::asm;
 
 /// mhcr register
 #[derive(Clone, Copy, Debug)]

@@ -1,7 +1,6 @@
 //! scer, supervisor L1-cache error control register
 pub use super::mcer::RAMID;
 use bit_field::BitField;
-use core::arch::asm;
 
 /// scer register
 #[derive(Clone, Copy, Debug)]

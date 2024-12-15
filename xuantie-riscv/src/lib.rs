@@ -10,7 +10,7 @@
 //! Use the following operation, we can enable I-cache and D-cache.
 //!
 //! ```no_run
-//! use xuantie::register::mhcr;
+//! use xuantie_riscv::register::mhcr;
 //! // enable D-cache
 //! unsafe { mhcr::set_de() };
 //! // enable I-cache
@@ -21,14 +21,14 @@
 //!
 //! ```no_run
 //! // If we don't have `mxstatus.theadisaee` enabled
-//! use xuantie::register::mcor::{self, Cache, Operation};
+//! use xuantie_riscv::register::mcor::{self, Cache, Operation};
 //! // invalidate caches. Use `Cache::DATA` or `Cache::INSTRUCION`
 //! // to invalid a specific cache.
 //! unsafe { mcor::cache(Cache::BOTH, Operation::INVALIDATE); }
 //! ```
 //! ```no_run
 //! // If we have `mxstatus.theadisaee` enabled
-//! use xuantie::asm::{icache_iall, dcache_iall, sync_is};
+//! use xuantie_riscv::asm::{icache_iall, dcache_iall, sync_is};
 //! // invalidate I-cache
 //! unsafe { icache_iall(); sync_is(); }
 //! // invalidate D-cache
@@ -43,9 +43,9 @@
 //! Make sure the hart is at M mode when executing the following code.
 //!
 //! ```no_run
-//! use riscv::register::mstatus;
-//! use xuantie::{asm::dcache_call, register::{mhint, mhcr}};
-//! use core::arch::riscv64::wfi;
+//! # mod riscv { pub mod register { pub mod mstatus { pub fn clear_mie() {} }} pub mod asm { pub fn wfi() {}}}
+//! use riscv::{asm::wfi, register::mstatus};
+//! use xuantie_riscv::{asm::dcache_call, register::{mhint, mhcr}};
 //! // power down the current processor hart
 //! unsafe fn shutdown() -> ! {
 //!     // disable interrupt

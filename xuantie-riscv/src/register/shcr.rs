@@ -1,6 +1,5 @@
 //! shcr, supervisor hardware configuration register
 use bit_field::BitField;
-use core::arch::asm;
 
 /// shcr register
 #[derive(Clone, Copy, Debug)]

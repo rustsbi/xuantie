@@ -12,12 +12,16 @@ use core::arch::asm;
 /// In pseudocode, it performs like:
 ///
 /// ```no_run
+/// # let mut sp: *mut u8 = core::ptr::null_mut();
+/// # let (mcause, mepc, ra, t6) = (0, 0, 0, 0);
+/// # unsafe {
 /// *sp.sub(1) = mcause;
 /// *sp.sub(2) = mepc;
 /// *sp.sub(3) = ra;
 /// /* ... Mem[sp - 4] ..= Mem[sp - 72] ← mcause, mepc, {xi} */
 /// *sp.sub(18) = t6;
 /// sp = sp.sub(18);
+/// # }
 /// ```
 ///
 /// # Permissions
@@ -43,13 +47,17 @@ pub unsafe fn ipush() {
 /// In pseudocode, it performs like:
 ///
 /// ```no_run
-/// mcause = *sp.add(17);
-/// mepc = *sp.add(16);
-/// ra = *sp.add(15);
+/// # mod riscv { pub mod asm { pub fn mret() {} }}
+/// # let sp: *mut u8 = core::ptr::null_mut();
+/// # unsafe {
+/// let mcause = *sp.add(17);
+/// let mepc = *sp.add(16);
+/// let ra = *sp.add(15);
 /// /* ... mcause, mepc, {xi} ← Mem[sp + 68] ..= Mem[sp] */
-/// t6 = *sp.add(0);
-/// sp = sp.add(18);
+/// let t6 = *sp.add(0);
+/// let sp = sp.add(18);
 /// riscv::asm::mret();
+/// # }
 /// ```
 ///
 /// # Permissions

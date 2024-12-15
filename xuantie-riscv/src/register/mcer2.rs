@@ -1,6 +1,5 @@
 //! mcer2, machine L2-cache error control register
 use bit_field::BitField;
-use core::arch::asm;
 
 /// mcer2 register
 #[derive(Clone, Copy, Debug)]

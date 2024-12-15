@@ -1,6 +1,5 @@
 //! mcer, machine L1-cache error control register
 use bit_field::BitField;
-use core::arch::asm;
 
 /// mcer register
 #[derive(Clone, Copy, Debug)]

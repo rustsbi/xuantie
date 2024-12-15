@@ -1,6 +1,5 @@
 //! smeh, supervisor memory entry high register
 use bit_field::BitField;
-use core::arch::asm;
 
 /// smeh register
 #[derive(Clone, Copy, Debug)]

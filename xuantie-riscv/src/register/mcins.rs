@@ -1,5 +1,4 @@
 //! mcins, machine cache instruction register
-use core::arch::asm;
 
 set_clear_csr! {
     /// Cache read request

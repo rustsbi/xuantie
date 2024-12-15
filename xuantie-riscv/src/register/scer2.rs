@@ -1,6 +1,5 @@
 //! scer2, supervisor L2-cache error control register
 use bit_field::BitField;
-use core::arch::asm;
 
 /// scer2 register
 #[derive(Clone, Copy, Debug)]

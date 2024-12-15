@@ -4,7 +4,6 @@
 //!
 //! This register as well as all its bits are supported on Xuantie E907, E906 and E902 cores.
 use bit_field::BitField;
-use core::arch::asm;
 
 /// mnmicause register
 #[derive(Clone, Copy, Debug)]
