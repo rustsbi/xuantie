@@ -15,7 +15,7 @@ use core::arch::asm;
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_call() {
     // th.dcache.call
@@ -37,7 +37,7 @@ pub unsafe fn dcache_call() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_iall() {
     // th.dcache.iall
@@ -59,7 +59,7 @@ pub unsafe fn dcache_iall() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_ciall() {
     // th.dcache.ciall
@@ -81,7 +81,7 @@ pub unsafe fn dcache_ciall() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907, E906 and E902 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907, E906 and E902 cores.
 #[inline]
 pub unsafe fn icache_iall() {
     // th.icache.iall
@@ -104,7 +104,7 @@ pub unsafe fn icache_iall() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906 and C907 cores.
+/// This instruction is supported on Xuantie C910, C906, C907 and C908 cores.
 #[inline]
 pub unsafe fn icache_ialls() {
     // th.icache.ialls
@@ -192,7 +192,7 @@ pub unsafe fn l2cache_ciall() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
@@ -203,6 +203,10 @@ pub unsafe fn l2cache_ciall() {
 /// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The C907 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
+///
+/// The C908 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
 /// when configured 64 Kibibytes, `w` equals 14.
 ///
@@ -234,7 +238,7 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
@@ -245,6 +249,10 @@ pub unsafe fn dcache_csw(way_and_set: usize) {
 /// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The C907 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
+///
+/// The C908 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
 /// when configured 64 Kibibytes, `w` equals 14.
 ///
@@ -278,7 +286,7 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 ///
 /// The C910 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
@@ -289,6 +297,10 @@ pub unsafe fn dcache_isw(way_and_set: usize) {
 /// when configured 64 Kibibytes, `w` equals 14.
 ///
 /// The C907 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
+/// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
+/// when configured 64 Kibibytes, `w` equals 14.
+///
+/// The C908 core has a 2-way set-associative D-cache. Input variable `rs1[31]` represents number of way,
 /// while `rs1[w:6]` represents number of set. When D-cache is configured 32 Kibibytes, `w` equals 13;
 /// when configured 64 Kibibytes, `w` equals 14.
 ///
@@ -325,7 +337,7 @@ pub unsafe fn dcache_cisw(way_and_set: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906 and C907 cores.
+/// This instruction is supported on Xuantie C910, C906, C907 and C908 cores.
 /// On Xuantie C906 User Manual, this instruction is named `DCACHE.CVA`.
 #[inline]
 pub unsafe fn dcache_cval1(va: usize) {
@@ -353,7 +365,7 @@ pub unsafe fn dcache_cval1(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C907 cores.
+/// This instruction is supported on Xuantie C910, C907 and C908 cores.
 ///
 /// The Xuantie C906 User Manual names `DCACHE.CVAL1` as `DCACHE.CVA`; to clean dirty item on
 /// C906 you may need to use function [`dcache_cval1`] on this library.
@@ -384,7 +396,7 @@ pub unsafe fn dcache_cva(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906 and C907 cores.
+/// This instruction is supported on Xuantie C910, C906, C907 and C908 cores.
 #[inline]
 pub unsafe fn dcache_iva(va: usize) {
     // th.dcache.iva
@@ -415,7 +427,7 @@ pub unsafe fn dcache_iva(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906 and C907 cores.
+/// This instruction is supported on Xuantie C910, C906, C907 and C908 cores.
 #[inline]
 pub unsafe fn dcache_civa(va: usize) {
     // th.dcache.civa
@@ -438,7 +450,7 @@ pub unsafe fn dcache_civa(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 /// On Xuantie C906 User Manual, Xuantie E907 User Manual and Xuantie E906 User Manual,
 /// this instruction is named `DCACHE.CPA`.
 #[inline]
@@ -463,7 +475,7 @@ pub unsafe fn dcache_cpal1(pa: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910 and C907 cores.
+/// This instruction is supported on Xuantie C910, C907 and C908 cores.
 ///
 /// The Xuantie C906 User Manual, Xuantie E907 User Manual and Xuantie E906 User Manual
 /// names `DCACHE.CPAL1` as `DCACHE.CPA`; to clean dirty item on
@@ -490,7 +502,7 @@ pub unsafe fn dcache_cpa(pa: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 pub unsafe fn dcache_ipa(pa: usize) {
     // th.dcache.ipa
     asm!(".insn i 0x0B, 0, x0, {}, 0x02A", in(reg) pa)
@@ -513,7 +525,7 @@ pub unsafe fn dcache_ipa(pa: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907 and E906 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
 #[inline]
 pub unsafe fn dcache_cipa(pa: usize) {
     // th.dcache.cipa
@@ -543,7 +555,7 @@ pub unsafe fn dcache_cipa(pa: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906 and C907 cores.
+/// This instruction is supported on Xuantie C910, C906, C907 and C908 cores.
 #[inline]
 pub unsafe fn icache_iva(va: usize) {
     // th.icache.iva
@@ -566,7 +578,7 @@ pub unsafe fn icache_iva(va: usize) {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, E907, E906 and E902 cores.
+/// This instruction is supported on Xuantie C910, C906, C907, C908, E907, E906 and E902 cores.
 #[inline]
 pub unsafe fn icache_ipa(pa: usize) {
     // th.icache.ipa
