@@ -1,4 +1,4 @@
-name: Rust checks
+name: Cargo
 
 on:
   push:
@@ -12,7 +12,7 @@ env:
 
 jobs:
   format:
-    name: Check Formatting
+    name: Format check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +26,7 @@ jobs:
         run: cargo fmt --all -- --check
 
   check:
-    name: Run cargo check on RISC-V targets
+    name: Code check
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -51,5 +51,4 @@ jobs:
 
       - name: Run cargo check for xuantie-riscv
         run: |
-          cd xuantie-riscv
-          cargo check --target ${{ matrix.target }}
+          cargo check -p xuantie-riscv --target ${{ matrix.target }}
