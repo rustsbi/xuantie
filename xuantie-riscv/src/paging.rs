@@ -1,37 +1,34 @@
 //! Paging support.
 
-#[cfg(target_pointer_width = "64")]
 use bit_field::BitField;
 
-/// XuanTie extended page table entry.
-#[cfg(target_pointer_width = "64")]
+/// XuanTie extended 64-bit page table entry.
 #[derive(Clone, Copy, Debug)]
 #[repr(transparent)]
 pub struct Entry {
-    bits: usize,
+    bits: u64,
 }
 
-#[cfg(target_pointer_width = "64")]
 impl Entry {
     /// Convert bit representation into page entry, keeping all the bits.
     #[inline]
-    pub const fn from_bits(bits: usize) -> Entry {
+    pub const fn from_bits(bits: u64) -> Entry {
         Entry { bits }
     }
     /// Returns the raw value of the entry.
     #[inline]
-    pub const fn bits(&self) -> usize {
+    pub const fn bits(&self) -> u64 {
         self.bits
     }
     /// Set physical page number.
     #[inline]
-    pub fn set_ppn(&mut self, ppn: usize) {
+    pub fn set_ppn(&mut self, ppn: u64) {
         assert!(ppn <= (1 << (28 + 1)));
         self.bits |= ppn << 10;
     }
     /// Get physical page number.
     #[inline]
-    pub fn ppn(&self) -> usize {
+    pub fn ppn(&self) -> u64 {
         self.bits.get_bits(10..38)
     }
     /// Insert entry flags, setting corresponding bits to one.
@@ -65,10 +62,9 @@ impl Entry {
     }
 }
 
-#[cfg(target_pointer_width = "64")]
 bitflags::bitflags! {
-    /// XuanTie page table entry flags.
-    pub struct Flags: usize {
+    /// XuanTie 64-bit page table entry flags.
+    pub struct Flags: u64 {
         /// Valid.
         const VALID = 1 << 0;
         /// Read.
