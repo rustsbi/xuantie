@@ -37,7 +37,6 @@ pub static __CORE_INTERRUPTS: [Option<unsafe extern "C" fn()>; 18] = [
 
 // TODO: distinguish different supported core interrupts between c906, c908, etc. cores.
 
-#[inline]
 #[unsafe(no_mangle)]
 pub extern "C" fn _dispatch_core_interrupt(code: usize) {
     unsafe extern "C" {
