@@ -33,7 +33,7 @@ use core::arch::asm;
 /// Raises store unaligned exception, store access exception, or illegal instruction exception.
 #[inline]
 pub unsafe fn ipush() {
-    // ipush
+    // th.ipush
     asm!(".insn i 0x0B, 0, x0, x0, 0x004")
 }
 
@@ -69,6 +69,6 @@ pub unsafe fn ipush() {
 /// Raises store unaligned exception, store access exception, or illegal instruction exception.
 #[inline]
 pub unsafe fn ipop() {
-    // ipop
+    // th.ipop
     asm!(".insn i 0x0B, 0, x0, x0, 0x005")
 }

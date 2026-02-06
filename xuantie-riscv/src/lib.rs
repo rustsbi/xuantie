@@ -1,5 +1,8 @@
 //! Low level access to T-Head XuanTie RISC-V processors.
 //!
+//! This crate follows the T-Head ISA extension specification (Xthead*), version 2.3.0, 2023-11-10.
+//! The specification is open sourced and can be downloaded [here](https://github.com/XUANTIE-RV/thead-extension-spec).
+//!
 //! # Examples
 //!
 //! Here's a list of example code of how to using this library under different scenarios.

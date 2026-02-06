@@ -1,4 +1,4 @@
-//! RISC-V "P" Extension Proposal Version 0.9
+//! RISC-V "P" Extension Proposal Version 0.9.
 use core::arch::asm;
 
 /// Adds packed 16-bit signed numbers, discarding overflow bits.
