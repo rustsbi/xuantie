@@ -124,22 +124,18 @@ impl Info {
 pub struct MintThresh(u32);
 
 impl MintThresh {
-    const THRESHOLD: u32 = 0xFFFFFF;
+    const MTH: u32 = 0xFF << 24;
 
-    /// Set machine mode interrupt threshold (`THRESHOLD`).
-    #[doc(alias = "THRESHOLD")]
+    /// Set machine mode interrupt threshold (`MTH`).
+    #[doc(alias = "MTH")]
     #[inline]
-    pub const fn set_mint_thresh(self, threshold: u32) -> Self {
-        assert!(
-            threshold < 0x1000000,
-            "THRESHOLD value out of range (expected 0..=0xFFFFFF)"
-        );
-        Self((self.0 & !Self::THRESHOLD) | (Self::THRESHOLD & threshold))
+    pub const fn set_mint_thresh(self, threshold: u8) -> Self {
+        Self((self.0 & !Self::MTH) | (Self::MTH & ((threshold as u32) << 24)))
     }
     /// Get machine mode interrupt threshold.
     #[inline]
-    pub const fn mint_thresh(self) -> u32 {
-        self.0 & Self::THRESHOLD
+    pub const fn mint_thresh(self) -> u8 {
+        ((self.0 & Self::MTH) >> 24) as u8
     }
 }
 
@@ -149,18 +145,18 @@ impl MintThresh {
 pub struct Pending(u8);
 
 impl Pending {
-    const PENDING: u8 = 0x1;
+    const IP: u8 = 0x1;
 
-    /// Check if the interrupt is pending (`PENDING`).
-    #[doc(alias = "PENDING")]
+    /// Check if the interrupt is pending (`IP`).
+    #[doc(alias = "IP")]
     #[inline]
     pub const fn is_pending(self) -> bool {
-        (self.0 & Self::PENDING) != 0
+        (self.0 & Self::IP) != 0
     }
     /// Clear pending interrupt.
     #[inline]
     pub const fn clear_pending(self) -> Self {
-        Self(self.0 & !Self::PENDING)
+        Self(self.0 & !Self::IP)
     }
 }
 
@@ -170,23 +166,23 @@ impl Pending {
 pub struct Enable(u8);
 
 impl Enable {
-    const ENABLE: u8 = 0x1;
+    const IE: u8 = 0x1;
 
-    /// Enable interrupt (`ENABLE`).
-    #[doc(alias = "ENABLE")]
+    /// Enable interrupt (`IE`).
+    #[doc(alias = "IE")]
     #[inline]
     pub const fn enable(self) -> Self {
-        Self(self.0 | Self::ENABLE)
+        Self(self.0 | Self::IE)
     }
     /// Disable interrupt.
     #[inline]
     pub const fn disable(self) -> Self {
-        Self(self.0 & !Self::ENABLE)
+        Self(self.0 & !Self::IE)
     }
     /// Check if the interrupt is enabled.
     #[inline]
     pub const fn is_enabled(self) -> bool {
-        (self.0 & Self::ENABLE) != 0
+        (self.0 & Self::IE) != 0
     }
 }
 
