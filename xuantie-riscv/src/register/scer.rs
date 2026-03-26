@@ -1,5 +1,5 @@
 //! scer, supervisor L1-cache error control register
-pub use super::mcer::RAMID;
+pub use super::mcer::RamId;
 use bit_field::BitField;
 
 /// scer register
@@ -21,14 +21,14 @@ impl Scer {
     }
     /// RAM that the error correction fatal error taken place
     #[inline]
-    pub fn ramid(&self) -> RAMID {
+    pub fn ramid(&self) -> RamId {
         match self.bits.get_bits(21..=23) {
-            0 => RAMID::ICacheTag,
-            1 => RAMID::ICacheData,
-            2 => RAMID::DCacheTag,
-            3 => RAMID::DCacheData,
-            4 => RAMID::JTlbTag,
-            5 => RAMID::JTlbData,
+            0 => RamId::ICacheTag,
+            1 => RamId::ICacheData,
+            2 => RamId::DCacheTag,
+            3 => RamId::DCacheData,
+            4 => RamId::JTlbTag,
+            5 => RamId::JTlbData,
             _ => unreachable!(),
         }
     }

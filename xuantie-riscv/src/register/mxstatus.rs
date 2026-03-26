@@ -2,11 +2,12 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie C910, C906, E907, E906 and E902 cores.
+//! This register is supported on Xuantie C920, C910, C906, E907, E906 and E902 cores.
 use bit_field::BitField;
 
 /// mxstatus register
 #[derive(Clone, Copy, Debug)]
+#[repr(transparent)]
 pub struct Mxstatus {
     bits: usize,
 }
@@ -20,77 +21,137 @@ pub enum PM {
 }
 
 impl Mxstatus {
-    /// User mode performance monitor enable
+    /// User mode performance monitor enable.
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
+    /// This bit is supported on Xuantie C920, C910, C906, E907 and E906 cores.
     #[inline]
     pub fn pmdu(&self) -> bool {
         self.bits.get_bit(10)
     }
-    /// Supervisor mode performance monitor enable
+
+    /// Supervisor mode performance monitor enable.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920 and TODO cores.
     #[inline]
     pub fn pmds(&self) -> bool {
         self.bits.get_bit(11)
     }
-    /// Machine mode performance monitor enable
+
+    /// Machine mode performance monitor enable.
     ///
     /// # Platform support
     ///
     /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
     #[inline]
     pub fn pmdm(&self) -> bool {
-        self.bits.get_bit(12)
+        self.bits.get_bit(13)
     }
+
     /// Is PMP minimum stride 4K bytes
     #[inline]
     pub fn pmp4k(&self) -> bool {
         self.bits.get_bit(14)
     }
+
     /// Unaligned access enable
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
+    /// This bit is supported on Xuantie C920, C910, C906, E907 and E906 cores.
     #[inline]
     pub fn mm(&self) -> bool {
         self.bits.get_bit(15)
     }
-    /// User mode allow extended cache instruction
+
+    /// User mode allow extended cache instruction.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920 and TODO cores.
     #[inline]
     pub fn ucme(&self) -> bool {
         self.bits.get_bit(16)
     }
-    /// CLINT supervisor extension enable
+
+    /// CLINT supervisor extension enable.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920 and TODO cores.
     #[inline]
     pub fn clintee(&self) -> bool {
         self.bits.get_bit(17)
     }
-    /// Hardware refill when TLB item absent enable
+
+    /// Hardware refill when TLB item absent enable.
     #[inline]
     pub fn mhrd(&self) -> bool {
         self.bits.get_bit(18)
     }
+
     /// Extend MMU page table entry address attributes enable
     #[inline]
     pub fn maee(&self) -> bool {
         self.bits.get_bit(21)
     }
-    /// T-Head extended instruction set architecture enable
+
+    /// Alias for `xuantieisaee` (T-Head extended instruction set architecture enable).
+    #[inline]
+    pub fn theadisaee(&self) -> bool {
+        self.xuantieisaee()
+    }
+
+    /// T-Head extended instruction set architecture enable.
+    /// 
+    /// This bit is mutually exclusive with `cpoinstee` bit - see its documentation for details.
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906, E907, E906 and E902 cores.
+    /// This bit is supported on Xuantie C920, C910, C906, E907, E906 and E902 cores.
     #[inline]
-    pub fn theadisaee(&self) -> bool {
+    pub fn xuantieisaee(&self) -> bool {
         self.bits.get_bit(22)
     }
+
+    /// Zkt extension enable.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920 and TODO cores.
+    #[inline]
+    pub fn zkte(&self) -> bool {
+        self.bits.get_bit(23)
+    }
+
+    /// Coprocessor instructions enable.
+    /// 
+    /// This bit is a software control bit for coprocessor instructions.
+    /// It is mutually exclusive with `XUANTIEISAEE`, and hardware prevents both from being set to 1 simultaneously.
+    /// If software attempts to set both to 1 at the same time, the original values remain unchanged.
+    /// 
+    /// During the software switching between XuanTie extensions and general coprocessor extension instructions,
+    /// the original instruction enable bit must first be cleared before the new instruction enable bit is set.
+    /// Setting both the XuanTie extension enable bit and the general coprocessor extension instruction enable bit
+    /// at the same time is considered an invalid operation,
+    /// and the hardware ensures that both will not be enabled simultaneously.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920 and TODO cores.
+    #[inline]
+    pub fn copinstee(&self) -> bool {
+        self.bits.get_bit(24)
+    }
+
     /// Current privileged mode
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906, E907, E906 and E902 cores.
+    /// This bit is supported on Xuantie C920, C910, C906, E907, E906 and E902 cores.
     #[inline]
     pub fn pm(&self) -> PM {
         match self.bits.get_bits(30..=31) {
@@ -139,4 +200,12 @@ set_clear_csr! {
 set_clear_csr! {
     /// T-Head extended instruction set architecture enable
     , 0x7C0, set_theadisaee, clear_theadisaee, 1 << 22
+}
+set_clear_csr! {
+    /// Zkt extension enable
+    , 0x7C0, set_zkte, clear_zkte, 1 << 23
+}
+set_clear_csr! {
+    /// Coprocessor instructions enable
+    , 0x7C0, set_copinstee, clear_copinstee, 1 << 24
 }

@@ -1,4 +1,11 @@
-//! mrmr, machine reset signal register
+//! mrmr, machine reset signal register.
+//!
+//! # Note
+//! 
+//! The `mrmr` register has been removed in C920V3 (R1S4 and later),
+//! and its corresponding functionality no longer exists.
+//! Software can still access this register, but reads return zero and
+//! writes have no effect, without triggering an exception.
 use core::arch::asm;
 
 /// Write to mrmr register to release reset lock for given harts

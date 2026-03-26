@@ -9,7 +9,7 @@ pub struct Mcer {
 
 /// Error controllable RAM index
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
-pub enum RAMID {
+pub enum RamId {
     /// Instruction cache tag ram
     ICacheTag = 0,
     /// Instruction cache data ram
@@ -37,14 +37,14 @@ impl Mcer {
     }
     /// RAM that the error correction fatal error taken place
     #[inline]
-    pub fn ramid(&self) -> RAMID {
+    pub fn ramid(&self) -> RamId {
         match self.bits.get_bits(21..=23) {
-            0 => RAMID::ICacheTag,
-            1 => RAMID::ICacheData,
-            2 => RAMID::DCacheTag,
-            3 => RAMID::DCacheData,
-            4 => RAMID::JTlbTag,
-            5 => RAMID::JTlbData,
+            0 => RamId::ICacheTag,
+            1 => RamId::ICacheData,
+            2 => RamId::DCacheTag,
+            3 => RamId::DCacheData,
+            4 => RamId::JTlbTag,
+            5 => RamId::JTlbData,
             _ => unreachable!(),
         }
     }
@@ -63,6 +63,8 @@ impl Mcer {
     pub fn err_vld(&self) -> bool {
         self.bits.get_bit(31)
     }
+
+    // TODO BUS_ERR, ECC_ERR
 }
 
 read_csr_as!(Mcer, 0x7C8);

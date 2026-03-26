@@ -16,7 +16,7 @@ use core::arch::asm;
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
+/// This instruction is supported on Xuantie C920, C910, C906, C907, C908, E907 and E906 cores.
 #[inline]
 pub unsafe fn sync() {
     // th.sync
@@ -40,7 +40,7 @@ pub unsafe fn sync() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C907 and C908 cores.
+/// This instruction is supported on Xuantie C920, C910, C907 and C908 cores.
 #[inline]
 pub unsafe fn sync_s() {
     // th.sync.s
@@ -64,7 +64,7 @@ pub unsafe fn sync_s() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C906, C907, C908, E907 and E906 cores.
+/// This instruction is supported on Xuantie C920, C910, C906, C907, C908, E907 and E906 cores.
 #[inline]
 pub unsafe fn sync_i() {
     // th.sync.i
@@ -89,7 +89,7 @@ pub unsafe fn sync_i() {
 ///
 /// # Platform support
 ///
-/// This instruction is supported on Xuantie C910, C907 and C908 cores.
+/// This instruction is supported on Xuantie C920, C910, C907 and C908 cores.
 #[inline]
 pub unsafe fn sync_is() {
     // th.sync.is

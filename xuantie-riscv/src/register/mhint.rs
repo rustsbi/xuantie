@@ -37,9 +37,11 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie C910, C906, E907 and E906 cores.
+//! This register is supported on Xuantie C920, C910, C906, E907 and E906 cores.
 use bit_field::BitField;
 use core::arch::asm;
+
+// TODO struct Mhint
 
 /// L1 D-cache write allocation strategy
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
@@ -83,6 +85,9 @@ set_clear_csr! {
     /// This bit is supported on Xuantie E907 and E906 cores.
     , 0x7C5, set_aee, clear_aee, 1 << 20
 }
+
+// TODO AMR, AMR2, LPE, IWPE, SRE, D_DIS, L2PLD, L2_DIS, NO_SPEC, ECC, 
+// L2STPLD, TLB_BROAD_DIS, CORR_DIS, TLBPLD, PCFIFO_FREEZE, WRS_DIS, CBCF
 
 /// Set D-cache write allocation strategy
 #[inline]

@@ -45,3 +45,5 @@ pub unsafe fn bht_inv() {
 pub unsafe fn btb_inv() {
     asm!("csrs 0x7C2, {}", in(reg) 1 << 17);
 }
+
+// TODO IBP_INV, TLB_INV, L0BTB_INV, RAS_INV bits.

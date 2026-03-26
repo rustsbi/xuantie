@@ -4,6 +4,7 @@ use core::arch::asm;
 
 /// mccr2 register
 #[derive(Clone, Copy, Debug)]
+#[repr(transparent)]
 pub struct Mccr2 {
     bits: usize,
 }
@@ -109,6 +110,7 @@ impl Mccr2 {
     pub fn tprf(&self) -> bool {
         self.bits.get_bit(31)
     }
+    // TODO PAE bit
 }
 
 read_csr_as!(Mccr2, 0x7C3);

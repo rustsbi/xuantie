@@ -1,7 +1,7 @@
 //! meicr, L1-cache hardware fault inject register
 use core::arch::asm;
 
-pub use super::mcer::RAMID;
+pub use super::mcer::RamId;
 
 set_clear_csr! {
     /// L1-cache error control error inject enable
@@ -17,7 +17,7 @@ set_clear_csr! {
 /// If `fatal_inj` is `1`, inject a 2-bit error; if `fatal_inj` is `0`, inject a 1-bit error.
 /// Set `inj_en` to `1` to start L1-cache error control error injection.
 #[inline]
-pub unsafe fn write(inj_en: bool, fatal_inj: bool, ramid: RAMID) {
+pub unsafe fn write(inj_en: bool, fatal_inj: bool, ramid: RamId) {
     let bits = inj_en as usize | ((fatal_inj as usize) << 1) | ((ramid as usize) << 29);
     asm!("csrw 0x7D6, {}", in(reg) bits)
 }
