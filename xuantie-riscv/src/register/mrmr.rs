@@ -2,7 +2,7 @@
 //!
 //! # Note
 //! 
-//! The `mrmr` register has been removed in C920V3 (R1S4 and later),
+//! The `mrmr` register has been removed in Xuantie C910 and C920 (R1S4 and later),
 //! and its corresponding functionality no longer exists.
 //! Software can still access this register, but reads return zero and
 //! writes have no effect, without triggering an exception.

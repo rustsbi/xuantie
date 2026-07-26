@@ -35,7 +35,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C920 and TODO cores.
+    /// This bit is supported on Xuantie C920 and C910 cores.
     #[inline]
     pub fn pmds(&self) -> bool {
         self.bits.get_bit(11)
@@ -45,7 +45,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C910, C906, E907 and E906 cores.
+    /// This bit is supported on Xuantie C920, C910, C906, E907 and E906 cores.
     #[inline]
     pub fn pmdm(&self) -> bool {
         self.bits.get_bit(13)
@@ -71,7 +71,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C920 and TODO cores.
+    /// This bit is supported on Xuantie C920 and C910 cores.
     #[inline]
     pub fn ucme(&self) -> bool {
         self.bits.get_bit(16)
@@ -81,7 +81,7 @@ impl Mxstatus {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C920 and TODO cores.
+    /// This bit is supported on Xuantie C920 and C910 cores.
     #[inline]
     pub fn clintee(&self) -> bool {
         self.bits.get_bit(17)

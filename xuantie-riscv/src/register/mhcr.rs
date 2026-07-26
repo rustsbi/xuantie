@@ -2,7 +2,13 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie C920, C910, C906, E906 and E902 cores.
+//! This register is supported on Xuantie C920, C910, C906, E907, E906 and E902 cores.
+//!
+//! # E907 layout
+//!
+//! Xuantie E907 uses a different layout for several fields: `WB` is bit 2, `WA` is
+//! bit 3, and `BTB` is bit 12. The `wa`, `wb`, and `btb` accessors in this module
+//! use the layout of the other supported cores and therefore do not apply to E907.
 use bit_field::BitField;
 
 /// mhcr register
@@ -37,7 +43,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C920, C910, C906, E907 and E906 cores.
+    /// This accessor supports Xuantie C920, C910, C906 and E906 cores.
     #[inline]
     pub fn wa(&self) -> bool {
         self.bits.get_bit(2)
@@ -47,7 +53,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C920, C910, C906, E907 and E906 cores.
+    /// This accessor supports Xuantie C920, C910, C906 and E906 cores.
     #[inline]
     pub fn wb(&self) -> bool {
         self.bits.get_bit(3)
@@ -77,7 +83,7 @@ impl Mhcr {
     ///
     /// # Platform support
     ///
-    /// This bit is supported on Xuantie C920, C910, C906, E907 and E906 cores.
+    /// This accessor supports Xuantie C920, C910, C906 and E906 cores.
     #[inline]
     pub fn btb(&self) -> bool {
         self.bits.get_bit(6)

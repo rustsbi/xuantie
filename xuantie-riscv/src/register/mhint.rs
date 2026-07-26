@@ -5,7 +5,8 @@
 //! When this bit is set, the processor is in precise exception mode.
 //! And when this bit is cleared, the processor is in non-precise exception mode.
 //!
-//! This bit is set to true on reset, and is supported on Xuantie E907 and E906 cores.
+//! This bit is supported on Xuantie E907 and E906 cores. Its reset value is false
+//! on E907 and true on E906.
 //!
 //! ## Precise exception
 //!

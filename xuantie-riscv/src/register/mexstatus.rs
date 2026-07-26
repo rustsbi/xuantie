@@ -6,7 +6,7 @@
 use bit_field::BitField;
 use core::arch::asm;
 
-/// mxstatus register
+/// mexstatus register
 #[derive(Clone, Copy, Debug)]
 pub struct Mexstatus {
     bits: usize,

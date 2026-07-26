@@ -2,7 +2,7 @@
 //!
 //! # Platform support
 //!
-//! This register is supported on Xuantie C910, C906, E907, E906 and E902 cores.
+//! This register is supported on Xuantie C920, C910, C906, E907, E906 and E902 cores.
 //!
 //! todo: verify mcpuid read and look it up on C906 manual
 use bit_field::BitField;
