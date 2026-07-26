@@ -1,6 +1,6 @@
 //! mhint, machine hint register
 //!
-//! # Notes on Accure Exception Enable bit
+//! # Notes on Accurate Exception Enable bit
 //!
 //! When this bit is set, the processor is in precise exception mode.
 //! And when this bit is cleared, the processor is in non-precise exception mode.
@@ -42,7 +42,12 @@
 use bit_field::BitField;
 use core::arch::asm;
 
-// TODO struct Mhint
+/// mhint register
+#[derive(Clone, Copy, Debug)]
+#[repr(transparent)]
+pub struct Mhint {
+    bits: usize,
+}
 
 /// L1 D-cache write allocation strategy
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
@@ -70,9 +75,164 @@ pub enum PrefN {
     SixteenLines = 3,
 }
 
+/// L2-cache prefetch lines
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+pub enum L2PrefN {
+    /// Prefetch 8 lines
+    EightLines = 0,
+    /// Prefetch 16 lines
+    SixteenLines = 1,
+    /// Prefetch 32 lines
+    ThirtyTwoLines = 2,
+    /// Prefetch 64 lines
+    SixtyFourLines = 3,
+}
+
+impl Mhint {
+    /// D-cache prefetch enable.
+    #[inline]
+    pub fn dpld(&self) -> bool {
+        self.bits.get_bit(2)
+    }
+
+    /// L1 D-cache write allocation strategy.
+    #[inline]
+    pub fn amr(&self) -> AMR {
+        match self.bits.get_bits(3..=4) {
+            0 => AMR::DependsOnWA,
+            1 => AMR::After3Lines,
+            2 => AMR::After64Lines,
+            3 => AMR::After128Lines,
+            _ => unreachable!(),
+        }
+    }
+
+    /// L2-cache write-allocation strategy auto-adjust enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn amr2(&self) -> bool {
+        self.bits.get_bit(6)
+    }
+
+    /// I-cache prefetch enable.
+    ///
+    /// Bit 8 is reserved on Xuantie E907.
+    #[inline]
+    pub fn ipld(&self) -> bool {
+        self.bits.get_bit(8)
+    }
+
+    /// Loop acceleration enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn lpe(&self) -> bool {
+        self.bits.get_bit(9)
+    }
+
+    /// I-cache way prediction enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn iwpe(&self) -> bool {
+        self.bits.get_bit(10)
+    }
+
+    /// Single-retirement mode enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn sre(&self) -> bool {
+        self.bits.get_bit(11)
+    }
+
+    /// D-cache prefetch line count on Xuantie C920 and C910.
+    #[inline]
+    pub fn d_dis(&self) -> PrefN {
+        self.prefn()
+    }
+
+    /// D-cache prefetch line count on Xuantie E907.
+    #[inline]
+    pub fn prefn(&self) -> PrefN {
+        match self.bits.get_bits(13..=14) {
+            0 => PrefN::TwoLines,
+            1 => PrefN::FourLines,
+            2 => PrefN::EightLines,
+            3 => PrefN::SixteenLines,
+            _ => unreachable!(),
+        }
+    }
+
+    /// L2-cache prefetch enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn l2pld(&self) -> bool {
+        self.bits.get_bit(15)
+    }
+
+    /// L2-cache prefetch line count on Xuantie C920 and C910.
+    #[inline]
+    pub fn l2_dis(&self) -> L2PrefN {
+        match self.bits.get_bits(16..=17) {
+            0 => L2PrefN::EightLines,
+            1 => L2PrefN::SixteenLines,
+            2 => L2PrefN::ThirtyTwoLines,
+            3 => L2PrefN::SixtyFourLines,
+            _ => unreachable!(),
+        }
+    }
+
+    /// Spec-fail prediction enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn no_spec(&self) -> bool {
+        self.bits.get_bit(18)
+    }
+
+    /// L1-cache ECC checking enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn ecc(&self) -> bool {
+        self.bits.get_bit(19)
+    }
+
+    /// Accurate exception enable on Xuantie E907 and E906.
+    #[inline]
+    pub fn aee(&self) -> bool {
+        self.bits.get_bit(20)
+    }
+
+    /// L2-cache store prefetch enable on Xuantie C920 and C910.
+    #[inline]
+    pub fn l2stpld(&self) -> bool {
+        self.bits.get_bit(20)
+    }
+
+    /// Disable broadcasting `sfence.vma` operations on Xuantie C920 and C910.
+    #[inline]
+    pub fn tlb_broad_dis(&self) -> bool {
+        self.bits.get_bit(21)
+    }
+
+    /// Disable broadcasting `fence` operations on Xuantie C920 and C910.
+    #[inline]
+    pub fn fencerw_broad_dis(&self) -> bool {
+        self.bits.get_bit(22)
+    }
+
+    /// Disable broadcasting `fence.i` operations on Xuantie C920 and C910.
+    #[inline]
+    pub fn fencei_broad_dis(&self) -> bool {
+        self.bits.get_bit(23)
+    }
+
+    /// Select the less conservative RAR correction mode on Xuantie C920 and C910.
+    #[inline]
+    pub fn corr_dis(&self) -> bool {
+        self.bits.get_bit(24)
+    }
+}
+
+read_csr_as!(Mhint, 0x7C5);
+
 set_clear_csr! {
     /// D-cache prefetch enable
     , 0x7C5, set_dpld, clear_dpld, 1 << 2
+}
+set_clear_csr! {
+    /// L2-cache write-allocation strategy auto-adjust enable on Xuantie C920 and C910
+    , 0x7C5, set_amr2, clear_amr2, 1 << 6
 }
 set_clear_csr! {
     /// I-cache prefetch enable
@@ -84,16 +244,57 @@ set_clear_csr! {
     , 0x7C5, set_ipld, clear_ipld, 1 << 8
 }
 set_clear_csr! {
-    /// Accure exception enable
+    /// Accurate exception enable
     ///
     /// # Platform support
     ///
     /// This bit is supported on Xuantie E907 and E906 cores.
     , 0x7C5, set_aee, clear_aee, 1 << 20
 }
-
-// TODO AMR, AMR2, LPE, IWPE, SRE, D_DIS, L2PLD, L2_DIS, NO_SPEC, ECC, 
-// L2STPLD, TLB_BROAD_DIS, CORR_DIS, TLBPLD, PCFIFO_FREEZE, WRS_DIS, CBCF
+set_clear_csr! {
+    /// Loop acceleration enable on Xuantie C920 and C910
+    , 0x7C5, set_lpe, clear_lpe, 1 << 9
+}
+set_clear_csr! {
+    /// I-cache way prediction enable on Xuantie C920 and C910
+    , 0x7C5, set_iwpe, clear_iwpe, 1 << 10
+}
+set_clear_csr! {
+    /// Single-retirement mode enable on Xuantie C920 and C910
+    , 0x7C5, set_sre, clear_sre, 1 << 11
+}
+set_clear_csr! {
+    /// L2-cache prefetch enable on Xuantie C920 and C910
+    , 0x7C5, set_l2pld, clear_l2pld, 1 << 15
+}
+set_clear_csr! {
+    /// Spec-fail prediction enable on Xuantie C920 and C910
+    , 0x7C5, set_no_spec, clear_no_spec, 1 << 18
+}
+set_clear_csr! {
+    /// L1-cache ECC checking enable on Xuantie C920 and C910
+    , 0x7C5, set_ecc, clear_ecc, 1 << 19
+}
+set_clear_csr! {
+    /// L2-cache store prefetch enable on Xuantie C920 and C910
+    , 0x7C5, set_l2stpld, clear_l2stpld, 1 << 20
+}
+set_clear_csr! {
+    /// Disable broadcasting sfence.vma operations on Xuantie C920 and C910
+    , 0x7C5, set_tlb_broad_dis, clear_tlb_broad_dis, 1 << 21
+}
+set_clear_csr! {
+    /// Disable broadcasting fence operations on Xuantie C920 and C910
+    , 0x7C5, set_fencerw_broad_dis, clear_fencerw_broad_dis, 1 << 22
+}
+set_clear_csr! {
+    /// Disable broadcasting fence.i operations on Xuantie C920 and C910
+    , 0x7C5, set_fencei_broad_dis, clear_fencei_broad_dis, 1 << 23
+}
+set_clear_csr! {
+    /// Select the less conservative RAR correction mode on Xuantie C920 and C910
+    , 0x7C5, set_corr_dis, clear_corr_dis, 1 << 24
+}
 
 /// Set D-cache write allocation strategy
 #[inline]
@@ -111,4 +312,65 @@ pub unsafe fn set_prefn(prefn: PrefN) {
     asm!("csrr {}, 0x7C5", out(reg) value);
     value.set_bits(13..=14, prefn as usize);
     asm!("csrw 0x7C5, {}", in(reg) value);
+}
+
+/// Set D-cache prefetch lines on Xuantie C920 and C910.
+#[inline]
+pub unsafe fn set_d_dis(prefn: PrefN) {
+    unsafe { set_prefn(prefn) }
+}
+
+/// Set L2-cache prefetch lines.
+#[inline]
+pub unsafe fn set_l2_dis(prefn: L2PrefN) {
+    let mut value: usize;
+    asm!("csrr {}, 0x7C5", out(reg) value);
+    value.set_bits(16..=17, prefn as usize);
+    asm!("csrw 0x7C5, {}", in(reg) value);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{L2PrefN, Mhint, PrefN, AMR};
+
+    #[test]
+    fn decodes_c910_c920_fields() {
+        let mhint = Mhint {
+            bits: (1 << 2)
+                | (2 << 3)
+                | (1 << 6)
+                | (1 << 8)
+                | (1 << 9)
+                | (1 << 10)
+                | (1 << 11)
+                | (3 << 13)
+                | (1 << 15)
+                | (2 << 16)
+                | (1 << 18)
+                | (1 << 19)
+                | (1 << 20)
+                | (1 << 21)
+                | (1 << 22)
+                | (1 << 23)
+                | (1 << 24),
+        };
+
+        assert!(mhint.dpld());
+        assert_eq!(mhint.amr(), AMR::After64Lines);
+        assert!(mhint.amr2());
+        assert!(mhint.ipld());
+        assert!(mhint.lpe());
+        assert!(mhint.iwpe());
+        assert!(mhint.sre());
+        assert_eq!(mhint.d_dis(), PrefN::SixteenLines);
+        assert!(mhint.l2pld());
+        assert_eq!(mhint.l2_dis(), L2PrefN::ThirtyTwoLines);
+        assert!(mhint.no_spec());
+        assert!(mhint.ecc());
+        assert!(mhint.l2stpld());
+        assert!(mhint.tlb_broad_dis());
+        assert!(mhint.fencerw_broad_dis());
+        assert!(mhint.fencei_broad_dis());
+        assert!(mhint.corr_dis());
+    }
 }

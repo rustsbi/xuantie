@@ -93,6 +93,16 @@ impl Mxstatus {
         self.bits.get_bit(18)
     }
 
+    /// Disable I-cache snooping of the D-cache on an I-cache miss.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920 and C910 cores.
+    #[inline]
+    pub fn insde(&self) -> bool {
+        self.bits.get_bit(19)
+    }
+
     /// Extend MMU page table entry address attributes enable
     #[inline]
     pub fn maee(&self) -> bool {
@@ -194,6 +204,10 @@ set_clear_csr! {
     , 0x7C0, set_mhrd, clear_mhrd, 1 << 18
 }
 set_clear_csr! {
+    /// Disable I-cache snooping of the D-cache on an I-cache miss
+    , 0x7C0, set_insde, clear_insde, 1 << 19
+}
+set_clear_csr! {
     /// Extend MMU page table entry address attributes enable
     , 0x7C0, set_maee, clear_maee, 1 << 21
 }
@@ -208,4 +222,15 @@ set_clear_csr! {
 set_clear_csr! {
     /// Coprocessor instructions enable
     , 0x7C0, set_copinstee, clear_copinstee, 1 << 24
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Mxstatus;
+
+    #[test]
+    fn decodes_insde_at_bit_19() {
+        assert!(Mxstatus { bits: 1 << 19 }.insde());
+        assert!(!Mxstatus { bits: 1 << 18 }.insde());
+    }
 }

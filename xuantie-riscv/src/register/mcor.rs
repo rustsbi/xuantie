@@ -37,13 +37,19 @@ pub unsafe fn cache(cache: Cache, op: Operation) {
 /// Invalidate branch history table
 #[inline]
 pub unsafe fn bht_inv() {
-    asm!("csrs 0x7C2, {}", in(reg) 1 << 16);
+    asm!("csrs 0x7C2, {}", in(reg) 1usize << 16);
 }
 
 /// Invalidate branch target buffer table
 #[inline]
 pub unsafe fn btb_inv() {
-    asm!("csrs 0x7C2, {}", in(reg) 1 << 17);
+    asm!("csrs 0x7C2, {}", in(reg) 1usize << 17);
 }
 
-// TODO IBP_INV, TLB_INV, L0BTB_INV, RAS_INV bits.
+/// Invalidate the indirect branch predictor on Xuantie C920 and C910.
+#[inline]
+pub unsafe fn ibp_inv() {
+    asm!("csrs 0x7C2, {}", in(reg) 1usize << 18);
+}
+
+// TODO TLB_INV, L0BTB_INV, RAS_INV bits on cores that define them.

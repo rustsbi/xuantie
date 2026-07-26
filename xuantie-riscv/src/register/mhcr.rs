@@ -102,6 +102,16 @@ impl Mhcr {
         self.bits.get_bit(6)
     }
 
+    /// Indirect branch prediction enable.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920 and C910 cores.
+    #[inline]
+    pub fn ibpe(&self) -> bool {
+        self.bits.get_bit(7)
+    }
+
     /// Branch target buffer enable on Xuantie E907.
     #[inline]
     pub fn btb_e907(&self) -> bool {
@@ -116,6 +126,24 @@ impl Mhcr {
     #[inline]
     pub fn wbr(&self) -> bool {
         self.bits.get_bit(8)
+    }
+
+    /// Level-zero branch target buffer enable.
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920, C910 and E906 cores.
+    #[inline]
+    pub fn l0btb(&self) -> bool {
+        self.bits.get_bit(12)
+    }
+
+    /// System-to-processor clock ratio field.
+    ///
+    /// This field is fixed at zero on Xuantie C920 and C910.
+    #[inline]
+    pub fn sck(&self) -> u8 {
+        self.bits.get_bits(16..=18) as u8
     }
 }
 
@@ -150,6 +178,14 @@ set_clear_csr! {
     , 0x7C1, set_btb, clear_btb, 1 << 6
 }
 set_clear_csr! {
+    /// Indirect branch prediction enable on Xuantie C920 and C910
+    , 0x7C1, set_ibpe, clear_ibpe, 1 << 7
+}
+set_clear_csr! {
+    /// Level-zero branch target buffer enable on Xuantie C920, C910 and E906
+    , 0x7C1, set_l0btb, clear_l0btb, 1 << 12
+}
+set_clear_csr! {
     /// Cache write allocate configuration enable on Xuantie E907 and E906
     , 0x7C1, set_wa_e907, clear_wa_e907, 1 << 3
 }
@@ -179,5 +215,16 @@ mod tests {
         assert!(!mhcr.wa_e907());
         assert!(mhcr.wb_e907());
         assert!(mhcr.btb_e907());
+    }
+
+    #[test]
+    fn decodes_new_c_series_fields() {
+        let mhcr = Mhcr {
+            bits: (1 << 7) | (1 << 12) | (0b101 << 16),
+        };
+
+        assert!(mhcr.ibpe());
+        assert!(mhcr.l0btb());
+        assert_eq!(mhcr.sck(), 0b101);
     }
 }
