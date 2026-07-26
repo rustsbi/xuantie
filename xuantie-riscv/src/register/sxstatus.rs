@@ -22,7 +22,7 @@ impl Sxstatus {
     /// Machine mode performance monitor enable
     #[inline]
     pub fn pmdm(&self) -> bool {
-        self.bits.get_bit(12)
+        self.bits.get_bit(13)
     }
     /// Is PMP minimum stride 4K bytes
     #[inline]
@@ -76,4 +76,15 @@ read_csr_as!(Sxstatus, 0x5C0);
 set_clear_csr! {
     /// Unaligned access enable
     , 0x5C0, set_mm, clear_mm, 1 << 15
+}
+
+#[cfg(test)]
+mod tests {
+    use super::Sxstatus;
+
+    #[test]
+    fn pmdm_maps_mxstatus_bit_13() {
+        assert!(Sxstatus { bits: 1 << 13 }.pmdm());
+        assert!(!Sxstatus { bits: 1 << 12 }.pmdm());
+    }
 }

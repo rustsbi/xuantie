@@ -43,6 +43,8 @@ pub enum IPRF {
 
 impl Mccr2 {
     /// Refill enable
+    ///
+    /// This bit is fixed at one on Xuantie C920 and C910.
     #[inline]
     pub fn rfe(&self) -> bool {
         self.bits.get_bit(0)
@@ -115,10 +117,6 @@ impl Mccr2 {
 
 read_csr_as!(Mccr2, 0x7C3);
 
-set_clear_csr! {
-    /// Refill enable
-    , 0x7C3, set_rfe, clear_rfe, 1 << 0
-}
 set_clear_csr! {
     /// Error correction enable
     , 0x7C3, set_eccen, clear_eccen, 1 << 1

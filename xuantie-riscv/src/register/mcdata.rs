@@ -35,20 +35,36 @@ pub fn get_icache_data() -> ICacheData {
 }
 
 /// D-cache tag RAM visit result
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct DCacheTag {
+    /// 26-bit physical tag
     pub tag: u32,
+    /// Cache index bits 13:12
+    pub cindex: u8,
+    /// Page-share state
+    pub page_share: bool,
+    /// Dirty state
     pub dirty: bool,
+    /// Share state
+    pub share: bool,
+    /// Valid state
     pub valid: bool,
 }
 
 /// Get D-cache tag visit result
 #[inline]
 pub fn get_dcache_tag() -> DCacheTag {
-    let mcdata0 = read_mcdata0();
+    decode_dcache_tag(read_mcdata0())
+}
+
+#[inline]
+fn decode_dcache_tag(mcdata0: usize) -> DCacheTag {
     DCacheTag {
-        tag: mcdata0.get_bits(12..=39) as u32,
+        tag: mcdata0.get_bits(14..=39) as u32,
+        cindex: mcdata0.get_bits(12..=13) as u8,
+        page_share: mcdata0.get_bit(3),
         dirty: mcdata0.get_bit(2),
+        share: mcdata0.get_bit(1),
         valid: mcdata0.get_bit(0),
     }
 }
@@ -89,4 +105,30 @@ fn read_mcdata0() -> usize {
         asm!("csrr {}, 0x7D4", out(reg) mcdata0);
     }
     mcdata0
+}
+
+#[cfg(all(test, target_pointer_width = "64"))]
+mod tests {
+    use super::{decode_dcache_tag, DCacheTag};
+
+    #[test]
+    fn decodes_dcache_store_tag_layout() {
+        let value = (0x2_AAAA_AAu64 << 14)
+            | (0b10u64 << 12)
+            | (1u64 << 3)
+            | (1u64 << 2)
+            | 1u64;
+
+        assert_eq!(
+            decode_dcache_tag(value as usize),
+            DCacheTag {
+                tag: 0x2_AAAA_AA,
+                cindex: 0b10,
+                page_share: true,
+                dirty: true,
+                share: false,
+                valid: true,
+            }
+        );
+    }
 }

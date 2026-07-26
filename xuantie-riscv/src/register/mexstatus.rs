@@ -108,7 +108,16 @@ set_clear_csr! {
 /// Set software reset mode
 #[inline]
 pub unsafe fn set_rstmd(rstmd: RSTMD) {
-    asm!("csrs 0x7E1, {}", in(reg) rstmd as usize)
+    let mut value: usize;
+    asm!("csrr {}, 0x7E1", out(reg) value);
+    value = with_rstmd(value, rstmd);
+    asm!("csrw 0x7E1, {}", in(reg) value);
+}
+
+#[inline]
+fn with_rstmd(mut value: usize, rstmd: RSTMD) -> usize {
+    value.set_bits(0..=1, rstmd as usize);
+    value
 }
 
 /// Set low power mode
@@ -118,4 +127,22 @@ pub unsafe fn set_lpmd(lpmd: LPMD) {
     asm!("csrr {}, 0x7E1", out(reg) value);
     value.set_bits(2..=3, lpmd as usize);
     asm!("csrw 0x7E1, {}", in(reg) value);
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{with_rstmd, RSTMD};
+
+    #[test]
+    fn rstmd_replaces_both_bits_and_preserves_other_fields() {
+        let original = usize::MAX;
+
+        assert_eq!(with_rstmd(original, RSTMD::Nop) & 0b11, 0b00);
+        assert_eq!(with_rstmd(original, RSTMD::ResetCore) & 0b11, 0b01);
+        assert_eq!(with_rstmd(original, RSTMD::ResetSystem) & 0b11, 0b10);
+        assert_eq!(
+            with_rstmd(original, RSTMD::ResetCore) & !0b11,
+            original & !0b11
+        );
+    }
 }

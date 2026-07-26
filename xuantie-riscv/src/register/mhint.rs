@@ -76,6 +76,11 @@ set_clear_csr! {
 }
 set_clear_csr! {
     /// I-cache prefetch enable
+    ///
+    /// # Platform support
+    ///
+    /// This bit is supported on Xuantie C920, C910, C906 and E906 cores.
+    /// Bit 8 is reserved on Xuantie E907 and must not be modified there.
     , 0x7C5, set_ipld, clear_ipld, 1 << 8
 }
 set_clear_csr! {
